@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { Check, Sparkles } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 import { api } from '../api'
 import { todayISO } from '../format'
-import { Button, Field, Input, Select } from './ui'
+import { Badge, Button, Field, Input, Select } from './ui'
 
 const BLANK = {
   description: '',
@@ -25,6 +26,15 @@ export default function TransactionForm({ meta, initial, onSaved, onCancel }) {
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
 
+  // --- AI category suggestion -------------------------------------------
+  const [suggestion, setSuggestion] = useState(null)
+  const [predicting, setPredicting] = useState(false)
+  // The prediction the user accepted, so we can tell the backend whether the
+  // saved category was the model's idea or a correction of it.
+  const predictedRef = useRef(null)
+  // Set once the user picks a category by hand; we then stop overwriting it.
+  const touchedCategory = useRef(false)
+
   useEffect(() => {
     setForm(
       initial
@@ -40,16 +50,75 @@ export default function TransactionForm({ meta, initial, onSaved, onCancel }) {
         : BLANK,
     )
     setError(null)
+    setSuggestion(null)
+    predictedRef.current = null
+    // When editing, the existing category is the user's own choice already.
+    touchedCategory.current = Boolean(initial?.id)
   }, [initial])
 
+  // Ask the model as the user types the description. Debounced so it is one
+  // request per pause, not one per keystroke.
+  useEffect(() => {
+    const text = form.description.trim()
+    if (text.length < 3) {
+      setSuggestion(null)
+      return undefined
+    }
+    const controller = new AbortController()
+    const timer = setTimeout(async () => {
+      setPredicting(true)
+      try {
+        const result = await api.post('/api/ai/categorize', { description: text },
+          { signal: controller.signal })
+        setSuggestion(result)
+        predictedRef.current = result
+        // Auto-fill ONLY while the user has not chosen a category themselves,
+        // and only when the model is actually confident. Overwriting a
+        // deliberate choice would be the single most annoying thing this
+        // feature could do.
+        if (!touchedCategory.current && result.confident) {
+          setForm((f) => ({ ...f, category: result.category }))
+        }
+      } catch (err) {
+        if (err.name !== 'AbortError') setSuggestion(null)
+      } finally {
+        setPredicting(false)
+      }
+    }, 450)
+
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
+  }, [form.description])
+
   const set = (key) => (event) => setForm((f) => ({ ...f, [key]: event.target.value }))
+
+  const setCategory = (event) => {
+    touchedCategory.current = true
+    setForm((f) => ({ ...f, category: event.target.value }))
+  }
+
+  const acceptSuggestion = (category) => {
+    touchedCategory.current = true
+    setForm((f) => ({ ...f, category }))
+  }
+
   const fieldError = (key) => (error?.field === key ? error.message : null)
 
   async function onSubmit(event) {
     event.preventDefault()
     setBusy(true)
     setError(null)
-    const payload = { ...form, amount: Number(form.amount) }
+    const predicted = predictedRef.current
+    const payload = {
+      ...form,
+      amount: Number(form.amount),
+      // Send what the model said alongside what the user chose. The backend
+      // compares them to set was_corrected, which is the retraining signal.
+      ai_category: predicted?.confident ? predicted.category : null,
+      ai_confidence: predicted?.confident ? predicted.confidence : null,
+    }
     try {
       const saved = editing
         ? await api.put(`/api/transactions/${initial.id}`, payload)
@@ -101,7 +170,7 @@ export default function TransactionForm({ meta, initial, onSaved, onCancel }) {
 
       <div className="grid grid-cols-2 gap-3">
         <Field label="Category" required error={fieldError('category')}>
-          <Select required value={form.category} onChange={set('category')}>
+          <Select required value={form.category} onChange={setCategory}>
             <option value="">Select…</option>
             {(meta?.categories ?? []).map((c) => (
               <option key={c} value={c}>
@@ -115,6 +184,13 @@ export default function TransactionForm({ meta, initial, onSaved, onCancel }) {
           <Input type="date" required value={form.date} onChange={set('date')} />
         </Field>
       </div>
+
+      <AiSuggestion
+        suggestion={suggestion}
+        predicting={predicting}
+        chosen={form.category}
+        onAccept={acceptSuggestion}
+      />
 
       <Field label="Payment method" error={fieldError('payment_method')}>
         <Select value={form.payment_method} onChange={set('payment_method')}>
@@ -154,5 +230,80 @@ export default function TransactionForm({ meta, initial, onSaved, onCancel }) {
         </Button>
       </div>
     </form>
+  )
+}
+
+/**
+ * Shows what the model predicted and how sure it was.
+ *
+ * Deliberately never silently overrides a choice the user has made: when the
+ * selected category already matches, it collapses to a quiet confirmation.
+ * When it differs, it offers the alternative as a one-click chip rather than
+ * swapping the value underneath the user.
+ */
+function AiSuggestion({ suggestion, predicting, chosen, onAccept }) {
+  if (predicting) {
+    return (
+      <p className="flex items-center gap-1.5 text-xs muted">
+        <Sparkles size={13} className="animate-pulse" />
+        Reading the description…
+      </p>
+    )
+  }
+  if (!suggestion) return null
+
+  const pct = Math.round(suggestion.confidence * 100)
+
+  // Model declined: say so rather than showing a confident-looking wrong guess.
+  if (!suggestion.confident) {
+    return (
+      <p className="flex items-start gap-1.5 text-xs muted">
+        <Sparkles size={13} className="mt-0.5 shrink-0" />
+        <span>
+          Not sure about this one ({pct}% at best) — pick a category yourself.
+        </span>
+      </p>
+    )
+  }
+
+  if (chosen === suggestion.category) {
+    return (
+      <p className="flex items-center gap-1.5 text-xs text-pos">
+        <Check size={13} />
+        AI suggested <span className="font-medium">{suggestion.category}</span>
+        <Badge tone="positive">{pct}% confident</Badge>
+      </p>
+    )
+  }
+
+  // Drop alternatives the model gives essentially no weight to -- a "0%"
+  // chip is noise that makes the whole suggestion look unreliable.
+  const others = (suggestion.alternatives || [])
+    .filter((a) => a.category !== chosen && a.confidence >= 0.02)
+    .slice(0, 3)
+
+  if (others.length === 0) return null
+
+  return (
+    <div className="space-y-1.5">
+      <p className="flex items-center gap-1.5 text-xs muted">
+        <Sparkles size={13} />
+        AI suggests:
+      </p>
+      <div className="flex flex-wrap gap-1.5">
+        {others.map((alt) => (
+          <button
+            key={alt.category}
+            type="button"
+            onClick={() => onAccept(alt.category)}
+            className="rounded-full border border-ink-200 px-2.5 py-1 text-[11px] transition
+              hover:border-brand-500 hover:text-brand-400 dark:border-ink-800"
+          >
+            {alt.category}
+            <span className="ml-1 muted">{Math.round(alt.confidence * 100)}%</span>
+          </button>
+        ))}
+      </div>
+    </div>
   )
 }

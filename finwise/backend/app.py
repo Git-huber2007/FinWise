@@ -4,6 +4,7 @@ Everything the API needs is assembled here: config, ORM, the login manager and
 the route blueprints. Blueprints are registered as the phases add them.
 """
 import os
+from pathlib import Path
 
 from flask import Flask, jsonify, request
 from flask_login import LoginManager
@@ -105,7 +106,7 @@ def create_app(config_object=Config) -> Flask:
 ROUTE_MODULES = ["auth", "transactions", "dashboard", "budgets", "goals", "ai", "reports"]
 
 
-def _register_blueprints(app: Flask) -> tuple[list[str], list[str]]:
+def _register_blueprints(app: Flask) -> tuple[list[str], dict[str, str]]:
     """Register whichever route modules exist, and report what was found.
 
     Imported inside the function so the import graph has no cycle back to
@@ -114,7 +115,8 @@ def _register_blueprints(app: Flask) -> tuple[list[str], list[str]]:
     ImportError from inside a module that does exist is re-raised, because
     swallowing that would turn a real bug into a silently missing API.
     """
-    loaded, missing = [], []
+    loaded, missing = [], {}
+    here = Path(__file__).resolve().parent
     for name in ROUTE_MODULES:
         dotted = f"routes.{name}"
         try:
@@ -122,7 +124,17 @@ def _register_blueprints(app: Flask) -> tuple[list[str], list[str]]:
         except ModuleNotFoundError as exc:
             if exc.name != dotted:
                 raise  # the module exists but one of ITS imports is broken
-            missing.append(name)
+            # Distinguish "this phase is not built yet" from "the file is
+            # right there but Python could not import it", which is a real
+            # fault and must not look like an unbuilt phase.
+            exists = (here / "routes" / f"{name}.py").exists()
+            missing[name] = "not built yet" if not exists else (
+                f"FILE EXISTS BUT IMPORT FAILED: {exc}"
+            )
+            if exists:
+                app.logger.error(
+                    "routes/%s.py exists but could not be imported: %s", name, exc
+                )
             continue
         app.register_blueprint(module.bp)
         loaded.append(name)

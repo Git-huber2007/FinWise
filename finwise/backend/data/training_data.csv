@@ -1,0 +1,564 @@
+description,category
+swiggy,Food
+swiggy order,Food
+Swiggy food order,Food
+swiggy instamart groceries,Food
+zomato,Food
+zomato order,Food
+Zomato dinner,Food
+zomato gold renewal,Food
+dominos pizza,Food
+pizza hut,Food
+mcdonalds,Food
+burger king,Food
+kfc chicken bucket,Food
+subway sandwich,Food
+starbucks coffee,Food
+cafe coffee day,Food
+chai point,Food
+third wave coffee,Food
+blue tokai,Food
+canteen lunch,Food
+college canteen,Food
+mess bill,Food
+hostel mess fee,Food
+tiffin service,Food
+lunch at office,Food
+dinner with friends,Food
+breakfast,Food
+street food,Food
+chaat,Food
+biryani,Food
+paratha,Food
+dosa,Food
+restaurant bill,Food
+food court,Food
+big basket groceries,Food
+bigbasket,Food
+blinkit,Food
+zepto grocery,Food
+dunzo grocery,Food
+grofers,Food
+milk delivery,Food
+amul milk,Food
+vegetables from market,Food
+sabzi mandi,Food
+kirana store,Food
+grocery shopping,Food
+d mart groceries,Food
+reliance fresh,Food
+more supermarket,Food
+eggs and bread,Food
+fruits,Food
+snacks,Food
+bakery,Food
+ice cream,Food
+juice shop,Food
+water can delivery,Food
+eatfit,Food
+faasos,Food
+behrouz biryani,Food
+ovenstory,Food
+haldiram,Food
+bikanervala,Food
+barbeque nation,Food
+amazon order,Shopping
+amazon shopping,Shopping
+flipkart order,Shopping
+flipkart,Shopping
+myntra,Shopping
+myntra clothing,Shopping
+ajio,Shopping
+nykaa,Shopping
+nykaa fashion,Shopping
+meesho,Shopping
+snapdeal,Shopping
+tata cliq,Shopping
+shoes,Shopping
+sneakers,Shopping
+nike shoes,Shopping
+adidas,Shopping
+puma tshirt,Shopping
+t shirt,Shopping
+jeans,Shopping
+shirt purchase,Shopping
+kurta,Shopping
+saree,Shopping
+clothes shopping,Shopping
+zara,Shopping
+h and m,Shopping
+uniqlo,Shopping
+westside,Shopping
+lifestyle store,Shopping
+shoppers stop,Shopping
+pantaloons,Shopping
+max fashion,Shopping
+decathlon,Shopping
+watch purchase,Shopping
+sunglasses,Shopping
+backpack,Shopping
+handbag,Shopping
+wallet,Shopping
+perfume,Shopping
+cosmetics,Shopping
+makeup,Shopping
+skincare products,Shopping
+electronics purchase,Shopping
+headphones,Shopping
+earphones,Shopping
+boat earbuds,Shopping
+mobile phone,Shopping
+phone case,Shopping
+charger,Shopping
+laptop bag,Shopping
+mouse keyboard,Shopping
+home decor,Shopping
+bedsheet,Shopping
+kitchen utensils,Shopping
+furniture,Shopping
+ikea,Shopping
+croma electronics,Shopping
+reliance digital,Shopping
+vijay sales,Shopping
+diwali shopping,Shopping
+gift for friend,Shopping
+birthday gift,Shopping
+uber,Transportation
+uber ride,Transportation
+uber to campus,Transportation
+ola,Transportation
+ola cab,Transportation
+ola auto,Transportation
+rapido,Transportation
+rapido bike,Transportation
+auto rickshaw,Transportation
+auto fare,Transportation
+taxi fare,Transportation
+cab to airport,Transportation
+metro card recharge,Transportation
+metro recharge,Transportation
+delhi metro,Transportation
+namma metro,Transportation
+bus ticket,Transportation
+bmtc bus pass,Transportation
+bus pass,Transportation
+local train,Transportation
+train ticket,Transportation
+irctc booking,Transportation
+irctc,Transportation
+railway ticket,Transportation
+tatkal booking,Transportation
+flight ticket,Transportation
+indigo flight,Transportation
+air india,Transportation
+spicejet,Transportation
+vistara,Transportation
+makemytrip flight,Transportation
+goibibo,Transportation
+petrol,Transportation
+petrol fill,Transportation
+fuel,Transportation
+diesel,Transportation
+hp petrol pump,Transportation
+indian oil,Transportation
+bharat petroleum,Transportation
+fastag recharge,Transportation
+toll charges,Transportation
+parking fee,Transportation
+parking,Transportation
+bike service,Transportation
+car service,Transportation
+bike repair,Transportation
+puncture repair,Transportation
+vehicle insurance,Transportation
+driving licence fee,Transportation
+scooter rental,Transportation
+bounce rental,Transportation
+yulu bike,Transportation
+zoomcar,Transportation
+car wash,Transportation
+engine oil change,Transportation
+college fee,Education
+college fees,Education
+semester fee,Education
+tuition fee,Education
+school fee,Education
+exam fee,Education
+examination fees,Education
+admission fee,Education
+hostel fee,Education
+library fee,Education
+course fee,Education
+coursera subscription,Education
+udemy course,Education
+udemy,Education
+byjus subscription,Education
+unacademy,Education
+vedantu classes,Education
+khan academy donation,Education
+coaching class fee,Education
+tuition classes,Education
+upsc coaching,Education
+gate coaching,Education
+ielts exam fee,Education
+gre registration,Education
+textbook,Education
+textbooks,Education
+reference book,Education
+notebook purchase,Education
+stationery,Education
+stationary shop,Education
+pens and notebooks,Education
+lab manual,Education
+project materials,Education
+printout charges,Education
+xerox,Education
+photocopy,Education
+thesis printing,Education
+online certification,Education
+nptel course,Education
+edx course,Education
+linkedin learning,Education
+skillshare,Education
+workshop registration,Education
+seminar fee,Education
+conference registration,Education
+study material,Education
+question bank,Education
+mock test series,Education
+tutor payment,Education
+laptop for college,Education
+netflix,Entertainment
+netflix subscription,Entertainment
+prime video,Entertainment
+amazon prime subscription,Entertainment
+hotstar,Entertainment
+disney hotstar,Entertainment
+jiocinema,Entertainment
+sony liv,Entertainment
+zee5,Entertainment
+spotify,Entertainment
+spotify premium,Entertainment
+youtube premium,Entertainment
+apple music,Entertainment
+gaana subscription,Entertainment
+wynk music,Entertainment
+movie ticket,Entertainment
+movie tickets,Entertainment
+bookmyshow,Entertainment
+pvr cinemas,Entertainment
+inox movie,Entertainment
+cinepolis,Entertainment
+concert ticket,Entertainment
+music concert,Entertainment
+stand up comedy show,Entertainment
+theatre play,Entertainment
+gaming,Entertainment
+steam game purchase,Entertainment
+playstation game,Entertainment
+xbox game pass,Entertainment
+mobile game recharge,Entertainment
+bgmi uc,Entertainment
+free fire diamonds,Entertainment
+google play recharge,Entertainment
+amusement park,Entertainment
+water park,Entertainment
+wonderla,Entertainment
+bowling,Entertainment
+arcade games,Entertainment
+club entry,Entertainment
+party,Entertainment
+night out,Entertainment
+pub bill,Entertainment
+beer,Entertainment
+picnic,Entertainment
+weekend trip,Entertainment
+zoo entry,Entertainment
+museum ticket,Entertainment
+exhibition,Entertainment
+sports match ticket,Entertainment
+ipl ticket,Entertainment
+apollo pharmacy,Healthcare
+apollo,Healthcare
+medplus,Healthcare
+pharmeasy,Healthcare
+1mg order,Healthcare
+netmeds,Healthcare
+wellness forever,Healthcare
+medicine,Healthcare
+medicines,Healthcare
+tablets,Healthcare
+doctor consultation,Healthcare
+doctor visit,Healthcare
+clinic visit,Healthcare
+opd charges,Healthcare
+hospital bill,Healthcare
+apollo hospital,Healthcare
+fortis hospital,Healthcare
+manipal hospital,Healthcare
+blood test,Healthcare
+lab test,Healthcare
+pathology test,Healthcare
+thyrocare,Healthcare
+dr lal pathlabs,Healthcare
+x ray,Healthcare
+mri scan,Healthcare
+ct scan,Healthcare
+ultrasound,Healthcare
+ecg test,Healthcare
+dental checkup,Healthcare
+dentist,Healthcare
+tooth filling,Healthcare
+root canal,Healthcare
+eye checkup,Healthcare
+spectacles,Healthcare
+lenskart,Healthcare
+contact lenses,Healthcare
+eye drops,Healthcare
+physiotherapy,Healthcare
+vaccination,Healthcare
+covid vaccine,Healthcare
+health checkup package,Healthcare
+health insurance premium,Healthcare
+mediclaim premium,Healthcare
+star health insurance,Healthcare
+gym membership,Healthcare
+cult fit,Healthcare
+cultfit subscription,Healthcare
+yoga classes,Healthcare
+protein powder,Healthcare
+vitamins,Healthcare
+supplements,Healthcare
+first aid,Healthcare
+rent,Housing
+house rent,Housing
+monthly rent,Housing
+flat rent,Housing
+room rent,Housing
+pg rent,Housing
+paying guest rent,Housing
+hostel rent,Housing
+rent payment to landlord,Housing
+security deposit,Housing
+maintenance charges,Housing
+society maintenance,Housing
+apartment maintenance,Housing
+home loan emi,Housing
+housing loan emi,Housing
+property tax,Housing
+house tax,Housing
+brokerage fee,Housing
+broker commission,Housing
+packers and movers,Housing
+shifting charges,Housing
+house shifting,Housing
+home repair,Housing
+plumber,Housing
+plumbing work,Housing
+electrician charges,Housing
+carpenter,Housing
+painting work,Housing
+house painting,Housing
+pest control,Housing
+deep cleaning service,Housing
+urban company cleaning,Housing
+maid salary,Housing
+house help salary,Housing
+cook salary,Housing
+watchman charges,Housing
+security charges,Housing
+furniture for home,Housing
+mattress,Housing
+curtains,Housing
+water tank cleaning,Housing
+lift maintenance,Housing
+generator charges,Housing
+club house fee,Housing
+electricity bill,Utilities
+current bill,Utilities
+power bill,Utilities
+bescom bill,Utilities
+mseb bill,Utilities
+tneb electricity,Utilities
+adani electricity,Utilities
+tata power bill,Utilities
+water bill,Utilities
+gas bill,Utilities
+gas cylinder,Utilities
+lpg cylinder booking,Utilities
+indane gas,Utilities
+hp gas,Utilities
+bharat gas,Utilities
+piped gas bill,Utilities
+mobile recharge,Utilities
+jio recharge,Utilities
+airtel recharge,Utilities
+vi recharge,Utilities
+vodafone recharge,Utilities
+bsnl recharge,Utilities
+prepaid recharge,Utilities
+postpaid bill,Utilities
+mobile bill,Utilities
+phone bill,Utilities
+broadband bill,Utilities
+wifi bill,Utilities
+jio fiber,Utilities
+airtel xstream,Utilities
+act fibernet,Utilities
+hathway broadband,Utilities
+internet bill,Utilities
+dth recharge,Utilities
+tata sky recharge,Utilities
+dish tv,Utilities
+cable tv bill,Utilities
+landline bill,Utilities
+sewage charges,Utilities
+municipal tax,Utilities
+google one storage,Utilities
+icloud storage,Utilities
+cloud subscription,Utilities
+sip,Investments
+sip investment,Investments
+mutual fund sip,Investments
+mutual fund investment,Investments
+groww investment,Investments
+groww,Investments
+zerodha,Investments
+zerodha funds added,Investments
+upstox,Investments
+angel one,Investments
+icici direct,Investments
+kuvera investment,Investments
+stock purchase,Investments
+shares bought,Investments
+equity investment,Investments
+nifty etf,Investments
+index fund,Investments
+elss investment,Investments
+ppf deposit,Investments
+ppf contribution,Investments
+nps contribution,Investments
+national pension scheme,Investments
+epf contribution,Investments
+fixed deposit,Investments
+fd booking,Investments
+recurring deposit,Investments
+rd installment,Investments
+gold investment,Investments
+digital gold,Investments
+sovereign gold bond,Investments
+gold etf,Investments
+lic premium,Investments
+life insurance premium,Investments
+term insurance premium,Investments
+sukanya samriddhi,Investments
+post office savings,Investments
+bond purchase,Investments
+crypto purchase,Investments
+bitcoin buy,Investments
+wazirx,Investments
+coindcx,Investments
+savings transfer,Investments
+transfer to savings,Investments
+emergency fund deposit,Investments
+salary,Salary
+salary credited,Salary
+monthly salary,Salary
+salary credit,Salary
+net salary,Salary
+pay credited,Salary
+payroll credit,Salary
+salary from company,Salary
+stipend,Salary
+internship stipend,Salary
+monthly stipend,Salary
+intern salary,Salary
+freelance payment,Salary
+freelance income,Salary
+client payment received,Salary
+project payment,Salary
+consulting fee received,Salary
+part time job payment,Salary
+bonus,Salary
+annual bonus,Salary
+performance bonus,Salary
+diwali bonus,Salary
+incentive received,Salary
+overtime pay,Salary
+arrears credited,Salary
+pocket money,Salary
+allowance from parents,Salary
+monthly allowance,Salary
+money from dad,Salary
+money from mom,Salary
+scholarship,Salary
+scholarship credited,Salary
+stipend credit,Salary
+reimbursement received,Salary
+expense reimbursement,Salary
+tds refund,Salary
+income tax refund,Salary
+cashback received,Salary
+interest credited,Salary
+fd interest,Salary
+savings account interest,Salary
+dividend received,Salary
+rent received,Salary
+tuition income,Salary
+side income,Salary
+atm withdrawal,Other
+cash withdrawal,Other
+cash deposit,Other
+upi transfer,Other
+money sent to friend,Other
+transfer to friend,Other
+paid back loan,Other
+borrowed money,Other
+lent money,Other
+split bill settlement,Other
+splitwise settle,Other
+donation,Other
+charity donation,Other
+temple donation,Other
+ngo donation,Other
+gift money,Other
+wedding gift,Other
+shagun,Other
+festival expense,Other
+bank charges,Other
+atm charges,Other
+service charge,Other
+late payment fee,Other
+penalty,Other
+fine paid,Other
+credit card bill payment,Other
+credit card payment,Other
+loan emi,Other
+personal loan emi,Other
+miscellaneous,Other
+misc expense,Other
+unknown transaction,Other
+pending verification,Other
+courier charges,Other
+post office charges,Other
+document attestation,Other
+passport fee,Other
+visa fee,Other
+notary charges,Other
+legal fee,Other
+tax payment,Other
+gst payment,Other
+subscription unknown,Other
+haircut,Other
+salon,Other
+barber shop,Other
+laundry,Other
+dry cleaning,Other
+ironing charges,Other
+tailor charges,Other
+mobile repair,Other
+laptop repair,Other
+pet food,Other
+veterinary,Other
+photography,Other
+printing charges,Other
