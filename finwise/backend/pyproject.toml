@@ -1,0 +1,18 @@
+# Tooling configuration for the FINWISE AI backend.
+#
+# There is no build here -- the app runs from source. This file exists so the
+# type checker behaves the same in CI, on the command line and in the editor.
+#
+# There are NO rule suppressions. Models inherit from the explicit `Base` in
+# models.py rather than Flask-SQLAlchemy's runtime-assembled `db.Model`, which
+# is what lets a checker see the declarative base, synthesise a typed
+# __init__, and verify constructor keywords. Everything flagged was fixed
+# rather than silenced.
+
+[tool.ty.environment]
+# Resolve `import app`, `import models` etc. from the backend root, matching
+# how the app and pytest are actually run.
+root = ["."]
+
+[tool.ty.src]
+exclude = [".venv", "**/__pycache__"]

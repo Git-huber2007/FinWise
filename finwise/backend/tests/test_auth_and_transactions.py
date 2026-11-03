@@ -1,4 +1,6 @@
 """API-level tests for authentication, validation and user isolation."""
+from sqlalchemy import select
+
 from models import Transaction, User, db
 
 
@@ -58,7 +60,8 @@ def test_register_rejects_malformed_email(client):
 
 def test_password_is_never_stored_in_plain_text(client, app):
     register(client)
-    stored = User.query.filter_by(email="new@example.com").first()
+    stored = db.session.scalar(select(User).where(User.email == "new@example.com"))
+    assert stored is not None, "the user we just registered should exist"
     assert "hunter2hunter2" not in stored.password_hash
 
 

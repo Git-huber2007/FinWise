@@ -7,6 +7,7 @@ from datetime import date
 from decimal import Decimal
 
 import pytest
+from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 
 from models import Budget, FinancialInsight, SavingsGoal, Transaction, User, db
@@ -25,7 +26,8 @@ def test_amount_keeps_exact_paise(app, user):
         db.session.add(t)
     db.session.commit()
 
-    stored = [t.amount for t in Transaction.query.order_by(Transaction.amount).all()]
+    stored = [t.amount for t in db.session.scalars(
+        select(Transaction).order_by(Transaction.amount)).all()]
     assert stored == [Decimal("0.01"), Decimal("1234.56"), Decimal("99999999.99")]
 
 
@@ -36,7 +38,7 @@ def test_summing_many_small_amounts_is_exact(app, user):
                                    amount=Decimal("0.01"), category="Other",
                                    txn_type="expense", date=date(2026, 1, 1)))
     db.session.commit()
-    total = sum((t.amount for t in Transaction.query.all()), Decimal("0"))
+    total = sum((t.amount for t in db.session.scalars(select(Transaction))), Decimal("0"))
     assert total == Decimal("1.00")
 
 
@@ -127,10 +129,12 @@ def test_transactions_are_scoped_to_their_owner(app, user, other_user):
                                txn_type="expense", date=date(2026, 2, 1)))
     db.session.commit()
 
-    asha = Transaction.query.filter_by(user_id=user.id).all()
+    asha = db.session.scalars(
+        select(Transaction).where(Transaction.user_id == user.id)).all()
     assert len(asha) == 1 and asha[0].description == "Asha's lunch"
     # The query a route would run for a row it does not own returns nothing.
-    assert Transaction.query.filter_by(id=asha[0].id, user_id=other_user.id).first() is None
+    assert db.session.scalar(select(Transaction).where(
+        Transaction.id == asha[0].id, Transaction.user_id == other_user.id)) is None
 
 
 def test_foreign_keys_are_actually_enforced(app, user):
@@ -168,10 +172,10 @@ def test_deleting_a_user_removes_all_their_rows(app, user):
     db.session.delete(user)
     db.session.commit()
 
-    assert Transaction.query.count() == 0
-    assert Budget.query.count() == 0
-    assert SavingsGoal.query.count() == 0
-    assert FinancialInsight.query.count() == 0
+    assert db.session.scalar(select(func.count(Transaction.id))) == 0
+    assert db.session.scalar(select(func.count(Budget.id))) == 0
+    assert db.session.scalar(select(func.count(SavingsGoal.id))) == 0
+    assert db.session.scalar(select(func.count(FinancialInsight.id))) == 0
 
 
 # --------------------------------------------------------------------------

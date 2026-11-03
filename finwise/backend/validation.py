@@ -5,9 +5,17 @@ the same error shape: {"error": "...", "field": "..."} with status 400.
 
 Each helper either returns a clean, correctly-typed value or raises
 ValidationError. Nothing half-validated reaches the ORM.
+
+Every helper that takes ``required`` carries @overload pairs. They add no
+runtime behaviour at all -- they state the invariant the body already
+enforces: when ``required=True`` the function raises rather than returning
+None, so callers get a non-optional type. Without them a type checker reads
+every result as ``T | None`` and every assignment to a non-nullable ORM column
+looks like a bug, which buries the assignments that genuinely are.
 """
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
+from typing import Iterable, Literal, overload
 
 from flask import jsonify
 
@@ -41,6 +49,12 @@ def require_json(request) -> dict:
     return data
 
 
+@overload
+def text(data: dict, key: str, *, required: Literal[True] = ..., max_len: int = ...,
+         default: None = ...) -> str: ...
+@overload
+def text(data: dict, key: str, *, required: Literal[False], max_len: int = ...,
+         default: str | None = ...) -> str | None: ...
 def text(data: dict, key: str, *, required=True, max_len=255, default=None) -> str | None:
     raw = data.get(key, default)
     if raw is None or (isinstance(raw, str) and not raw.strip()):
@@ -77,6 +91,10 @@ def password(data: dict, key: str = "password", *, min_len=8) -> str:
     return raw
 
 
+@overload
+def amount(data: dict, key: str = ..., *, required: Literal[True] = ...) -> Decimal: ...
+@overload
+def amount(data: dict, key: str = ..., *, required: Literal[False]) -> Decimal | None: ...
 def amount(data: dict, key: str = "amount", *, required=True) -> Decimal | None:
     raw = data.get(key)
     if raw is None or raw == "":
@@ -111,6 +129,15 @@ def money_or_none(data: dict, key: str) -> Decimal | None:
     return value
 
 
+@overload
+def iso_date(data: dict, key: str = ..., *, required: Literal[True] = ...,
+             default_today: bool = ...) -> date: ...
+@overload
+def iso_date(data: dict, key: str = ..., *, required: Literal[False],
+             default_today: Literal[True]) -> date: ...
+@overload
+def iso_date(data: dict, key: str = ..., *, required: Literal[False],
+             default_today: bool = ...) -> date | None: ...
 def iso_date(data: dict, key: str = "date", *, required=True, default_today=False) -> date | None:
     raw = data.get(key)
     if not raw:
@@ -131,6 +158,12 @@ def iso_date(data: dict, key: str = "date", *, required=True, default_today=Fals
     return parsed
 
 
+@overload
+def choice(data: dict, key: str, options: Iterable[str], *, required: Literal[True] = ...,
+           default: None = ...) -> str: ...
+@overload
+def choice(data: dict, key: str, options: Iterable[str], *, required: Literal[False],
+           default: str | None = ...) -> str | None: ...
 def choice(data: dict, key: str, options, *, required=True, default=None) -> str | None:
     raw = data.get(key, default)
     if raw is None or raw == "":
@@ -145,18 +178,29 @@ def choice(data: dict, key: str, options, *, required=True, default=None) -> str
     return value
 
 
-def category(data: dict, key: str = "category", **kwargs) -> str | None:
-    return choice(data, key, CATEGORIES, **kwargs)
+def category(data: dict, key: str = "category") -> str:
+    """Required by definition: every transaction carries a category."""
+    return choice(data, key, CATEGORIES)
 
 
-def txn_type(data: dict, key: str = "txn_type", **kwargs) -> str | None:
-    return choice(data, key, TXN_TYPES, **kwargs)
+def txn_type(data: dict, key: str = "txn_type") -> str:
+    return choice(data, key, TXN_TYPES)
 
 
-def payment_method(data: dict, key: str = "payment_method", **kwargs) -> str | None:
-    return choice(data, key, PAYMENT_METHODS, required=False, **kwargs)
+def payment_method(data: dict, key: str = "payment_method") -> str | None:
+    """Optional: the column is nullable, so None is a legitimate result."""
+    return choice(data, key, PAYMENT_METHODS, required=False)
 
 
+@overload
+def integer(data: dict, key: str, *, minimum: int | None = ..., maximum: int | None = ...,
+            required: Literal[True] = ..., default: None = ...) -> int: ...
+@overload
+def integer(data: dict, key: str, *, minimum: int | None = ..., maximum: int | None = ...,
+            required: Literal[False], default: int) -> int: ...
+@overload
+def integer(data: dict, key: str, *, minimum: int | None = ..., maximum: int | None = ...,
+            required: Literal[False], default: None = ...) -> int | None: ...
 def integer(data: dict, key: str, *, minimum=None, maximum=None, required=True, default=None):
     raw = data.get(key, default)
     if raw is None or raw == "":

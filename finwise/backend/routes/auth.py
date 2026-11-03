@@ -1,12 +1,25 @@
 """Authentication and profile endpoints."""
+from typing import cast
+
 from flask import Blueprint, jsonify, request, session
 from flask_login import current_user, login_required, login_user, logout_user
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
 import validation as v
 from models import User, UserPreference, db
 
 bp = Blueprint("auth", __name__, url_prefix="/api")
+
+
+def _me() -> User:
+    """`current_user` is a LocalProxy, so its real type is opaque.
+
+    Every use here sits behind @login_required, which guarantees a real User.
+    The cast states that once instead of at each call site; it is a typing
+    annotation only and changes nothing at runtime.
+    """
+    return cast(User, current_user)
 
 
 def _session_payload(user: User) -> dict:
@@ -49,7 +62,7 @@ def login():
     if not isinstance(pwd, str) or not pwd:
         raise v.ValidationError("Password is required.", "password")
 
-    user = User.query.filter_by(email=addr).first()
+    user = db.session.scalar(select(User).where(User.email == addr))
     # One message for both "no such user" and "wrong password", so the response
     # does not reveal which emails are registered.
     if user is None or not user.check_password(pwd):
@@ -82,7 +95,7 @@ def logout():
 @bp.get("/me")
 @login_required
 def me():
-    return jsonify(_session_payload(current_user))
+    return jsonify(_session_payload(_me()))
 
 
 @bp.put("/me")
@@ -90,21 +103,22 @@ def me():
 def update_me():
     """Profile and the self-reported figures the health score uses."""
     data = v.require_json(request)
+    user = _me()
 
     if "name" in data:
-        current_user.name = v.text(data, "name", max_len=120)
+        user.name = v.text(data, "name", max_len=120)
     if "monthly_income" in data:
-        current_user.monthly_income = v.money_or_none(data, "monthly_income")
+        user.monthly_income = v.money_or_none(data, "monthly_income")
     if "emergency_fund" in data:
-        current_user.emergency_fund = v.money_or_none(data, "emergency_fund")
+        user.emergency_fund = v.money_or_none(data, "emergency_fund")
 
     # Email changes go through the unique index like registration does.
-    if "email" in data and v.email(data) != current_user.email:
-        current_user.email = v.email(data)
+    if "email" in data and v.email(data) != user.email:
+        user.email = v.email(data)
 
-    prefs = current_user.preferences
+    prefs = user.preferences
     if prefs is None:
-        prefs = UserPreference(user_id=current_user.id)
+        prefs = UserPreference(user_id=user.id)
         db.session.add(prefs)
     if "theme" in data:
         prefs.theme = v.choice(data, "theme", ["dark", "light"])
@@ -119,16 +133,17 @@ def update_me():
         db.session.rollback()
         return jsonify(error="That email is already in use.", field="email"), 409
 
-    return jsonify(_session_payload(current_user))
+    return jsonify(_session_payload(user))
 
 
 @bp.put("/me/password")
 @login_required
 def change_password():
     data = v.require_json(request)
+    user = _me()
     current = data.get("current_password")
-    if not isinstance(current, str) or not current_user.check_password(current):
+    if not isinstance(current, str) or not user.check_password(current):
         return jsonify(error="Your current password is incorrect.", field="current_password"), 401
-    current_user.set_password(v.password(data, "new_password"))
+    user.set_password(v.password(data, "new_password"))
     db.session.commit()
     return jsonify(ok=True)
