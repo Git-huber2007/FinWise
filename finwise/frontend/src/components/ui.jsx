@@ -173,13 +173,16 @@ export const inputClass = `w-full rounded-lg border border-ink-200 bg-white px-3
   placeholder:text-ink-400 focus:border-brand-500 dark:border-ink-800 dark:bg-ink-950
   dark:text-ink-100 disabled:opacity-60`
 
-export function Input(props) {
-  return <input className={inputClass} {...props} />
+// className is APPENDED, never replaced -- spreading {...props} after a
+// className prop would silently drop every base style, which is invisible in
+// code review and obvious only on screen.
+export function Input({ className = '', ...props }) {
+  return <input {...props} className={`${inputClass} ${className}`} />
 }
 
-export function Select({ children, ...props }) {
+export function Select({ children, className = '', ...props }) {
   return (
-    <select className={inputClass} {...props}>
+    <select {...props} className={`${inputClass} ${className}`}>
       {children}
     </select>
   )

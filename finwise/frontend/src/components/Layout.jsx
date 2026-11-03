@@ -3,6 +3,7 @@ import {
   FileBarChart2,
   LayoutDashboard,
   Lightbulb,
+  LogOut,
   Menu,
   Moon,
   PiggyBank,
@@ -14,8 +15,9 @@ import {
   X,
 } from 'lucide-react'
 import { useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 
+import { useAuth } from '../auth'
 import { useTheme } from '../theme'
 
 /** Single source of truth for navigation — the router reads this too. */
@@ -84,6 +86,43 @@ function ThemeToggle() {
   )
 }
 
+function UserMenu() {
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+
+  async function onLogout() {
+    await logout()
+    navigate('/login', { replace: true })
+  }
+
+  const initials = (user?.name || '?')
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0].toUpperCase())
+    .join('')
+
+  return (
+    <div className="flex items-center gap-2">
+      <div className="hidden text-right sm:block">
+        <p className="text-xs font-medium leading-tight">{user?.name}</p>
+        <p className="text-[11px] leading-tight muted">{user?.email}</p>
+      </div>
+      <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-500/15 text-xs font-semibold text-brand-400">
+        {initials}
+      </div>
+      <button
+        onClick={onLogout}
+        aria-label="Sign out"
+        title="Sign out"
+        className="rounded-lg p-2 text-ink-600 transition hover:bg-ink-100 hover:text-neg dark:text-ink-400 dark:hover:bg-ink-800"
+      >
+        <LogOut size={17} />
+      </button>
+    </div>
+  )
+}
+
 export default function Layout() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -135,6 +174,7 @@ export default function Layout() {
           </button>
           <div className="min-w-0 flex-1" />
           <ThemeToggle />
+          <UserMenu />
         </header>
 
         <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">

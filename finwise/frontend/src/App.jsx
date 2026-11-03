@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 
+import { ProtectedRoute, PublicOnlyRoute } from './auth'
 import Layout from './components/Layout'
 import { Card, PageHeader } from './components/ui'
 import Assistant from './pages/Assistant'
@@ -8,6 +9,8 @@ import Dashboard from './pages/Dashboard'
 import Goals from './pages/Goals'
 import Health from './pages/Health'
 import Insights from './pages/Insights'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import Reports from './pages/Reports'
 import Settings from './pages/Settings'
 import Transactions from './pages/Transactions'
@@ -24,13 +27,36 @@ function NotFound() {
 }
 
 /**
- * Routes mirror NAV_ITEMS in components/Layout.jsx. Phase 4 wraps these in
- * ProtectedRoute and adds /login and /register outside the layout.
+ * Two route groups: the signed-out pair, and everything behind
+ * ProtectedRoute inside the app shell. Routes mirror NAV_ITEMS in Layout.jsx.
  */
 export default function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route
+        path="/login"
+        element={
+          <PublicOnlyRoute>
+            <Login />
+          </PublicOnlyRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <PublicOnlyRoute>
+            <Register />
+          </PublicOnlyRoute>
+        }
+      />
+
+      <Route
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<Dashboard />} />
         <Route path="transactions" element={<Transactions />} />
         <Route path="budget" element={<Budget />} />

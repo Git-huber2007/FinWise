@@ -13,6 +13,7 @@ from sqlalchemy.engine import Engine
 from config import Config
 from constants import CATEGORIES, PAYMENT_METHODS, TXN_TYPES
 from models import User, db
+from validation import register_validation_handler
 
 login_manager = LoginManager()
 
@@ -55,6 +56,7 @@ def create_app(config_object=Config) -> Flask:
 
     loaded, missing = _register_blueprints(app)
     _register_error_handlers(app)
+    register_validation_handler(app)
 
     with app.app_context():
         # Idempotent: create_all only creates what is missing. A single-file
