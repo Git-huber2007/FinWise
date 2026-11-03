@@ -27,3 +27,6 @@ Thumbs.db
 # Generated reports
 *.pdf
 !finwise/docs/**/*.pdf
+
+# local test output
+*.log
