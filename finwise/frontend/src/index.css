@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-ink-50 text-ink-800 font-sans antialiased;
+  }
+  .dark body {
+    @apply bg-ink-950 text-ink-100;
+  }
+  /* Tabular figures everywhere money is shown, so columns of numbers line up
+     and a changing value does not shift the layout. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-ink-50;
+  }
+  .dark :focus-visible {
+    @apply ring-offset-ink-950;
+  }
+}
+
+@layer components {
+  /* The one card treatment used across every page. Defined once so the
+     dashboard, reports and modals cannot drift apart. */
+  .card {
+    @apply rounded-card border border-ink-200 bg-white shadow-card;
+  }
+  .dark .card {
+    @apply border-ink-800 bg-ink-900 shadow-none;
+  }
+  .muted {
+    @apply text-ink-400;
+  }
+}
+
+/* Recharts injects inline SVG that ignores Tailwind, so its chrome is themed
+   here via CSS variables set on the root. */
+.recharts-cartesian-axis-tick text {
+  fill: currentColor;
+  opacity: 0.55;
+  font-size: 11px;
+}
+.recharts-cartesian-grid line {
+  stroke: currentColor;
+  opacity: 0.1;
+}
