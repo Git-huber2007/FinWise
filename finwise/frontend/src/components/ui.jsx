@@ -26,8 +26,23 @@ export function CardHeader({ title, subtitle, action }) {
   )
 }
 
+/**
+ * Primary is near-black in light mode and near-white in dark, not the brand
+ * blue.
+ *
+ * Two reasons, neither cosmetic. The products that do not read as generic
+ * fintech (Revolut, Mercury) do the structural work in near-neutral ink and
+ * spend saturated colour sparingly as an accent; a blue-filled button on every
+ * screen is what makes an interface look like every other dashboard. And the
+ * charts now use blue as *data* — slot 1 is Food — so a blue button made the
+ * same hue mean both "press me" and "this is your food spending".
+ *
+ * Chroma now belongs to the data. The chrome is ink.
+ */
 const BUTTON_VARIANTS = {
-  primary: 'bg-brand-500 text-white hover:bg-brand-600 disabled:bg-brand-500/50',
+  primary:
+    'bg-ink-900 text-white hover:bg-ink-800 disabled:bg-ink-900/50 ' +
+    'dark:bg-ink-100 dark:text-ink-900 dark:hover:bg-white',
   secondary:
     'border border-ink-200 bg-white text-ink-800 hover:bg-ink-50 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-100 dark:hover:bg-ink-800',
   ghost: 'text-ink-600 hover:bg-ink-100 dark:text-ink-400 dark:hover:bg-ink-800',
@@ -78,7 +93,16 @@ export function Badge({ children, tone = 'neutral', className = '' }) {
  * A labelled progress bar. `tone` is computed from utilisation by the caller,
  * because "80% of budget used" is good or bad depending on the day of the month.
  */
-export function ProgressBar({ value, tone = 'brand', showLabel = false, className = '' }) {
+export function ProgressBar({
+  value,
+  tone = 'brand',
+  showLabel = false,
+  className = '',
+  // An explicit colour, for bars that represent a named entity rather than a
+  // status. Without it a category's dot and its bar ended up different
+  // colours in the same row, which reads as two different things.
+  color = null,
+}) {
   const clamped = Math.max(0, Math.min(100, Number(value) || 0))
   const fills = {
     brand: 'bg-brand-500',
@@ -96,8 +120,10 @@ export function ProgressBar({ value, tone = 'brand', showLabel = false, classNam
         aria-valuemax={100}
       >
         <div
-          className={`h-full rounded-full transition-[width] duration-500 ${fills[tone]}`}
-          style={{ width: `${clamped}%` }}
+          className={`h-full rounded-full transition-[width] duration-500 ${
+            color ? '' : fills[tone]
+          }`}
+          style={{ width: `${clamped}%`, ...(color ? { background: color } : null) }}
         />
       </div>
       {showLabel && <p className="mt-1 text-right text-[11px] muted tnum">{clamped.toFixed(0)}%</p>}

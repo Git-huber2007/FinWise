@@ -13,11 +13,11 @@ import { Link } from 'react-router-dom'
 import { api } from '../api'
 import {
   BudgetUtilisationChart,
-  CategoryPie,
+  CategoryBars,
   ExpenseTrendChart,
   IncomeVsExpenseChart,
   SavingsGrowthChart,
-  colorFor,
+  useCategoryColor,
 } from '../components/charts'
 import AnomalyAlerts from '../components/AnomalyAlerts'
 import {
@@ -34,6 +34,7 @@ import {
 import { money, moneyExact, pct, shortDate } from '../format'
 
 export default function Dashboard() {
+  const categoryColor = useCategoryColor()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -164,11 +165,11 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        <Card>
+        <Card className="self-start">
           <CardHeader title="Spending breakdown" subtitle={data.month_label} />
-          <div className="p-3">
+          <div className="px-5 pb-5">
             {data.category_breakdown.length ? (
-              <CategoryPie data={data.category_breakdown} />
+              <CategoryBars data={data.category_breakdown} />
             ) : (
               <EmptyState icon={Receipt} title="No expenses this month" />
             )}
@@ -243,7 +244,7 @@ export default function Dashboard() {
               <div key={row.id} className="flex items-center gap-3 px-5 py-3">
                 <span
                   className="h-7 w-1 shrink-0 rounded-full"
-                  style={{ background: colorFor(row.category) }}
+                  style={{ background: categoryColor(row.category) }}
                 />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">{row.description}</p>

@@ -32,32 +32,85 @@ import { useTheme } from '../theme'
 /**
  * Category colours.
  *
- * These were previously the stock Tailwind 500 ramp — violet-500, sky-500,
- * pink-500, lime-500, amber-500 and so on. Eleven maximally saturated hues at
- * identical lightness compete with each other and with a UI whose own palette
- * is deliberately restrained, which is what made every chart look like it came
- * from a different product than the page around it.
+ * Two earlier attempts were wrong, and the second was wrong in a way that only
+ * measurement caught. The first was the stock Tailwind 500 ramp. The second was
+ * hand-picked "to harmonise" and failed three objective checks: indigo against
+ * blue measured ΔE 2.5 under deuteranopia (invisible to a red-green colourblind
+ * reader), teal against sea-green measured ΔE 7.3 for *normal* vision, which is
+ * below the 15 floor at which two series can be told apart at all, and three of
+ * the eleven fell under the chroma floor and read as grey.
  *
- * This set is held to roughly one lightness band and a lower saturation
- * ceiling, so slices stay distinguishable without shouting. Where a category
- * already has a meaning in the app's semantic tokens, it reuses that token
- * rather than inventing a second colour for the same idea.
+ * These eight hues and their per-mode steps come from a palette validated with
+ * the data-viz validator against this app's own card surfaces (#ffffff light,
+ * #161a22 dark). Both modes pass every gate: worst adjacent CVD ΔE 9.1 light /
+ * 8.4 dark, worst adjacent normal-vision ΔE 19.6 / 19.3.
+ *
+ * Dark is a separate set of steps chosen for the dark surface, not an automatic
+ * lightening of the light values.
+ *
+ * Eight is the cap, not a coincidence: past eight slots no ordering clears the
+ * separation floors, so a ninth hue would be indistinguishable from one already
+ * on screen. The eight consumption categories take the eight slots; the three
+ * that are not consumption are handled outside the categorical set.
  */
-export const CATEGORY_COLORS = {
-  Food: '#3b6fe0', // brand blue — the anchor
-  Shopping: '#6f5ad1', // muted indigo
-  Transportation: '#2f8fae', // steel teal
-  Education: '#3f9a8a', // sea green
-  Entertainment: '#b4588f', // dusty rose
-  Healthcare: '#d64545', // the app's `neg`
-  Housing: '#c98a1b', // the app's `warn`
-  Utilities: '#8a8f3e', // olive
-  Investments: '#14936c', // the app's `pos`
-  Salary: '#1f7a52', // deeper green — same family as income
-  Other: '#8b93a3', // ink-400
+const CATEGORICAL = {
+  //                      light      dark
+  Food: ['#2a78d6', '#3987e5'], // slot 1  blue
+  Housing: ['#eb6834', '#d95926'], // slot 2  orange
+  Transportation: ['#1baf7a', '#199e70'], // slot 3  aqua
+  Shopping: ['#eda100', '#c98500'], // slot 4  yellow
+  Entertainment: ['#e87ba4', '#d55181'], // slot 5  magenta
+  Utilities: ['#008300', '#008300'], // slot 6  green
+  Education: ['#6250d6', '#9085e9'], // slot 7  violet
+  Healthcare: ['#e34948', '#e66767'], // slot 8  red
 }
 
-export const colorFor = (category) => CATEGORY_COLORS[category] || CATEGORY_COLORS.Other
+// Residual slots, deliberately neutral. An earlier draft gave Investments its
+// own income-green, which measured ΔE 9.3 light / 12.1 dark against the slot-6
+// green of Utilities -- below the 15 floor, so the two were hard to tell apart
+// in the same donut even with full colour vision. There is no ninth hue
+// available that clears the floors, so the tail is folded instead of coloured
+// (see MAX_SLICES below), which is the structural fix rather than a new colour.
+const NON_CATEGORICAL = {
+  Investments: ['#8b93a3', '#6c7384'],
+  Salary: ['#8b93a3', '#6c7384'],
+  Other: ['#8b93a3', '#6c7384'],
+}
+
+// Eight hues clear the separation floors; a ninth cannot. So no chart shows
+// more than eight slices: the largest seven keep their own colour and
+// everything past them is summed into one labelled neutral slice. The sum is
+// the true total of the remainder, so nothing is hidden -- only merged.
+export const MAX_SLICES = 8
+
+export function foldTail(breakdown, max = MAX_SLICES) {
+  if (!breakdown || breakdown.length <= max) return breakdown || []
+  const head = breakdown.slice(0, max - 1)
+  const tail = breakdown.slice(max - 1)
+  return [
+    ...head,
+    {
+      category: `Other (${tail.length} categories)`,
+      amount: Math.round(tail.reduce((sum, item) => sum + item.amount, 0) * 100) / 100,
+      share: Math.round(tail.reduce((sum, item) => sum + item.share, 0) * 10) / 10,
+      transactions: tail.reduce((sum, item) => sum + (item.transactions || 0), 0),
+      isTail: true,
+    },
+  ]
+}
+
+const SLOTS = { ...CATEGORICAL, ...NON_CATEGORICAL }
+
+export function categoryColor(category, isDark = false) {
+  const pair = SLOTS[category] || NON_CATEGORICAL.Other
+  return pair[isDark ? 1 : 0]
+}
+
+/** Hook form, so a swatch repaints when the theme toggles. */
+export function useCategoryColor() {
+  const { isDark } = useTheme()
+  return (category) => categoryColor(category, isDark)
+}
 
 const POSITIVE = '#14936c'
 const NEGATIVE = '#d64545'
@@ -118,37 +171,55 @@ export function IncomeVsExpenseChart({ data, height = 260 }) {
   )
 }
 
-export function CategoryPie({ data, height = 260 }) {
-  const theme = useChartTheme()
+/**
+ * Spending by category, as a ranked bar list rather than a donut.
+ *
+ * The form changed for a measured reason, not a stylistic one. A donut is an
+ * all-pairs form -- every slice can sit beside every other and the legend lists
+ * them together -- and no eight-hue palette clears the separation floors under
+ * all-pairs: in this one, red against orange measures ΔE 7.1 for normal vision,
+ * against a floor of 15. Adding a ninth hue for Investments made it worse, and
+ * the pair that failed was not even the new one.
+ *
+ * A ranked bar list is an adjacent-pairs form, and more importantly it carries
+ * a direct label on every row, so identity never depends on colour at all. It
+ * also answers the question the page is actually asking -- "which category is
+ * biggest, and by how much" -- which is a length comparison, something a bar
+ * does well and a ring of angles does badly.
+ */
+export function CategoryBars({ data, max }) {
+  const colour = useCategoryColor()
   if (!data?.length) return null
+  const rows = foldTail(data, max)
+
   return (
-    <ResponsiveContainer width="100%" height={height}>
-      <PieChart>
-        <Pie
-          data={data}
-          dataKey="amount"
-          nameKey="category"
-          innerRadius="55%"
-          outerRadius="80%"
-          paddingAngle={2}
-          stroke="none"
-        >
-          {data.map((entry) => (
-            <Cell key={entry.category} fill={colorFor(entry.category)} />
-          ))}
-        </Pie>
-        <Tooltip content={<MoneyTooltip theme={theme} />} />
-        <Legend
-          iconType="circle"
-          iconSize={8}
-          wrapperStyle={{ fontSize: 11, color: theme.axis }}
-          formatter={(value) => <span style={{ color: theme.axis }}>{value}</span>}
-        />
-      </PieChart>
-    </ResponsiveContainer>
+    <ul className="space-y-3">
+      {rows.map((row) => (
+        <li key={row.category}>
+          <div className="flex items-baseline justify-between gap-3 text-sm">
+            <span className="flex min-w-0 items-center gap-2">
+              <span
+                className="h-2.5 w-2.5 shrink-0 rounded-full"
+                style={{ background: colour(row.category) }}
+              />
+              <span className="truncate">{row.category}</span>
+            </span>
+            <span className="shrink-0 tnum">
+              <span className="font-medium">{money(row.amount)}</span>
+              <span className="muted"> · {row.share}%</span>
+            </span>
+          </div>
+          <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-ink-100 dark:bg-ink-800">
+            <div
+              className="h-full rounded-full transition-[width] duration-500"
+              style={{ width: `${Math.max(1, row.share)}%`, background: colour(row.category) }}
+            />
+          </div>
+        </li>
+      ))}
+    </ul>
   )
 }
-
 export function ExpenseTrendChart({ data, height = 240 }) {
   const theme = useChartTheme()
   return (

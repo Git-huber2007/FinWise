@@ -36,12 +36,12 @@ export const NAV_ITEMS = [
 function Logo() {
   return (
     <div className="flex items-center gap-2.5 px-5 py-5">
-      <div className="grid h-8 w-8 place-items-center rounded-lg bg-brand-500 text-sm font-bold text-white">
+      <div className="grid h-8 w-8 place-items-center rounded-lg bg-ink-900 text-sm font-bold text-white dark:bg-ink-100 dark:text-ink-900">
         F
       </div>
       <div className="leading-none">
         <p className="text-sm font-semibold tracking-tight">FINWISE</p>
-        <p className="mt-0.5 text-[10px] font-medium tracking-[0.14em] text-brand-400">AI</p>
+        <p className="mt-0.5 text-[10px] font-medium tracking-[0.14em] muted">AI</p>
       </div>
     </div>
   )
@@ -58,9 +58,12 @@ function NavItems({ onNavigate }) {
           onClick={onNavigate}
           className={({ isActive }) =>
             `flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
+              // Weight and contrast carry "you are here", not a blue wash.
+              // A tinted pill on the active row is the single most recognisable
+              // tell of a generic dashboard template.
               isActive
-                ? 'bg-brand-500/10 font-medium text-brand-400'
-                : 'text-ink-600 hover:bg-ink-100 dark:text-ink-400 dark:hover:bg-ink-800/70'
+                ? 'bg-ink-100 font-medium text-ink-900 dark:bg-ink-800 dark:text-white'
+                : 'text-ink-600 hover:bg-ink-100/60 dark:text-ink-400 dark:hover:bg-ink-800/50'
             }`
           }
         >
@@ -108,7 +111,7 @@ function UserMenu() {
         <p className="text-xs font-medium leading-tight">{user?.name}</p>
         <p className="text-[11px] leading-tight muted">{user?.email}</p>
       </div>
-      <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-500/15 text-xs font-semibold text-brand-400">
+      <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink-100 text-xs font-semibold text-ink-600 dark:bg-ink-800 dark:text-ink-100">
         {initials}
       </div>
       <button

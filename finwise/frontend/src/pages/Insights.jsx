@@ -2,7 +2,7 @@ import { ArrowDownRight, ArrowUpRight, Lightbulb, Minus } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 import { api } from '../api'
-import { CategoryPie, colorFor } from '../components/charts'
+import { useCategoryColor } from '../components/charts'
 import {
   Card,
   CardHeader,
@@ -16,6 +16,7 @@ import { money, pct, signedPct } from '../format'
 import { InsightRow } from './Dashboard'
 
 export default function Insights() {
+  const categoryColor = useCategoryColor()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -83,17 +84,6 @@ export default function Insights() {
             )}
           </div>
         </Card>
-
-        <Card>
-          <CardHeader title="Where the money went" subtitle={data.month_label} />
-          <div className="p-3">
-            {data.category_breakdown.length ? (
-              <CategoryPie data={data.category_breakdown} height={230} />
-            ) : (
-              <EmptyState title="No expenses this month" />
-            )}
-          </div>
-        </Card>
       </div>
 
       <div className="mt-5 grid gap-5 lg:grid-cols-2">
@@ -106,7 +96,7 @@ export default function Insights() {
                   <span className="flex items-center gap-2">
                     <span
                       className="h-2.5 w-2.5 shrink-0 rounded-full"
-                      style={{ background: colorFor(item.category) }}
+                      style={{ background: categoryColor(item.category) }}
                     />
                     {item.category}
                   </span>
@@ -115,7 +105,11 @@ export default function Insights() {
                     <span className="muted"> · {pct(item.share)}</span>
                   </span>
                 </div>
-                <ProgressBar className="mt-1.5" value={item.share} tone="brand" />
+                <ProgressBar
+                  className="mt-1.5"
+                  value={item.share}
+                  color={categoryColor(item.category)}
+                />
                 <p className="mt-1 text-[11px] muted">
                   {item.transactions} transaction(s), averaging {money(item.average)}
                 </p>
@@ -191,6 +185,7 @@ export default function Insights() {
 }
 
 function ComparisonRow({ row }) {
+  const categoryColor = useCategoryColor()
   const rose = row.change > 0
   const flat = row.change === 0
   const Icon = flat ? Minus : rose ? ArrowUpRight : ArrowDownRight
@@ -201,7 +196,7 @@ function ComparisonRow({ row }) {
     <div className="flex items-center gap-3 px-5 py-3">
       <span
         className="h-7 w-1 shrink-0 rounded-full"
-        style={{ background: colorFor(row.category) }}
+        style={{ background: categoryColor(row.category) }}
       />
       <div className="min-w-0 flex-1">
         <p className="text-sm font-medium">{row.category}</p>
