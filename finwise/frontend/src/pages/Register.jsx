@@ -52,13 +52,22 @@ export default function Register() {
     >
       <form onSubmit={onSubmit} className="space-y-4" noValidate>
         <Field label="Full name" required error={fieldError('name')}>
-          <Input autoFocus required value={form.name} onChange={set('name')} placeholder="Asha Rao" />
+          <Input
+            name="name"
+            autoComplete="name"
+            autoFocus
+            required
+            value={form.name}
+            onChange={set('name')}
+            placeholder="Asha Rao"
+          />
         </Field>
 
         <Field label="Email" required error={fieldError('email')}>
           <Input
             type="email"
-            autoComplete="email"
+            name="email"
+            autoComplete="username"
             required
             value={form.email}
             onChange={set('email')}
@@ -74,6 +83,7 @@ export default function Register() {
         >
           <Input
             type="password"
+            name="password"
             autoComplete="new-password"
             required
             minLength={8}

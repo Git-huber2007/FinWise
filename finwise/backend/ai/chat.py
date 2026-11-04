@@ -246,12 +246,28 @@ def _intent(question: str) -> str:
     # "How do I reduce my spending" is a how-to-save question containing no
     # form of the word "save", so reduction verbs count on their own.
     cut_words = ("cut", "reduce", "lower", "spend less", "trim")
-    if has("save", "saving", "savings") and has("how", "more", "increase", "improve", *cut_words):
+    # "where" counts as a how-question here: "where can I save money" is asking
+    # for advice, not for a breakdown, and the where+money rule below would
+    # otherwise claim it.
+    if has("save", "saving", "savings") and has("how", "where", "more", "increase",
+                                                "improve", *cut_words):
         return "how_to_save"
     if has(*cut_words) and has(*spend_words, "money", "bills"):
         return "how_to_save"
     if has("saving", "savings", "saved"):
         return "savings_status"
+
+    # "Where did my money go?" is the most natural way to ask which category
+    # took the most, and it contains no form of the word "spend" -- so the
+    # top_category rule above, which requires one, let it fall through to
+    # "I am not sure how to answer that" while the UI was suggesting the same
+    # question in different words.
+    #
+    # It sits HERE, after the saving rules, on purpose: placed with the other
+    # spending rules it would also swallow "where can I save money", which is
+    # a how-to-save question.
+    if has("where") and has("money", "cash"):
+        return "top_category"
 
     if has(*spend_words) or (has("much") and has("money")):
         return "spend_total"

@@ -327,6 +327,15 @@ def test_chat_response_never_leaks_the_key(client, app):
     ("what is my financial health score", "health"),
     ("hello", "capabilities"),
     ("what can you do", "capabilities"),
+    # "where did my money go" -- the most natural phrasing of a question the UI
+    # itself suggests as "Where am I spending the most money?". It contains no
+    # form of "spend", so it fell through to "I am not sure how to answer that".
+    ("Where did most of my money go last month?", "top_category"),
+    ("where does my money go", "top_category"),
+    ("where is all my cash going", "top_category"),
+    # ...without swallowing the saving question that also says "where" + "money"
+    ("where can I save money", "how_to_save"),
+    ("where should I invest my money", "investing"),
 ])
 def test_intent_routing(question, expected):
     assert chat._intent(question) == expected, (

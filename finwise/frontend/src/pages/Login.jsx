@@ -75,7 +75,8 @@ export default function Login() {
         <Field label="Email" required error={error?.field === 'email' ? error.message : null}>
           <Input
             type="email"
-            autoComplete="email"
+            name="email"
+            autoComplete="username"
             autoFocus
             required
             value={form.email}
@@ -87,6 +88,7 @@ export default function Login() {
         <Field label="Password" required error={error?.field === 'password' ? error.message : null}>
           <Input
             type="password"
+            name="password"
             autoComplete="current-password"
             required
             value={form.password}
