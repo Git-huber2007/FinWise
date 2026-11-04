@@ -65,15 +65,17 @@ lines in `vite.config.js` replace an entire middleware concern.
 | `routes/goals.py` | Savings goals and progress |
 | `routes/ai.py` | categorize, analyze, financial-health, chat, predict-savings, detect-anomalies |
 | `routes/reports.py` | Monthly report JSON, PDF (reportlab), CSV (stdlib) |
+| `reporting.py` | `build_report()` plus PDF and CSV rendering. The JSON and the PDF come from one call, so a download cannot disagree with the screen |
+| `validation.py` | One `{error, field}` shape and one 400 for every endpoint |
 
 ### backend/ai/
 | File | Technique | Not magic because |
 |---|---|---|
 | `categorizer.py` | TF-IDF (word + char n-grams) → ComplementNB | Trained on `data/training_data.csv`; `predict_proba` gives the confidence shown in the UI; below threshold → `Other` |
-| `analytics.py` | Pandas groupby / month-over-month deltas | Pure arithmetic over the user's rows — no text generation |
+| `analytics.py` | Plain-Python aggregation, month-over-month deltas | Pure arithmetic over the user's rows — no text generation. Templated insight strings, never generated text |
 | `health.py` | Transparent weighted rubric, 100 points | Weights are returned to the client and rendered, so the score is auditable |
 | `anomaly.py` | Per-category median/MAD robust z-score + IsolationForest | Two independent signals; needs a minimum history or it abstains |
-| `savings.py` | LinearRegression over the monthly net-savings series | Reports R² so a meaningless fit is visible, and is labelled an estimate |
+| `savings.py` | Closed-form least-squares fit over the monthly net-savings series | Not sklearn: on one feature `LinearRegression` wraps this exact arithmetic. Only complete months are fitted, and a fit below r²=0.3 is discarded for the average rather than projected |
 | `chat.py` | Gemini with the user's real aggregates injected; rule-based intent engine on failure | The system prompt forbids inventing transactions; the fallback answers from the same aggregates |
 
 ### frontend/src/
@@ -109,6 +111,12 @@ ai_category · ai_confidence · was_corrected
 target_date · status
 
 `financial_insights` — id · **user_id FK** · kind · title · body · severity · created_at
+
+> **Currently unused by the application.** Insights are generated on demand from
+> the user's rows by `ai/analytics.py` and are not persisted, so this table holds
+> zero rows. It is part of the specified schema and its cascade behaviour is
+> tested; giving the Insights page history would be the reason to start writing
+> to it.
 
 `user_preferences` — id · **user_id FK** (unique) · theme · currency · alerts_enabled
 
