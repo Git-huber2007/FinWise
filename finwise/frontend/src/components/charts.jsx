@@ -112,18 +112,18 @@ export function useCategoryColor() {
   return (category) => categoryColor(category, isDark)
 }
 
-const POSITIVE = '#14936c'
-const NEGATIVE = '#d64545'
-const BRAND = '#3b6fe0'
+const POSITIVE = '#10B981'
+const NEGATIVE = '#F43F5E'
+const BRAND = '#6366F1'
 
 function useChartTheme() {
   const { isDark } = useTheme()
   return {
-    axis: isDark ? '#8b93a3' : '#4c5361',
-    grid: isDark ? '#232834' : '#eceef2',
-    tooltipBg: isDark ? '#161a22' : '#ffffff',
-    tooltipBorder: isDark ? '#232834' : '#dcdfe6',
-    tooltipText: isDark ? '#eceef2' : '#232834',
+    axis: isDark ? '#94A3B8' : '#64748B',
+    grid: isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.05)',
+    tooltipBg: isDark ? 'rgba(14, 21, 38, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+    tooltipBorder: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(226, 232, 240, 0.9)',
+    tooltipText: isDark ? '#F8FAFC' : '#0F172A',
   }
 }
 
@@ -132,7 +132,7 @@ function MoneyTooltip({ active, payload, label, theme }) {
   if (!active || !payload?.length) return null
   return (
     <div
-      className="rounded-lg border px-3 py-2 text-xs shadow-pop"
+      className="rounded-xl border px-3.5 py-2.5 text-xs shadow-2xl backdrop-blur-xl"
       style={{ background: theme.tooltipBg, borderColor: theme.tooltipBorder, color: theme.tooltipText }}
     >
       {label && <p className="mb-1 font-medium">{label}</p>}
@@ -164,8 +164,8 @@ export function IncomeVsExpenseChart({ data, height = 260 }) {
         <YAxis tickFormatter={moneyCompact} {...axisProps(theme)} width={56} />
         <Tooltip content={<MoneyTooltip theme={theme} />} cursor={{ fill: theme.grid, opacity: 0.4 }} />
         <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: theme.axis }} />
-        <Bar dataKey="income" name="Income" fill={POSITIVE} radius={[4, 4, 0, 0]} maxBarSize={28} />
-        <Bar dataKey="expense" name="Expenses" fill={NEGATIVE} radius={[4, 4, 0, 0]} maxBarSize={28} />
+        <Bar dataKey="income" name="Income" fill={POSITIVE} radius={[6, 6, 0, 0]} maxBarSize={28} />
+        <Bar dataKey="expense" name="Expenses" fill={NEGATIVE} radius={[6, 6, 0, 0]} maxBarSize={28} />
       </BarChart>
     </ResponsiveContainer>
   )

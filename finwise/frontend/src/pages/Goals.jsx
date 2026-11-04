@@ -87,7 +87,7 @@ export default function Goals() {
     <>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold tracking-tight">Savings Goals</h1>
+          <h1 className="display text-2xl">Savings Goals</h1>
           <p className="mt-1 text-sm muted">
             What you are saving for, and when your own savings rate would get you there
           </p>

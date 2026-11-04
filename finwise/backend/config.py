@@ -29,7 +29,10 @@ class Config:
     PERMANENT_SESSION_LIFETIME = 60 * 60 * 24 * 7  # one week
 
     # ---- database -------------------------------------------------------
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or f"sqlite:///{BASE_DIR / 'finwise.db'}"
+    _db_url = os.environ.get("DATABASE_URL")
+    if _db_url and _db_url.startswith("postgres://"):
+        _db_url = _db_url.replace("postgres://", "postgresql://", 1)
+    SQLALCHEMY_DATABASE_URI = _db_url or f"sqlite:///{BASE_DIR / 'finwise.db'}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {"pool_pre_ping": True}
 

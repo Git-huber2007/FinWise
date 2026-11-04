@@ -43,7 +43,7 @@ export default function Insights() {
   if (!data?.has_data) {
     return (
       <>
-        <PageHeader title="AI Insights" subtitle="Patterns found in your own transactions" />
+        <PageHeader title="Spending Insights" subtitle="Patterns found in your own transactions" />
         <Card>
           <EmptyState
             icon={Lightbulb}
@@ -58,7 +58,7 @@ export default function Insights() {
   return (
     <>
       <PageHeader
-        title="AI Insights"
+        title="Spending Insights"
         subtitle={`${data.month_label} — every figure below is arithmetic on your transactions`}
       />
 

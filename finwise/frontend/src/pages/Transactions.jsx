@@ -276,7 +276,7 @@ export default function Transactions() {
 function SummaryTile({ label, value, tone = '', raw = false }) {
   return (
     <Card className="px-4 py-3">
-      <p className="text-[11px] uppercase tracking-wide muted">{label}</p>
+      <p className="text-xs muted">{label}</p>
       <p className={`mt-1 text-lg font-semibold tnum ${tone}`}>{raw ? value : money(value)}</p>
     </Card>
   )
@@ -287,7 +287,7 @@ function TransactionTable({ rows, onEdit, onDelete }) {
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-ink-200 text-left text-[11px] uppercase tracking-wide muted dark:border-ink-800">
+          <tr className="border-b border-ink-200 text-left text-xs muted dark:border-ink-800">
             <th className="px-4 py-2.5 font-medium">Date</th>
             <th className="px-4 py-2.5 font-medium">Description</th>
             <th className="px-4 py-2.5 font-medium">Category</th>

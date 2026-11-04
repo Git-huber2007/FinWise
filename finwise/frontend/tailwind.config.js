@@ -5,23 +5,62 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Single source of truth for the fintech palette. Surfaces are neutral
-        // so the data colours below are the only saturated thing on screen.
-        brand:   { 50:'#eef4ff', 100:'#d9e6ff', 400:'#6b93f5', 500:'#3b6fe0', 600:'#2a55b8', 700:'#203f8a' },
-        ink:     { 0:'#ffffff', 50:'#f7f8fa', 100:'#eceef2', 200:'#dcdfe6', 400:'#8b93a3', 600:'#4c5361', 800:'#232834', 900:'#161a22', 950:'#0e1116' },
-        pos:     '#14936c',
-        neg:     '#d64545',
-        warn:    '#c98a1b',
+        // High-craft fintech palette inspired by Stripe & Mercury (neutral-first, restrained)
+        brand: {
+          50: '#F0F5FF',
+          100: '#E1ECFE',
+          200: '#C7DCFE',
+          300: '#A4C6FC',
+          400: '#6FA4F8',
+          500: '#2563EB', // Clean Institutional Blue
+          600: '#1D4ED8',
+          700: '#1E40AF',
+          800: '#1E3A8A',
+          900: '#172554',
+        },
+        ink: {
+          0: '#FFFFFF',
+          50: '#F9FAFB',
+          100: '#F3F4F6',
+          200: '#E5E7EB',
+          300: '#D1D5DB',
+          400: '#9CA3AF',
+          500: '#6B7280',
+          600: '#4B5563',
+          700: '#374151',
+          800: '#1F2937',
+          850: '#171E2B',
+          900: '#111827',
+          950: '#0B0F17',
+        },
+        surface: {
+          light: '#FFFFFF',
+          dark: '#14171F',
+          darker: '#0D0E12',
+          borderLight: '#E5E7EB',
+          borderDark: '#222634',
+        },
+        pos: '#059669', // Clean Forest Emerald (not neon)
+        neg: '#E11D48', // Clean Crimson Rose
+        warn: '#D97706', // Clean Amber
       },
       fontFamily: {
-        sans: ['Inter', 'Segoe UI', 'system-ui', 'sans-serif'],
-        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
-        card: '0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06)',
-        pop:  '0 8px 24px rgba(16,24,40,.10)',
+        subtle: '0 1px 2px 0 rgba(0, 0, 0, 0.04)',
+        card: '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)',
+        pop: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
       },
-      borderRadius: { card: '14px' },
+      borderRadius: {
+        sm: '6px',
+        md: '8px',
+        lg: '10px',
+        xl: '12px',
+        card: '14px',
+      },
     },
   },
   plugins: [],

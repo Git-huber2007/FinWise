@@ -76,7 +76,7 @@ export default function Reports() {
     <>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold tracking-tight">Reports</h1>
+          <h1 className="display text-2xl">Reports</h1>
           <p className="mt-1 text-sm muted">
             A monthly summary you can keep, built from your recorded transactions
           </p>
@@ -330,7 +330,7 @@ function SummaryCell({ label, value, before, invert = false, isPercent = false }
 
   return (
     <div className="bg-white p-4 dark:bg-ink-900">
-      <p className="text-[11px] font-medium uppercase tracking-wide muted">{label}</p>
+      <p className="text-xs font-medium muted">{label}</p>
       <p className="mt-1 text-lg font-semibold tnum">{shown}</p>
       {delta !== null && (
         <p

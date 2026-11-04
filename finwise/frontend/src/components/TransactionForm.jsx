@@ -270,7 +270,7 @@ function AiSuggestion({ suggestion, predicting, chosen, onAccept }) {
     return (
       <p className="flex items-center gap-1.5 text-xs text-pos">
         <Check size={13} />
-        AI suggested <span className="font-medium">{suggestion.category}</span>
+        Auto-categorized as <span className="font-medium">{suggestion.category}</span>
         <Badge tone="positive">{pct}% confident</Badge>
       </p>
     )
@@ -288,7 +288,7 @@ function AiSuggestion({ suggestion, predicting, chosen, onAccept }) {
     <div className="space-y-1.5">
       <p className="flex items-center gap-1.5 text-xs muted">
         <Sparkles size={13} />
-        AI suggests:
+        Suggested categories:
       </p>
       <div className="flex flex-wrap gap-1.5">
         {others.map((alt) => (

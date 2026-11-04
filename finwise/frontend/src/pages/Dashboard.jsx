@@ -1,6 +1,7 @@
 import {
   AlertTriangle,
   ArrowRight,
+  ArrowUpRight,
   Info,
   Lightbulb,
   Receipt,
@@ -55,23 +56,23 @@ export default function Dashboard() {
     load()
   }, [load])
 
-  if (loading && !data) return <Spinner label="Building your dashboard" />
+  if (loading && !data) return <Spinner label="Loading overview" />
   if (error) return <ErrorState error={error} onRetry={load} />
 
   if (!data?.has_data) {
     return (
       <>
-        <PageHeader title="Dashboard" subtitle="Your financial position at a glance" />
+        <PageHeader title="Overview" subtitle="Your financial summary at a glance" />
         <Card>
           <EmptyState
             icon={Receipt}
-            title="Nothing to show yet"
-            body="Add your income and a few expenses, and every figure on this page will be computed from them."
+            title="No transactions recorded"
+            body="Record income or expenses to see your cash flow, budget utilisation, and savings rate computed from them."
             action={
               <Link to="/transactions">
                 <Button size="sm">
                   Add transactions
-                  <ArrowRight size={15} />
+                  <ArrowRight size={14} />
                 </Button>
               </Link>
             }
@@ -82,31 +83,23 @@ export default function Dashboard() {
   }
 
   const { totals, previous, budget, monthly_series: series } = data
-
-  // The current month is only partly elapsed, so its totals are month-to-date.
-  // Saying so stops "96% savings rate on the 4th" from looking like a bug.
   const isCurrentMonth = data.month === new Date().toISOString().slice(0, 7)
 
   return (
     <>
       <PageHeader
-        title="Dashboard"
+        title="Overview"
         subtitle={
           isCurrentMonth
-            ? `${data.month_label} so far — month-to-date figures from your transactions`
-            : `Figures for ${data.month_label}, computed from your transactions`
+            ? `${data.month_label} to date — figures computed from your transactions`
+            : `Monthly figures for ${data.month_label}`
         }
       />
 
-      {/* Above the tiles on purpose: something that needs the user's
-          confirmation should not be below four screens of charts. */}
+      {/* Critical Anomaly Alerts */}
       <AnomalyAlerts anomalies={data.anomalies} compact />
 
-      {/* The answer first.
-          This page used to open with eight equal-weight tiles and a decorative
-          icon on each, which left the user to work out for themselves whether
-          the month was going well. Hierarchy is the fix: one hero figure that
-          answers the question, a dense supporting strip, then the detail. */}
+      {/* Hero Financial Summary */}
       <Hero
         totals={totals}
         previous={previous}
@@ -115,77 +108,102 @@ export default function Dashboard() {
         isCurrentMonth={isCurrentMonth}
       />
 
+      {/* 4 Clean Metric Cards */}
       <MetricStrip>
-        <Metric label="Income" value={money(totals.income)} tone="text-pos" />
-        <Metric label="Expenses" value={money(totals.expense)} tone="text-neg" />
         <Metric
-          label="Budget used"
-          value={budget.used_pct !== null && budget.used_pct !== undefined
-            ? pct(budget.used_pct) : '—'}
-          note={budget.limit ? `${money(budget.spent)} of ${money(budget.limit)}`
-                             : 'No overall budget set'}
+          label="Total Income"
+          value={money(totals.income)}
+          tone="text-pos"
+          note="Received this month"
+        />
+        <Metric
+          label="Total Expenses"
+          value={money(totals.expense)}
+          tone="text-neg"
+          note={`${totals.transactions} transactions`}
+        />
+        <Metric
+          label="Budget Used"
+          value={
+            budget.used_pct !== null && budget.used_pct !== undefined
+              ? pct(budget.used_pct)
+              : '—'
+          }
+          note={
+            budget.limit
+              ? `${money(budget.spent)} of ${money(budget.limit)}`
+              : 'No overall limit set'
+          }
           progress={budget.used_pct}
         />
         <Metric
-          label="Financial health"
+          label="Financial Health"
           value={`${data.health_score}`}
           unit="/ 100"
           note={data.health_band}
-          badge={data.health_provisional ? 'provisional' : null}
+          badge={data.health_provisional ? 'Provisional' : null}
           to="/health"
-          tone={data.health_score >= 65 ? 'text-pos'
-               : data.health_score >= 50 ? 'text-warn' : 'text-neg'}
+          tone={
+            data.health_score >= 65
+              ? 'text-pos'
+              : data.health_score >= 50
+              ? 'text-warn'
+              : 'text-neg'
+          }
         />
       </MetricStrip>
 
-      <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1 text-xs muted">
+      {/* Summary metadata line */}
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 px-1 text-xs muted">
         <span>
-          <span className="tnum text-ink-600 dark:text-ink-100">{totals.transactions}</span>{' '}
+          <strong className="text-ink-800 dark:text-ink-200 font-medium tnum">
+            {totals.transactions}
+          </strong>{' '}
           transactions recorded
         </span>
         {data.category_breakdown[0] && (
           <span>
-            Biggest category{' '}
-            <span className="text-ink-600 dark:text-ink-100">
+            Largest expense:{' '}
+            <strong className="text-ink-800 dark:text-ink-200 font-medium">
               {data.category_breakdown[0].category}
-            </span>{' '}
+            </strong>{' '}
             <span className="tnum">
-              {money(data.category_breakdown[0].amount)} ({pct(data.category_breakdown[0].share)})
+              ({money(data.category_breakdown[0].amount)} · {pct(data.category_breakdown[0].share)})
             </span>
           </span>
         )}
       </div>
 
-      {/* --- charts --- */}
-      <div className="mt-8 grid gap-5 lg:grid-cols-2">
+      {/* Charts Grid */}
+      <div className="mt-7 grid gap-5 lg:grid-cols-2">
         <Card>
-          <CardHeader title="Income vs expenses" subtitle="Last 12 recorded months" />
-          <div className="p-3">
+          <CardHeader title="Income vs Expenses" subtitle="12-month historical cash flow" />
+          <div className="p-4 sm:p-5">
             <IncomeVsExpenseChart data={series} />
           </div>
         </Card>
 
         <Card className="self-start">
-          <CardHeader title="Spending breakdown" subtitle={data.month_label} />
-          <div className="px-5 pb-5">
+          <CardHeader title="Spending by Category" subtitle={data.month_label} />
+          <div className="p-5">
             {data.category_breakdown.length ? (
               <CategoryBars data={data.category_breakdown} />
             ) : (
-              <EmptyState icon={Receipt} title="No expenses this month" />
+              <EmptyState icon={Receipt} title="No expenses recorded this month" />
             )}
           </div>
         </Card>
 
         <Card>
-          <CardHeader title="Monthly expense trend" subtitle="How spending is moving" />
-          <div className="p-3">
+          <CardHeader title="Expense Trajectory" subtitle="Month-over-month spending trend" />
+          <div className="p-4 sm:p-5">
             <ExpenseTrendChart data={series} />
           </div>
         </Card>
 
         <Card>
-          <CardHeader title="Savings growth" subtitle="Cumulative across recorded months" />
-          <div className="p-3">
+          <CardHeader title="Cumulative Savings" subtitle="Net retained across recorded months" />
+          <div className="p-4 sm:p-5">
             <SavingsGrowthChart data={series} />
           </div>
         </Card>
@@ -193,68 +211,85 @@ export default function Dashboard() {
         {data.budget_alerts.length > 0 && (
           <Card className="lg:col-span-2">
             <CardHeader
-              title="Budget utilisation"
-              subtitle="Spent against planned, this month"
+              title="Budget Utilisation"
+              subtitle="Spent vs limit for active categories this month"
               action={
-                <Link to="/budget" className="text-xs text-brand-400 hover:underline">
-                  Manage budgets
+                <Link
+                  to="/budget"
+                  className="text-xs font-medium text-brand-500 hover:underline"
+                >
+                  Manage budgets →
                 </Link>
               }
             />
-            <div className="p-3">
+            <div className="p-5">
               <BudgetUtilisationChart alerts={data.budget_alerts} />
             </div>
           </Card>
         )}
       </div>
 
-      {/* --- feed --- */}
-      <div className="mt-5 grid gap-5 lg:grid-cols-2">
+      {/* Insights & Recent Ledger Entries */}
+      <div className="mt-6 grid gap-5 lg:grid-cols-2">
         <Card>
           <CardHeader
-            title="AI insights"
-            subtitle="Derived from your own transactions"
+            title="Spending Insights"
+            subtitle="Derived mathematically from your transactions"
             action={
-              <Link to="/insights" className="text-xs text-brand-400 hover:underline">
-                See all
+              <Link
+                to="/insights"
+                className="text-xs font-medium text-brand-500 hover:underline"
+              >
+                See all →
               </Link>
             }
           />
-          <div className="divide-y divide-ink-100 dark:divide-ink-800/60">
+          <div className="divide-y divide-ink-100 dark:divide-[#222634]">
             {data.insights.length ? (
               data.insights.map((insight, index) => <InsightRow key={index} insight={insight} />)
             ) : (
-              <EmptyState icon={Lightbulb} title="No notable patterns yet"
-                body="Insights appear once there is enough history to compare against." />
+              <EmptyState
+                icon={Lightbulb}
+                title="No notable patterns"
+                body="Patterns appear once enough history is established to compare against."
+              />
             )}
           </div>
         </Card>
 
         <Card>
           <CardHeader
-            title="Recent transactions"
+            title="Recent Transactions"
             action={
-              <Link to="/transactions" className="text-xs text-brand-400 hover:underline">
-                View all
+              <Link
+                to="/transactions"
+                className="text-xs font-medium text-brand-500 hover:underline"
+              >
+                View all →
               </Link>
             }
           />
-          <div className="divide-y divide-ink-100 dark:divide-ink-800/60">
+          <div className="divide-y divide-ink-100 dark:divide-[#222634]">
             {data.recent_transactions.map((row) => (
-              <div key={row.id} className="flex items-center gap-3 px-5 py-3">
+              <div
+                key={row.id}
+                className="flex items-center gap-3 px-5 py-3 hover:bg-ink-50/60 dark:hover:bg-white/[0.02] transition-colors"
+              >
                 <span
-                  className="h-7 w-1 shrink-0 rounded-full"
+                  className="h-6 w-1 shrink-0 rounded-full"
                   style={{ background: categoryColor(row.category) }}
                 />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium">{row.description}</p>
+                  <p className="truncate text-sm font-medium text-ink-900 dark:text-ink-100">
+                    {row.description}
+                  </p>
                   <p className="text-[11px] muted">
                     {shortDate(row.date)} · {row.category}
                   </p>
                 </div>
                 <span
                   className={`shrink-0 text-sm font-semibold tnum ${
-                    row.txn_type === 'income' ? 'text-pos' : ''
+                    row.txn_type === 'income' ? 'text-pos' : 'text-ink-800 dark:text-ink-200'
                   }`}
                 >
                   {row.txn_type === 'income' ? '+' : '−'}
@@ -269,14 +304,6 @@ export default function Dashboard() {
   )
 }
 
-/**
- * The one figure the page exists to deliver, stated in words as well as digits.
- *
- * Borderless on a tinted ground rather than in a card: the hero should not
- * compete with the detail below it for the same visual treatment. The sentence
- * matters as much as the number — "₹49,972" alone does not tell anyone whether
- * their month is going well.
- */
 function Hero({ totals, previous, month, monthLabel, isCurrentMonth }) {
   const positive = totals.savings >= 0
   const change =
@@ -284,60 +311,71 @@ function Hero({ totals, previous, month, monthLabel, isCurrentMonth }) {
       ? ((totals.savings - previous.savings) / Math.abs(previous.savings)) * 100
       : null
 
-  // Day X of Y, computed rather than assumed, so a part month says so plainly.
   const [year, monthNumber] = month.split('-').map(Number)
   const daysInMonth = new Date(year, monthNumber, 0).getDate()
   const elapsed = isCurrentMonth ? new Date().getDate() : daysInMonth
 
   return (
-    <section className="rounded-card bg-ink-100/70 p-5 sm:p-6 dark:bg-ink-900/60">
-      <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-4">
-        <div className="min-w-0">
-          <p className="text-[11px] font-medium uppercase tracking-wider muted">
-            {positive ? 'Kept' : 'Overspent'} in {monthLabel}
+    <section className="card-hero p-6 sm:p-7">
+      <div className="flex flex-wrap items-start justify-between gap-6">
+        <div className="min-w-0 max-w-2xl">
+          <p className="text-xs font-medium uppercase tracking-wider muted">
+            {positive ? 'Net Savings' : 'Net Overspend'} · {monthLabel}
           </p>
+
           <p
-            className={`mt-1 text-4xl font-semibold leading-none tnum sm:text-5xl ${
+            className={`display-xl mt-2 text-4xl sm:text-5xl tnum ${
               positive ? 'text-pos' : 'text-neg'
             }`}
           >
             {money(Math.abs(totals.savings))}
           </p>
 
-          <p className="mt-3 max-w-prose text-sm leading-relaxed text-ink-600 dark:text-ink-100">
+          <p className="mt-3 text-sm leading-relaxed text-ink-700 dark:text-ink-200">
             {totals.income > 0 ? (
               <>
-                You kept{' '}
-                <span className="font-medium tnum">{pct(totals.savings_rate)}</span> of{' '}
-                <span className="tnum">{money(totals.income)}</span> income, spending{' '}
-                <span className="tnum">{money(totals.expense)}</span>.
+                You saved{' '}
+                <span className="font-semibold text-ink-900 dark:text-white tnum">
+                  {pct(totals.savings_rate)}
+                </span>{' '}
+                of your{' '}
+                <span className="font-medium text-ink-900 dark:text-white tnum">
+                  {money(totals.income)}
+                </span>{' '}
+                income, spending{' '}
+                <span className="font-medium text-ink-900 dark:text-white tnum">
+                  {money(totals.expense)}
+                </span>
+                .
               </>
             ) : (
               <>
                 No income recorded in {monthLabel}, against{' '}
-                <span className="tnum">{money(totals.expense)}</span> of spending.
+                <span className="font-medium text-ink-900 dark:text-white tnum">
+                  {money(totals.expense)}
+                </span>{' '}
+                expenses.
               </>
             )}{' '}
             {isCurrentMonth && (
-              <span className="muted">
-                Day {elapsed} of {daysInMonth} — bills due later in the month are not in
-                this figure yet.
+              <span className="block mt-1 text-xs muted font-normal">
+                Day {elapsed} of {daysInMonth} — upcoming month-end expenses are not included yet.
               </span>
             )}
           </p>
 
           {change !== null && Math.abs(change) >= 0.1 && (
-            <p className="mt-3 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-xs dark:bg-ink-950">
+            <div className="mt-3.5 inline-flex items-center gap-1.5 rounded-md border border-ink-200 bg-ink-50 px-2.5 py-1 text-xs font-medium dark:border-ink-700 dark:bg-ink-800">
               {change > 0 ? (
                 <TrendingUp size={13} className="text-pos" />
               ) : (
                 <TrendingDown size={13} className="text-neg" />
               )}
-              <span className={`tnum ${change > 0 ? 'text-pos' : 'text-neg'}`}>
+              <span className={`tnum font-semibold ${change > 0 ? 'text-pos' : 'text-neg'}`}>
                 {pct(Math.abs(change))}
               </span>
-              <span className="muted">vs last month</span>
-            </p>
+              <span className="muted font-normal">vs last month</span>
+            </div>
           )}
         </div>
       </div>
@@ -345,27 +383,27 @@ function Hero({ totals, previous, month, monthLabel, isCurrentMonth }) {
   )
 }
 
-/** Four supporting figures as one bordered band divided by hairlines. */
 function MetricStrip({ children }) {
   return (
-    <div className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-ink-200 bg-ink-200 lg:grid-cols-4 dark:border-ink-800 dark:bg-ink-800">
+    <div className="mt-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
       {children}
     </div>
   )
 }
 
 function Metric({ label, value, unit, note, tone, progress, badge, to }) {
-  const body = (
-    <>
-      <p className="text-[11px] font-medium uppercase tracking-wider muted">{label}</p>
-      <p className={`mt-1.5 text-lg font-semibold tnum ${tone || ''}`}>
-        {value}
-        {unit && <span className="ml-1 text-xs font-normal muted">{unit}</span>}
-      </p>
-      {/* mt-auto so cells with a note and a bar do not leave the plainer ones
-          looking half-empty beside them. */}
-      <div className="mt-auto pt-2">
-        <div className="flex flex-wrap items-center gap-1.5">
+  const content = (
+    <div className="flex h-full flex-col justify-between">
+      <div>
+        <p className="text-xs font-medium muted">{label}</p>
+        <p className={`mt-1.5 text-xl font-bold tnum ${tone || 'text-ink-900 dark:text-white'}`}>
+          {value}
+          {unit && <span className="ml-1 text-xs font-normal muted">{unit}</span>}
+        </p>
+      </div>
+
+      <div className="mt-3 pt-2">
+        <div className="flex flex-wrap items-center justify-between gap-1">
           {note && <span className="text-[11px] muted">{note}</span>}
           {badge && <Badge tone="warning">{badge}</Badge>}
         </div>
@@ -377,19 +415,18 @@ function Metric({ label, value, unit, note, tone, progress, badge, to }) {
           />
         )}
       </div>
-    </>
+    </div>
   )
 
-  const className =
-    'flex flex-col bg-white p-4 transition-colors dark:bg-ink-900' +
-    (to ? ' hover:bg-ink-50 dark:hover:bg-ink-800/60' : '')
-
   return to ? (
-    <Link to={to} className={`block ${className}`}>
-      {body}
+    <Link
+      to={to}
+      className="card p-4 hover:border-ink-300 dark:hover:border-ink-600 transition-colors block"
+    >
+      {content}
     </Link>
   ) : (
-    <div className={className}>{body}</div>
+    <div className="card p-4">{content}</div>
   )
 }
 
@@ -397,15 +434,20 @@ export function InsightRow({ insight }) {
   const tones = {
     critical: { icon: AlertTriangle, cls: 'text-neg', badge: 'negative' },
     warning: { icon: AlertTriangle, cls: 'text-warn', badge: 'warning' },
-    info: { icon: Info, cls: 'text-brand-400', badge: 'brand' },
+    info: { icon: Info, cls: 'text-brand-500', badge: 'brand' },
   }
-  const { icon: Icon, cls } = tones[insight.severity] || tones.info
+  const { icon: Icon, cls, badge } = tones[insight.severity] || tones.info
 
   return (
-    <div className="flex gap-3 px-5 py-3.5">
+    <div className="flex gap-3 px-5 py-3.5 hover:bg-ink-50/50 dark:hover:bg-white/[0.02] transition-colors">
       <Icon size={15} className={`mt-0.5 shrink-0 ${cls}`} />
-      <div className="min-w-0">
-        <p className="text-sm font-medium">{insight.title}</p>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium text-ink-900 dark:text-white">{insight.title}</p>
+          <Badge tone={badge} className="text-[10px] py-0 px-1.5">
+            {insight.severity}
+          </Badge>
+        </div>
         <p className="mt-0.5 text-xs leading-relaxed muted">{insight.body}</p>
       </div>
     </div>
