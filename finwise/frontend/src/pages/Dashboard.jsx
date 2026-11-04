@@ -3,12 +3,9 @@ import {
   ArrowRight,
   Info,
   Lightbulb,
-  PiggyBank,
   Receipt,
-  Stethoscope,
   TrendingDown,
   TrendingUp,
-  Wallet,
 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -23,7 +20,6 @@ import {
   colorFor,
 } from '../components/charts'
 import AnomalyAlerts from '../components/AnomalyAlerts'
-import StatCard from '../components/StatCard'
 import {
   Badge,
   Button,
@@ -105,78 +101,62 @@ export default function Dashboard() {
           confirmation should not be below four screens of charts. */}
       <AnomalyAlerts anomalies={data.anomalies} compact />
 
-      {/* --- the ten headline figures --- */}
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <StatCard
-          label="Monthly income"
-          value={totals.income}
-          previous={previous?.income}
-          goodDirection="up"
-          tone="text-pos"
-          icon={TrendingUp}
-        />
-        <StatCard
-          label="Monthly expenses"
-          value={totals.expense}
-          previous={previous?.expense}
-          goodDirection="down"
-          tone="text-neg"
-          icon={TrendingDown}
-        />
-        <StatCard
-          label="Current savings"
-          value={totals.savings}
-          previous={previous?.savings}
-          goodDirection="up"
-          tone={totals.savings >= 0 ? 'text-pos' : 'text-neg'}
-          icon={PiggyBank}
-        />
-        <StatCard
-          label="Savings rate"
-          value={totals.savings_rate}
-          format="pct"
-          hint={totals.savings_rate === null ? 'No income recorded this month' : 'Share of income kept'}
-          icon={PiggyBank}
-        />
-        <StatCard
-          label="Budget utilisation"
-          value={budget.used_pct}
-          format="pct"
+      {/* The answer first.
+          This page used to open with eight equal-weight tiles and a decorative
+          icon on each, which left the user to work out for themselves whether
+          the month was going well. Hierarchy is the fix: one hero figure that
+          answers the question, a dense supporting strip, then the detail. */}
+      <Hero
+        totals={totals}
+        previous={previous}
+        month={data.month}
+        monthLabel={data.month_label}
+        isCurrentMonth={isCurrentMonth}
+      />
+
+      <MetricStrip>
+        <Metric label="Income" value={money(totals.income)} tone="text-pos" />
+        <Metric label="Expenses" value={money(totals.expense)} tone="text-neg" />
+        <Metric
+          label="Budget used"
+          value={budget.used_pct !== null && budget.used_pct !== undefined
+            ? pct(budget.used_pct) : '—'}
+          note={budget.limit ? `${money(budget.spent)} of ${money(budget.limit)}`
+                             : 'No overall budget set'}
           progress={budget.used_pct}
-          hint={
-            budget.limit
-              ? `${money(budget.spent)} of ${money(budget.limit)}`
-              : 'No overall budget set'
-          }
-          icon={Wallet}
         />
-        <HealthTile
-          score={data.health_score}
-          band={data.health_band}
-          provisional={data.health_provisional}
+        <Metric
+          label="Financial health"
+          value={`${data.health_score}`}
+          unit="/ 100"
+          note={data.health_band}
+          badge={data.health_provisional ? 'provisional' : null}
+          to="/health"
+          tone={data.health_score >= 65 ? 'text-pos'
+               : data.health_score >= 50 ? 'text-warn' : 'text-neg'}
         />
-        <StatCard
-          label="Transactions"
-          value={totals.transactions}
-          format="raw"
-          hint={`Recorded in ${data.month_label}`}
-          icon={Receipt}
-        />
-        <StatCard
-          label="Top category"
-          value={data.category_breakdown[0]?.category ?? '—'}
-          format="raw"
-          hint={
-            data.category_breakdown[0]
-              ? `${money(data.category_breakdown[0].amount)} · ${pct(data.category_breakdown[0].share)} of spending`
-              : 'No expenses yet'
-          }
-          icon={Lightbulb}
-        />
+      </MetricStrip>
+
+      <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1 text-xs muted">
+        <span>
+          <span className="tnum text-ink-600 dark:text-ink-100">{totals.transactions}</span>{' '}
+          transactions recorded
+        </span>
+        {data.category_breakdown[0] && (
+          <span>
+            Biggest category{' '}
+            <span className="text-ink-600 dark:text-ink-100">
+              {data.category_breakdown[0].category}
+            </span>{' '}
+            <span className="tnum">
+              {money(data.category_breakdown[0].amount)} ({pct(data.category_breakdown[0].share)})
+            </span>
+          </span>
+        )}
       </div>
 
       {/* --- charts --- */}
-      <div className="mt-5 grid gap-5 lg:grid-cols-2">
+      <div className="mt-8 grid gap-5 lg:grid-cols-2">
         <Card>
           <CardHeader title="Income vs expenses" subtitle="Last 12 recorded months" />
           <div className="p-3">
@@ -288,33 +268,127 @@ export default function Dashboard() {
   )
 }
 
-function HealthTile({ score, band, provisional }) {
-  const tone = score >= 65 ? 'text-pos' : score >= 50 ? 'text-warn' : 'text-neg'
+/**
+ * The one figure the page exists to deliver, stated in words as well as digits.
+ *
+ * Borderless on a tinted ground rather than in a card: the hero should not
+ * compete with the detail below it for the same visual treatment. The sentence
+ * matters as much as the number — "₹49,972" alone does not tell anyone whether
+ * their month is going well.
+ */
+function Hero({ totals, previous, month, monthLabel, isCurrentMonth }) {
+  const positive = totals.savings >= 0
+  const change =
+    previous && previous.savings
+      ? ((totals.savings - previous.savings) / Math.abs(previous.savings)) * 100
+      : null
+
+  // Day X of Y, computed rather than assumed, so a part month says so plainly.
+  const [year, monthNumber] = month.split('-').map(Number)
+  const daysInMonth = new Date(year, monthNumber, 0).getDate()
+  const elapsed = isCurrentMonth ? new Date().getDate() : daysInMonth
+
   return (
-    <Card className="p-4">
-      <div className="flex items-start justify-between gap-2">
-        <p className="text-[11px] font-medium uppercase tracking-wide muted">
-          Financial health
-        </p>
-        <Stethoscope size={15} className="shrink-0 muted" />
+    <section className="rounded-card bg-ink-100/70 p-5 sm:p-6 dark:bg-ink-900/60">
+      <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-4">
+        <div className="min-w-0">
+          <p className="text-[11px] font-medium uppercase tracking-wider muted">
+            {positive ? 'Kept' : 'Overspent'} in {monthLabel}
+          </p>
+          <p
+            className={`mt-1 text-4xl font-semibold leading-none tnum sm:text-5xl ${
+              positive ? 'text-pos' : 'text-neg'
+            }`}
+          >
+            {money(Math.abs(totals.savings))}
+          </p>
+
+          <p className="mt-3 max-w-prose text-sm leading-relaxed text-ink-600 dark:text-ink-100">
+            {totals.income > 0 ? (
+              <>
+                You kept{' '}
+                <span className="font-medium tnum">{pct(totals.savings_rate)}</span> of{' '}
+                <span className="tnum">{money(totals.income)}</span> income, spending{' '}
+                <span className="tnum">{money(totals.expense)}</span>.
+              </>
+            ) : (
+              <>
+                No income recorded in {monthLabel}, against{' '}
+                <span className="tnum">{money(totals.expense)}</span> of spending.
+              </>
+            )}{' '}
+            {isCurrentMonth && (
+              <span className="muted">
+                Day {elapsed} of {daysInMonth} — bills due later in the month are not in
+                this figure yet.
+              </span>
+            )}
+          </p>
+
+          {change !== null && Math.abs(change) >= 0.1 && (
+            <p className="mt-3 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-xs dark:bg-ink-950">
+              {change > 0 ? (
+                <TrendingUp size={13} className="text-pos" />
+              ) : (
+                <TrendingDown size={13} className="text-neg" />
+              )}
+              <span className={`tnum ${change > 0 ? 'text-pos' : 'text-neg'}`}>
+                {pct(Math.abs(change))}
+              </span>
+              <span className="muted">vs last month</span>
+            </p>
+          )}
+        </div>
       </div>
-      <p className={`mt-1.5 text-xl font-semibold tnum ${tone}`}>
-        {score}
-        <span className="text-sm font-normal muted"> / 100</span>
+    </section>
+  )
+}
+
+/** Four supporting figures as one bordered band divided by hairlines. */
+function MetricStrip({ children }) {
+  return (
+    <div className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-ink-200 bg-ink-200 lg:grid-cols-4 dark:border-ink-800 dark:bg-ink-800">
+      {children}
+    </div>
+  )
+}
+
+function Metric({ label, value, unit, note, tone, progress, badge, to }) {
+  const body = (
+    <>
+      <p className="text-[11px] font-medium uppercase tracking-wider muted">{label}</p>
+      <p className={`mt-1.5 text-lg font-semibold tnum ${tone || ''}`}>
+        {value}
+        {unit && <span className="ml-1 text-xs font-normal muted">{unit}</span>}
       </p>
-      <div className="mt-1 flex items-center gap-1.5">
-        <span className="text-[11px] muted">{band}</span>
-        {provisional && <Badge tone="warning">provisional</Badge>}
+      {/* mt-auto so cells with a note and a bar do not leave the plainer ones
+          looking half-empty beside them. */}
+      <div className="mt-auto pt-2">
+        <div className="flex flex-wrap items-center gap-1.5">
+          {note && <span className="text-[11px] muted">{note}</span>}
+          {badge && <Badge tone="warning">{badge}</Badge>}
+        </div>
+        {progress !== null && progress !== undefined && (
+          <ProgressBar
+            className="mt-2"
+            value={progress}
+            tone={progress > 100 ? 'negative' : progress >= 80 ? 'warning' : 'positive'}
+          />
+        )}
       </div>
-      <ProgressBar
-        className="mt-2.5"
-        value={score}
-        tone={score >= 65 ? 'positive' : score >= 50 ? 'warning' : 'negative'}
-      />
-      <Link to="/health" className="mt-2 inline-block text-[11px] text-brand-400 hover:underline">
-        See the breakdown
-      </Link>
-    </Card>
+    </>
+  )
+
+  const className =
+    'flex flex-col bg-white p-4 transition-colors dark:bg-ink-900' +
+    (to ? ' hover:bg-ink-50 dark:hover:bg-ink-800/60' : '')
+
+  return to ? (
+    <Link to={to} className={`block ${className}`}>
+      {body}
+    </Link>
+  ) : (
+    <div className={className}>{body}</div>
   )
 }
 

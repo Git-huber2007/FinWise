@@ -1,7 +1,8 @@
 import { AlertTriangle, ShieldQuestion } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 import { Badge, Card, CardHeader } from '../components/ui'
-import { longDate, moneyExact } from '../format'
+import { longDate, money, moneyExact } from '../format'
 
 /**
  * Unusual spending for the user to confirm.
@@ -29,20 +30,27 @@ export default function AnomalyAlerts({ anomalies = [], note, compact = false })
           {anomalies.length} unusually large{' '}
           {anomalies.length === 1 ? 'expense' : 'expenses'} to check
         </p>
-        <ul className="mt-2.5 space-y-2">
+        {/* The full reasoning lives on the Transactions page and in the PDF.
+            Repeating it here made a banner taller than the figure it sits
+            above, which inverted the page's hierarchy. */}
+        <ul className="mt-2 space-y-1.5">
           {anomalies.map((item) => (
-            <li key={item.id} className="text-xs leading-relaxed">
-              <span className="font-medium tnum">{moneyExact(item.amount)}</span>{' '}
+            <li key={item.id} className="flex flex-wrap items-baseline gap-x-2 text-xs">
+              <span className="font-medium tnum">{money(item.amount)}</span>
+              <span>{item.description}</span>
               <span className="muted">
-                — {item.description} ({item.category}, {longDate(item.date)})
+                {item.category} · {longDate(item.date)}
               </span>
-              <p className="muted">{item.reason}</p>
+              <Badge tone="warning">{item.times_typical}× typical</Badge>
             </li>
           ))}
         </ul>
-        <p className="mt-2.5 flex items-start gap-1.5 text-[11px] leading-relaxed muted">
+        <p className="mt-2 flex items-start gap-1.5 text-[11px] leading-relaxed muted">
           <ShieldQuestion size={12} className="mt-0.5 shrink-0" />
-          {note || 'These are not fraud alerts. Please confirm each one.'}
+          Not fraud alerts — unusual for you, so worth a look.{' '}
+          <Link to="/transactions" className="text-brand-400 hover:underline">
+            Review
+          </Link>
         </p>
       </div>
     )

@@ -29,18 +29,32 @@ import { useTheme } from '../theme'
 
 // One colour per category, fixed by name so a category keeps its colour across
 // every chart and every page. Ordered to keep adjacent slices distinguishable.
+/**
+ * Category colours.
+ *
+ * These were previously the stock Tailwind 500 ramp — violet-500, sky-500,
+ * pink-500, lime-500, amber-500 and so on. Eleven maximally saturated hues at
+ * identical lightness compete with each other and with a UI whose own palette
+ * is deliberately restrained, which is what made every chart look like it came
+ * from a different product than the page around it.
+ *
+ * This set is held to roughly one lightness band and a lower saturation
+ * ceiling, so slices stay distinguishable without shouting. Where a category
+ * already has a meaning in the app's semantic tokens, it reuses that token
+ * rather than inventing a second colour for the same idea.
+ */
 export const CATEGORY_COLORS = {
-  Food: '#3b6fe0',
-  Shopping: '#8b5cf6',
-  Transportation: '#0ea5e9',
-  Education: '#14b8a6',
-  Entertainment: '#ec4899',
-  Healthcare: '#ef4444',
-  Housing: '#f59e0b',
-  Utilities: '#84cc16',
-  Investments: '#14936c',
-  Salary: '#22c55e',
-  Other: '#94a3b8',
+  Food: '#3b6fe0', // brand blue — the anchor
+  Shopping: '#6f5ad1', // muted indigo
+  Transportation: '#2f8fae', // steel teal
+  Education: '#3f9a8a', // sea green
+  Entertainment: '#b4588f', // dusty rose
+  Healthcare: '#d64545', // the app's `neg`
+  Housing: '#c98a1b', // the app's `warn`
+  Utilities: '#8a8f3e', // olive
+  Investments: '#14936c', // the app's `pos`
+  Salary: '#1f7a52', // deeper green — same family as income
+  Other: '#8b93a3', // ink-400
 }
 
 export const colorFor = (category) => CATEGORY_COLORS[category] || CATEGORY_COLORS.Other
