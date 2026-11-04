@@ -22,6 +22,7 @@ import {
   SavingsGrowthChart,
   colorFor,
 } from '../components/charts'
+import AnomalyAlerts from '../components/AnomalyAlerts'
 import StatCard from '../components/StatCard'
 import {
   Badge,
@@ -99,6 +100,10 @@ export default function Dashboard() {
             : `Figures for ${data.month_label}, computed from your transactions`
         }
       />
+
+      {/* Above the tiles on purpose: something that needs the user's
+          confirmation should not be below four screens of charts. */}
+      <AnomalyAlerts anomalies={data.anomalies} compact />
 
       {/* --- the ten headline figures --- */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

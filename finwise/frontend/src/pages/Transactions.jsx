@@ -2,6 +2,7 @@ import { Pencil, Plus, Receipt, Search, Trash2, X } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 import { api, qs } from '../api'
+import AnomalyAlerts from '../components/AnomalyAlerts'
 import TransactionForm from '../components/TransactionForm'
 import {
   Badge,
@@ -36,9 +37,25 @@ export default function Transactions() {
   const [editing, setEditing] = useState(null)
   const [deleting, setDeleting] = useState(null)
 
+  const [anomalies, setAnomalies] = useState(null)
+
   useEffect(() => {
     api.get('/api/meta').then(setMeta).catch(() => {})
   }, [])
+
+  // Over the whole history, not the filtered page: what counts as unusual is
+  // learned from everything the user has recorded. Deliberately a separate
+  // request from the table, so a failed detector cannot blank the list of
+  // transactions -- the table is the page's job, the alerts are a bonus.
+  const loadAnomalies = useCallback(() => {
+    api.post('/api/ai/detect-anomalies', { month: null })
+      .then(setAnomalies)
+      .catch(() => setAnomalies(null))
+  }, [])
+
+  useEffect(() => {
+    loadAnomalies()
+  }, [loadAnomalies])
 
   const load = useCallback(async (activeFilters) => {
     setLoading(true)
@@ -64,7 +81,13 @@ export default function Transactions() {
   async function confirmDelete() {
     await api.del(`/api/transactions/${deleting.id}`)
     setDeleting(null)
+    afterWrite()
+  }
+
+  /** A write changes what is typical, so the alerts are recomputed too. */
+  function afterWrite() {
     load(filters)
+    loadAnomalies()
   }
 
   const totals = data?.totals
@@ -93,6 +116,12 @@ export default function Transactions() {
             tone={totals.net >= 0 ? 'text-pos' : 'text-neg'}
           />
           <SummaryTile label="Entries" value={data.total} raw />
+        </div>
+      )}
+
+      {anomalies?.anomalies?.length > 0 && (
+        <div className="mb-5">
+          <AnomalyAlerts anomalies={anomalies.anomalies} note={anomalies.note} />
         </div>
       )}
 
@@ -203,7 +232,7 @@ export default function Transactions() {
           meta={meta}
           onSaved={() => {
             setAdding(false)
-            load(filters)
+            afterWrite()
           }}
           onCancel={() => setAdding(false)}
         />
@@ -215,7 +244,7 @@ export default function Transactions() {
           initial={editing}
           onSaved={() => {
             setEditing(null)
-            load(filters)
+            afterWrite()
           }}
           onCancel={() => setEditing(null)}
         />

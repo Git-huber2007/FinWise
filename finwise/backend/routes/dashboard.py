@@ -11,7 +11,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
 from sqlalchemy import select
 
-from ai import analytics, health
+from ai import analytics, anomaly, health
 from models import Budget, Transaction, User, db
 
 bp = Blueprint("dashboard", __name__, url_prefix="/api/dashboard")
@@ -106,5 +106,8 @@ def dashboard():
         # --- feed ---
         recent_transactions=recent,
         insights=analytics.generate_insights(rows, current=month, budgets=budgets, limit=5),
+        # Unusual spending to confirm, not fraud to panic about. The banner
+        # shows at most three so a historic outlier cannot bury the dashboard.
+        anomalies=anomaly.latest_alerts(rows, limit=3),
         has_data=bool(rows),
     )

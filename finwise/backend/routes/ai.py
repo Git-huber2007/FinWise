@@ -1,7 +1,8 @@
 """AI endpoints.
 
-Phases 5-6 ship categorization, spending analysis and the health score. The
-chat / predict-savings / detect-anomalies endpoints land in phases 7-8.
+Categorization, spending analysis, the health score, the assistant, the
+savings forecast and anomaly detection. Every endpoint here computes from the
+signed-in user's own rows; none of them invent figures.
 """
 from typing import cast
 
@@ -10,7 +11,7 @@ from flask_login import current_user, login_required
 from sqlalchemy import select
 
 import validation as v
-from ai import analytics, categorizer, health
+from ai import analytics, anomaly, categorizer, health, savings
 from ai import chat as chat_engine
 from models import SavingsGoal, Transaction, User, db
 from routes.dashboard import resolve_month, user_budgets, user_rows
@@ -211,6 +212,54 @@ def chat():
         logger=current_app.logger,
     )
     return jsonify(result.to_dict())
+
+
+@bp.post("/predict-savings")
+@login_required
+def predict_savings():
+    """Forecast monthly net savings, and project every goal from it.
+
+    Labelled an estimate throughout. The response carries the method actually
+    used and the r-squared of the fit, so the UI can show a weak forecast as a
+    weak forecast instead of a number.
+    """
+    data = request.get_json(silent=True) or {}
+    horizon = v.integer(data, "horizon", minimum=1, maximum=savings.MAX_HORIZON,
+                        required=False, default=3)
+    rows = user_rows()
+    result = savings.predict(rows, horizon=horizon)
+
+    rate = float(result.get("predicted_next") or 0)
+    goals = db.session.scalars(
+        select(SavingsGoal).where(
+            SavingsGoal.user_id == _me().id, SavingsGoal.status == "active"
+        )
+    ).all()
+    result["goals"] = [savings.project_goal(g.to_dict(), rate) for g in goals]
+    result["this_month_so_far"] = analytics.totals_for(
+        analytics.filter_month(rows, resolve_month(rows, None))
+    )
+    return jsonify(result)
+
+
+@bp.post("/detect-anomalies")
+@login_required
+def detect_anomalies():
+    """Unusually large expenses, for the user to confirm.
+
+    Never described as fraud, and never acted on automatically -- the response
+    marks every item `needs_review` and carries the reason it was flagged.
+    """
+    data = request.get_json(silent=True) or {}
+    rows = user_rows()
+    # An explicit null month means "my whole history"; an absent one means the
+    # month being viewed. Those are different questions and the client asks
+    # both, so the sentinel is needed.
+    month = data.get("month", "__current__")
+    if month == "__current__":
+        month = resolve_month(rows, None)
+
+    return jsonify(anomaly.detect(rows, month=month))
 
 
 @bp.get("/chat/starters")
