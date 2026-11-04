@@ -1,7 +1,7 @@
 """AI endpoints.
 
-Phase 5 ships categorization. The analyze / financial-health / chat /
-predict-savings / detect-anomalies endpoints land in phases 6-8.
+Phases 5-6 ship categorization, spending analysis and the health score. The
+chat / predict-savings / detect-anomalies endpoints land in phases 7-8.
 """
 from typing import cast
 
@@ -10,8 +10,9 @@ from flask_login import current_user, login_required
 from sqlalchemy import select
 
 import validation as v
-from ai import categorizer
+from ai import analytics, categorizer, health
 from models import Transaction, User, db
+from routes.dashboard import resolve_month, user_budgets, user_rows
 
 bp = Blueprint("ai", __name__, url_prefix="/api/ai")
 
@@ -117,3 +118,58 @@ def model_info():
             "as an independent benchmark."
         ),
     )
+
+
+@bp.post("/analyze")
+@login_required
+def analyze():
+    """Spending analysis for a month: totals, categories, movement, insights.
+
+    Every figure is computed from the user's own rows. Nothing here is
+    generated text -- the insight strings are templates filled with numbers
+    the user could recompute by hand.
+    """
+    data = request.get_json(silent=True) or {}
+    rows = user_rows()
+    budgets = user_budgets()
+    month = resolve_month(rows, data.get("month"))
+
+    series = analytics.monthly_series(rows)
+    index = next((i for i, m in enumerate(series) if m["month"] == month), None)
+    previous = series[index - 1]["month"] if index not in (None, 0) else None
+    month_rows = analytics.filter_month(rows, month)
+
+    return jsonify(
+        month=month,
+        month_label=analytics.month_label(month),
+        totals=analytics.totals_for(month_rows),
+        monthly_series=series,
+        category_breakdown=analytics.category_breakdown(month_rows),
+        comparison=analytics.month_over_month(rows, month, previous) if previous else [],
+        previous_month=previous,
+        budget_alerts=analytics.budget_alerts(rows, budgets, month),
+        insights=analytics.generate_insights(rows, current=month, budgets=budgets, limit=10),
+        has_data=bool(rows),
+    )
+
+
+@bp.post("/financial-health")
+@login_required
+def financial_health():
+    """The Financial Health Checkup.
+
+    Returns the score together with every component, weight and the numbers
+    each was computed from, so the UI can show its working rather than
+    presenting a number to be taken on trust.
+    """
+    data = request.get_json(silent=True) or {}
+    rows = user_rows()
+    budgets = user_budgets()
+    month = resolve_month(rows, data.get("month"))
+
+    result = health.financial_health(
+        rows, budgets=budgets, emergency_fund=_me().emergency_fund, current=month
+    )
+    result["month"] = month
+    result["month_label"] = analytics.month_label(month)
+    return jsonify(result)
