@@ -6,3 +6,4 @@
     "build": "cd finwise/frontend && npm install && npm run build"
   }
 }
+

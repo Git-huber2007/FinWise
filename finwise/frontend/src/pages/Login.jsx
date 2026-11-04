@@ -30,7 +30,7 @@ export function AuthShell({ title, subtitle, children, footer }) {
         </div>
 
         <p className="mt-6 text-center text-[11px] leading-relaxed muted">
-          Educational project. FINWISE AI does not provide financial advice.
+          Educational project. FINWISE does not provide financial advice.
         </p>
       </div>
     </div>
