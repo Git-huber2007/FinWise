@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from flask_login import LoginManager
 from sqlalchemy import event, inspect as sa_inspect
 from sqlalchemy.engine import Engine
@@ -53,6 +54,7 @@ def create_app(config_object=Config) -> Flask:
     app = Flask(__name__)
     app.config.from_object(config_object)
 
+    CORS(app, supports_credentials=True, origins=app.config.get("CORS_ORIGINS", "*"))
     db.init_app(app)
     login_manager.init_app(app)
 

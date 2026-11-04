@@ -41,6 +41,9 @@ class Config:
     GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
     GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash").strip()
 
+    # ---- cors -----------------------------------------------------------
+    CORS_ORIGINS = [o.strip() for o in os.environ.get("CORS_ORIGINS", "*").split(",") if o.strip()]
+
     JSON_SORT_KEYS = False
 
     @classmethod

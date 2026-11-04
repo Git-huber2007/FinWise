@@ -2,9 +2,11 @@
  * The only place in the frontend that calls fetch().
  *
  * Centralised so that credentials, error shape and 401 handling are decided
- * once. Vite proxies /api to Flask, so these are same-origin requests and the
- * session cookie is sent without any CORS configuration.
+ * once. In development, Vite proxies /api to Flask. In production, if
+ * VITE_API_URL is configured, calls route to the backend domain directly.
  */
+
+const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
 
 /** Thrown for any non-2xx response. Carries the status so callers can branch. */
 export class ApiError extends Error {
@@ -27,8 +29,9 @@ export function onUnauthorized(handler) {
 
 async function request(method, path, body, { signal } = {}) {
   let response
+  const url = `${API_BASE}${path}`
   try {
-    response = await fetch(path, {
+    response = await fetch(url, {
       method,
       // Without this the session cookie is not sent and every call 401s.
       credentials: 'include',
@@ -41,7 +44,7 @@ async function request(method, path, body, { signal } = {}) {
     // A dead backend is the single most likely failure in local development,
     // so it gets a message that names the actual cause.
     throw new ApiError(
-      'Cannot reach the FINWISE API. Is the Flask server running on port 5000?',
+      'Cannot reach the FINWISE API. Is the Flask server running?',
       { status: 0 },
     )
   }
@@ -58,10 +61,11 @@ async function request(method, path, body, { signal } = {}) {
   if (!response.ok) {
     throw new ApiError(data?.error || `Request failed (${response.status})`, {
       status: response.status,
-      field: data?.field ?? null,
+      field: data?.field,
       payload: data,
     })
   }
+
   return data
 }
 
@@ -92,7 +96,8 @@ export const api = {
 
   /** For CSV/PDF endpoints: returns a Blob rather than parsed JSON. */
   async download(path) {
-    const response = await fetch(path, { credentials: 'include' })
+    const url = `${API_BASE}${path}`
+    const response = await fetch(url, { credentials: 'include' })
     if (!response.ok) {
       throw new ApiError(`Download failed (${response.status})`, { status: response.status })
     }
