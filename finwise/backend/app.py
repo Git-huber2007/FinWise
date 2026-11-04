@@ -4,6 +4,7 @@ Everything the API needs is assembled here: config, ORM, the login manager and
 the route blueprints. Blueprints are registered as the phases add them.
 """
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 
 from flask import Flask, jsonify, request
@@ -65,6 +66,8 @@ def create_app(config_object=Config) -> Flask:
         # migration tool here would be ceremony with no payoff.
         db.create_all()
 
+    started_at = datetime.now(timezone.utc).isoformat()
+
     @app.get("/api/health")
     def health():
         """Liveness plus enough introspection to verify a fresh install."""
@@ -74,6 +77,11 @@ def create_app(config_object=Config) -> Flask:
             status="ok",
             service="finwise-api",
             version="1.0.0",
+            # Which process actually answered. A dev server that fails to bind
+            # leaves its predecessor serving, so a response is otherwise no
+            # evidence that it came from the code you just changed.
+            pid=os.getpid(),
+            started_at=started_at,
             database={
                 "dialect": db.engine.dialect.name,
                 "tables": tables,

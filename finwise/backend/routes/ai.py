@@ -5,13 +5,14 @@ chat / predict-savings / detect-anomalies endpoints land in phases 7-8.
 """
 from typing import cast
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, current_app, jsonify, request
 from flask_login import current_user, login_required
 from sqlalchemy import select
 
 import validation as v
 from ai import analytics, categorizer, health
-from models import Transaction, User, db
+from ai import chat as chat_engine
+from models import SavingsGoal, Transaction, User, db
 from routes.dashboard import resolve_month, user_budgets, user_rows
 
 bp = Blueprint("ai", __name__, url_prefix="/api/ai")
@@ -173,3 +174,54 @@ def financial_health():
     result["month"] = month
     result["month_label"] = analytics.month_label(month)
     return jsonify(result)
+
+
+@bp.post("/chat")
+@login_required
+def chat():
+    """FINWISE AI Assistant.
+
+    Gemini when a key is configured, the rule engine otherwise -- and the rule
+    engine also catches every Gemini failure, so this endpoint does not have a
+    path that returns an error to the user instead of an answer.
+    """
+    data = v.require_json(request)
+    question = v.text(data, "message", max_len=1000)
+
+    rows = user_rows()
+    month = resolve_month(rows, data.get("month"))
+    goals = [g.to_dict() for g in db.session.scalars(
+        select(SavingsGoal).where(SavingsGoal.user_id == _me().id)
+    ).all()]
+
+    context = chat_engine.build_context(
+        rows,
+        budgets=user_budgets(),
+        goals=goals,
+        monthly_income=_me().monthly_income,
+        emergency_fund=_me().emergency_fund,
+        current=month,
+    )
+
+    result = chat_engine.ask(
+        question,
+        context,
+        api_key=current_app.config.get("GEMINI_API_KEY", ""),
+        model=current_app.config.get("GEMINI_MODEL", ""),
+        logger=current_app.logger,
+    )
+    return jsonify(result.to_dict())
+
+
+@bp.get("/chat/starters")
+@login_required
+def chat_starters():
+    """Suggested questions, plus whether the LLM path is available.
+
+    `llm_configured` is a boolean only -- the key itself never leaves the server.
+    """
+    return jsonify(
+        suggestions=chat_engine.SUGGESTED_QUESTIONS,
+        llm_configured=bool(current_app.config.get("GEMINI_API_KEY")),
+        disclaimer=chat_engine.DISCLAIMER,
+    )
