@@ -16,39 +16,53 @@ Every number, budget utilization metric, anomaly warning, and savings projection
 
 ## Architecture Overview
 
-> 📐 **Interactive Architecture Diagram**: An interactive, source-verified architecture diagram is available at [.archify/architecture-finwise-20261105-095000/finwise-architecture.html](.archify/architecture-finwise-20261105-095000/finwise-architecture.html).
+> 📐 **Interactive Architecture Diagram**: An interactive, source-verified architecture diagram is deployed live at **[finwise-omega-nine.vercel.app/architecture.html](https://finwise-omega-nine.vercel.app/architecture.html)**. You can also view the standalone file at [`docs/architecture.html`](docs/architecture.html).
 
 ```mermaid
 flowchart TD
-    subgraph Client["Frontend (Vercel CDN / Vite)"]
-        UI["React 19 Single Page App"]
-        Tailwind["Tailwind CSS Design System"]
-        Recharts["Clean Visualizations & Charts"]
+    subgraph Client["1. Client Tier (React 18 · Vite · Tailwind)"]
+        direction TB
+        UI["React 18 SPA (Geist & Instrument Serif Typography)"]
+        LedgerUI["Ledger Sheets, Ceilings, Health & Analysis Views"]
+        FetchClient["Centralised API Client (api.js)"]
+        UI --- LedgerUI --- FetchClient
     end
 
-    subgraph Serverless["API Tier (Vercel Serverless / Flask)"]
-        VercelAPI["/api/index.py (WSGI Entry)"]
-        Routes["Flask Blueprints: Auth, Txn, Budgets, Goals, Reports, AI"]
-        Validation["Strict Request Validation & JSON Guards"]
+    subgraph Edge["2. Edge & Routing (Vercel Platform)"]
+        direction TB
+        CDN["Vercel Global Edge CDN (Static Assets & HTML)"]
+        RewriteRule["Vercel Rewrite: /api/* -> api/index.py"]
+        CDN --- RewriteRule
     end
 
-    subgraph Intelligence["Intelligence Engines"]
-        LocalML["Scikit-Learn Naive Bayes (Auto-Categorization)"]
-        Anomaly["Statistical Z-Score & Velocity Anomaly Detection"]
-        Gemini["Optional: Google Gemini 2.5 Flash Assistant"]
+    subgraph Serverless["3. Application Core (Flask 3.0.3 WSGI)"]
+        direction TB
+        WSGIEntry["Serverless Entry (/api/index.py)"]
+        AuthShield["Flask-Login Session Auth & CORS Guard"]
+        DomainRoutes["Domain Blueprints (Transactions, Budgets, Goals, Reports)"]
+        WSGIEntry --> AuthShield --> DomainRoutes
     end
 
-    subgraph DataTier["Data Tier"]
-        Neon["Neon Cloud PostgreSQL (Pooled SSL)"]
-        SQLiteLocal["SQLite Local Fallback (finwise.db)"]
+    subgraph Intelligence["4. Intelligence Tier (Deterministic + ML)"]
+        direction TB
+        Categorizer["ML Categorizer: Scikit-Learn ComplementNB + TF-IDF"]
+        HealthScorer["Health Engine: Deterministic 6-Factor Weighted Rubric"]
+        GeminiAssistant["AI Assistant: Google Gemini 2.5 Flash (Grounded Summaries)"]
     end
 
-    UI -->|"Fetch /api/* (Same-Origin Session)"| VercelAPI
-    VercelAPI --> Routes
-    Routes --> Validation
-    Routes --> Intelligence
-    Routes -->|"SQLAlchemy 2.0"| Neon
-    Routes -.->|"Local Development"| SQLiteLocal
+    subgraph DataTier["5. Persistence Tier (Neon PostgreSQL)"]
+        direction TB
+        NeonDB[("Neon Cloud Serverless Postgres (Pooler + SSL)")]
+        SQLAlchemyORM["SQLAlchemy 2.0 (Decimal 12,2 Financial Precision)"]
+        SQLAlchemyORM --- NeonDB
+    end
+
+    FetchClient -->|"HTTPS /api/* (Credentials: include)"| RewriteRule
+    RewriteRule --> WSGIEntry
+    DomainRoutes -->|"Real-time prediction"| Categorizer
+    DomainRoutes -->|"Rubric calculation"| HealthScorer
+    HealthScorer -->|"Verified aggregates context"| GeminiAssistant
+    DomainRoutes -->|"ORM Queries & Transactions"| SQLAlchemyORM
 ```
 
 ---
