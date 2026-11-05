@@ -31,19 +31,13 @@ import {
   Field,
   Input,
   Modal,
+  PageHeader,
   ProgressBar,
   Spinner,
 } from '../components/ui'
 import { longDate, money, moneyExact, todayISO } from '../format'
+import { useTheme } from '../theme'
 
-/**
- * Savings Goals.
- *
- * Every date on this page is a projection from the user's own savings history,
- * and is labelled as such. The forecast card shows which method produced the
- * number -- a two-month average and a fitted trend are not the same claim, and
- * showing one figure for both would hide that.
- */
 export default function Goals() {
   const [data, setData] = useState(null)
   const [forecast, setForecast] = useState(null)
@@ -57,9 +51,6 @@ export default function Goals() {
   const load = useCallback(async () => {
     setError(null)
     try {
-      // Both calls, then one state update: a half-rendered page where the
-      // goals have loaded but the rate they are projected from has not shows
-      // ETAs that change under the user a moment later.
       const [goals, prediction] = await Promise.all([
         api.get('/api/goals'),
         api.post('/api/ai/predict-savings', { horizon: 6 }),
@@ -85,36 +76,34 @@ export default function Goals() {
 
   return (
     <>
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="display text-2xl">Savings Goals</h1>
-          <p className="mt-1 text-sm muted">
-            What you are saving for, and when your own savings rate would get you there
-          </p>
-        </div>
-        <Button onClick={() => setEditing({})}>
-          <Plus size={15} /> New goal
-        </Button>
-      </div>
+      <PageHeader
+        title="Savings Goals"
+        subtitle="Capital targets and completion dates projected from your historical net savings rate"
+        action={
+          <Button onClick={() => setEditing({})}>
+            <Plus size={14} /> New goal
+          </Button>
+        }
+      />
 
       <Forecast forecast={forecast} />
 
       {active.length === 0 ? (
-        <Card className="mt-5">
+        <Card className="mt-6">
           <EmptyState
             icon={Target}
             title="No savings goals yet"
-            body="Add a goal and FINWISE will estimate when you would reach it, based on what you actually save each month."
+            body="Add a target and the ledger will estimate completion based on your recorded monthly net savings."
             action={
               <Button onClick={() => setEditing({})}>
-                <Plus size={15} /> New goal
+                <Plus size={14} /> New goal
               </Button>
             }
           />
         </Card>
       ) : (
         <>
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div className="mt-6 grid gap-5 md:grid-cols-2">
             {active.map((goal) => (
               <GoalCard
                 key={goal.id}
@@ -198,12 +187,13 @@ export default function Goals() {
 const CONFIDENCE_TONE = { moderate: 'brand', low: 'warning', none: 'neutral' }
 
 function Forecast({ forecast }) {
+  const { dark } = useTheme()
   if (!forecast) return null
 
   if (forecast.method === 'insufficient_data') {
     return (
       <Card>
-        <CardHeader title="Savings forecast" subtitle={forecast.method_label} />
+        <CardHeader title="Savings trajectory" subtitle={forecast.method_label} />
         <div className="p-5 pt-0">
           <p className="text-sm muted">{forecast.explanation}</p>
         </div>
@@ -211,9 +201,6 @@ function Forecast({ forecast }) {
     )
   }
 
-  // History and forecast on one axis, with the join marked. Two separate
-  // charts would let the user read the forecast as more of the same kind of
-  // data as the history, which is exactly the confusion to avoid.
   const history = (forecast.history ?? []).map((m) => ({
     label: m.label,
     actual: m.savings,
@@ -225,15 +212,15 @@ function Forecast({ forecast }) {
   const series = [...history, ...projected]
   const lastActual = history[history.length - 1]
   if (lastActual) {
-    // Give the last real month an `estimate` value too, so the dashed line
-    // starts where the solid one ends instead of floating in space.
     series[history.length - 1] = { ...lastActual, estimate: lastActual.actual }
   }
+
+  const lineInk = dark ? '#F1EFEA' : '#181816'
 
   return (
     <Card>
       <CardHeader
-        title="Savings forecast"
+        title="Savings trajectory"
         subtitle={forecast.method_label}
         action={
           <Badge tone={CONFIDENCE_TONE[forecast.confidence] ?? 'neutral'}>
@@ -241,39 +228,56 @@ function Forecast({ forecast }) {
           </Badge>
         }
       />
-      <div className="grid gap-5 p-5 pt-0 lg:grid-cols-[minmax(0,1fr)_260px]">
-        {/* h-full so the chart grows to match the taller text column beside
-            it rather than leaving dead space under itself. min-h keeps it
-            readable once the two stack on a narrow screen. */}
+      <div className="grid gap-5 p-5 lg:grid-cols-[minmax(0,1fr)_260px]">
         <div className="h-full min-h-[14rem] min-w-0">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={series} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-ink-200 dark:stroke-ink-800" />
-              <XAxis dataKey="label" tick={{ fontSize: 11 }} />
-              <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => money(v)} width={70} />
+              <CartesianGrid
+                strokeDasharray="2 4"
+                vertical={false}
+                stroke={dark ? '#222220' : '#E6E4DD'}
+              />
+              <XAxis
+                dataKey="label"
+                tick={{ fontSize: 11, fill: dark ? '#8C8980' : '#6E6B63', fontFamily: 'Geist Mono' }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                tick={{ fontSize: 11, fill: dark ? '#8C8980' : '#6E6B63', fontFamily: 'Geist Mono' }}
+                tickFormatter={(v) => money(v)}
+                width={70}
+                axisLine={false}
+                tickLine={false}
+              />
               <Tooltip
                 formatter={(value, name) => [
                   moneyExact(value),
                   name === 'actual' ? 'Saved' : 'Estimate',
                 ]}
-                contentStyle={{ fontSize: 12, borderRadius: 8 }}
+                contentStyle={{
+                  fontSize: 12,
+                  borderRadius: 6,
+                  border: dark ? '1px solid #2A2A27' : '1px solid #E4E2DC',
+                  backgroundColor: dark ? '#181816' : '#FFFFFF',
+                }}
               />
-              <ReferenceLine y={0} className="stroke-ink-300 dark:stroke-ink-700" />
+              <ReferenceLine y={0} stroke={dark ? '#2E2E2B' : '#D5D2C8'} />
               <Line
                 type="monotone"
                 dataKey="actual"
-                stroke="#6366f1"
-                strokeWidth={2}
-                dot={{ r: 2 }}
+                stroke={lineInk}
+                strokeWidth={1.75}
+                dot={{ r: 2.5, fill: lineInk }}
                 name="actual"
               />
               <Line
                 type="monotone"
                 dataKey="estimate"
-                stroke="#6366f1"
-                strokeWidth={2}
-                strokeDasharray="5 4"
-                dot={{ r: 2 }}
+                stroke="#15803D"
+                strokeWidth={1.75}
+                strokeDasharray="4 4"
+                dot={{ r: 2.5, fill: '#15803D' }}
                 name="estimate"
                 connectNulls
               />
@@ -298,7 +302,7 @@ function Forecast({ forecast }) {
             value={String(forecast.months_of_history)}
             hint="The in-progress month is excluded"
           />
-          <p className="border-t border-ink-200 pt-3 text-xs leading-relaxed muted dark:border-ink-800">
+          <p className="border-t border-ink-200 pt-3 text-xs leading-relaxed muted dark:border-[#222220]">
             {forecast.explanation}
           </p>
         </div>
@@ -316,7 +320,7 @@ function Figure({ icon: Icon, label, value, hint }) {
       <p className="flex items-center gap-1.5 text-xs muted">
         {Icon && <Icon size={12} />} {label}
       </p>
-      <p className="mt-0.5 font-semibold tnum">{value}</p>
+      <p className="mt-0.5 font-mono text-sm font-medium text-ink-900 dark:text-ink-100 tnum">{value}</p>
       {hint && <p className="text-[11px] muted">{hint}</p>}
     </div>
   )
@@ -338,11 +342,11 @@ function GoalCard({ goal, onEdit, onDelete, onContribute }) {
     <Card className="flex flex-col">
       <div className="flex items-start justify-between gap-3 p-5 pb-3">
         <div className="min-w-0">
-          <h3 className="flex items-center gap-2 truncate font-medium">
-            {done && <Check size={15} className="shrink-0 text-pos" />}
+          <h3 className="flex items-center gap-2 truncate text-sm font-medium text-ink-900 dark:text-ink-100">
+            {done && <Check size={14} className="shrink-0 text-pos" />}
             {goal.name}
           </h3>
-          <p className="mt-0.5 text-xs muted">
+          <p className="mt-0.5 font-mono text-xs muted">
             {moneyExact(goal.saved_amount)} of {moneyExact(goal.target_amount)}
             {goal.target_date && <> · target {longDate(goal.target_date)}</>}
           </p>
@@ -355,16 +359,16 @@ function GoalCard({ goal, onEdit, onDelete, onContribute }) {
           value={goal.progress_pct}
           tone={done ? 'positive' : projection.status === 'behind' ? 'warning' : 'brand'}
         />
-        <p className="mt-1.5 flex justify-between text-[11px] muted tnum">
+        <p className="mt-1.5 flex justify-between font-mono text-[11px] muted tnum">
           <span>{goal.progress_pct}% saved</span>
-          <span>{moneyExact(goal.remaining)} to go</span>
+          <span>{moneyExact(goal.remaining)} remaining</span>
         </p>
       </div>
 
       {!done && (
-        <div className="mx-5 mt-4 rounded-lg bg-ink-100/70 p-3 dark:bg-ink-800/40">
-          <p className="flex items-center gap-1.5 text-xs font-medium">
-            <CalendarClock size={13} className="shrink-0 text-brand-400" />
+        <div className="mx-5 mt-4 rounded-md border border-ink-200 bg-ink-50/70 p-3 dark:border-[#222220] dark:bg-[#181816]">
+          <p className="flex items-center gap-1.5 text-xs font-medium text-ink-900 dark:text-ink-100">
+            <CalendarClock size={13} className="shrink-0 text-ink-500" />
             {projection.eta_label ? (
               <>Estimated completion: {projection.eta_label}</>
             ) : (

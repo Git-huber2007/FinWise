@@ -1,9 +1,9 @@
 import {
+  Activity,
   AlertTriangle,
   CheckCircle2,
   ClipboardList,
   Info,
-  Stethoscope,
   Target,
   TrendingDown,
 } from 'lucide-react'
@@ -21,7 +21,7 @@ import {
   ProgressBar,
   Spinner,
 } from '../components/ui'
-import { money, pct } from '../format'
+import { money } from '../format'
 
 export default function Health() {
   const [result, setResult] = useState(null)
@@ -43,12 +43,12 @@ export default function Health() {
   return (
     <>
       <PageHeader
-        title="Financial Health Checkup"
-        subtitle="A transparent score from your own transactions — every weight is shown"
+        title="Financial Health Index"
+        subtitle="A transparent composite score derived from your ledger — every component weight is exposed"
         action={
           result && (
             <Button variant="secondary" onClick={analyse} loading={loading}>
-              Re-analyse
+              Re-compute
             </Button>
           )
         }
@@ -57,17 +57,20 @@ export default function Health() {
       {!result && !error && (
         <Card className="p-10">
           <div className="mx-auto flex max-w-md flex-col items-center gap-4 text-center">
-            <Stethoscope size={28} className="text-brand-400" />
+            <div className="grid h-10 w-10 place-items-center rounded-md border border-ink-200 bg-ink-50 text-ink-700 dark:border-[#242422] dark:bg-[#1A1A18] dark:text-ink-300">
+              <Activity size={18} strokeWidth={1.75} />
+            </div>
             <div>
-              <p className="text-sm font-medium">Check your financial health</p>
+              <p className="text-sm font-medium text-ink-900 dark:text-ink-100">
+                Run composite health audit
+              </p>
               <p className="mt-1 text-xs leading-relaxed muted">
-                Six components, scored out of 100 from the income, expenses, budgets and
-                emergency fund you have recorded. You will see every weight and the figures
-                behind each one.
+                Six weighted components scored out of 100 from your recorded inflows, outflows,
+                budget ceilings, and emergency reserves. Every formula weight is exposed.
               </p>
             </div>
             <Button size="lg" onClick={analyse} loading={loading}>
-              Analyse my financial health
+              Compute health score
             </Button>
           </div>
         </Card>
@@ -77,26 +80,26 @@ export default function Health() {
       {loading && !result && <Spinner label="Analysing" />}
 
       {result && (
-        <div className="space-y-5">
+        <div className="space-y-6">
           <ScoreCard result={result} />
 
-          <div className="grid gap-5 lg:grid-cols-2">
+          <div className="grid gap-6 lg:grid-cols-2">
             <Card>
               <CardHeader
-                title="How the score is built"
-                subtitle="Each component, its weight, and the numbers behind it"
+                title="Component breakdown"
+                subtitle="Each factor, its maximum weight, and the underlying ledger figures"
               />
-              <div className="divide-y divide-ink-100 dark:divide-ink-800/60">
+              <div className="divide-y divide-ink-200 dark:divide-[#222220]">
                 {result.components.map((component) => (
                   <ComponentRow key={component.key} component={component} />
                 ))}
               </div>
             </Card>
 
-            <div className="space-y-5">
+            <div className="space-y-6">
               {result.warnings.length > 0 && (
                 <Card>
-                  <CardHeader title="Spending warnings" />
+                  <CardHeader title="Audit flags" />
                   <ul className="space-y-2.5 p-5">
                     {result.warnings.map((warning, index) => (
                       <li key={index} className="flex gap-2 text-xs leading-relaxed">
@@ -108,7 +111,7 @@ export default function Health() {
                 </Card>
               )}
 
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 <ListCard
                   title="Strengths"
                   icon={CheckCircle2}
@@ -117,7 +120,7 @@ export default function Health() {
                   empty="No component is scoring above 75% yet."
                 />
                 <ListCard
-                  title="Areas to improve"
+                  title="Constraints"
                   icon={TrendingDown}
                   tone="text-neg"
                   items={result.weaknesses}
@@ -134,13 +137,13 @@ export default function Health() {
           {result.recommendations.length > 0 && (
             <Card>
               <CardHeader
-                title="Personalised recommendations"
-                subtitle="Aimed at your weakest components first"
+                title="Recommended adjustments"
+                subtitle="Prioritised by lowest-scoring ledger components"
               />
               <ul className="space-y-3 p-5">
                 {result.recommendations.map((item, index) => (
                   <li key={index} className="flex gap-2.5 text-sm leading-relaxed">
-                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-brand-500/10 text-[11px] font-semibold text-brand-400">
+                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded bg-ink-100 font-mono text-[11px] font-medium text-ink-900 dark:bg-[#222220] dark:text-ink-100">
                       {index + 1}
                     </span>
                     <span>{item}</span>
@@ -153,15 +156,15 @@ export default function Health() {
           {result.monthly_plan.length > 0 && (
             <Card>
               <CardHeader
-                title="Monthly improvement plan"
-                subtitle="Each step names the figure it came from"
+                title="Monthly action schedule"
+                subtitle="Concrete adjustments derived from your recorded figures"
               />
-              <div className="divide-y divide-ink-100 dark:divide-ink-800/60">
+              <div className="divide-y divide-ink-200 dark:divide-[#222220]">
                 {result.monthly_plan.map((step, index) => (
                   <div key={index} className="flex gap-3 px-5 py-3.5">
-                    <ClipboardList size={15} className="mt-0.5 shrink-0 text-brand-400" />
+                    <ClipboardList size={15} className="mt-0.5 shrink-0 text-ink-500" />
                     <div>
-                      <p className="text-sm font-medium">{step.step}</p>
+                      <p className="text-sm font-medium text-ink-900 dark:text-ink-100">{step.step}</p>
                       <p className="mt-0.5 text-xs leading-relaxed muted">{step.detail}</p>
                     </div>
                   </div>
@@ -183,37 +186,35 @@ export default function Health() {
 }
 
 function ScoreCard({ result }) {
-  const tone =
-    result.score >= 65 ? 'text-pos' : result.score >= 50 ? 'text-warn' : 'text-neg'
   const bar = result.score >= 65 ? 'positive' : result.score >= 50 ? 'warning' : 'negative'
 
   return (
     <Card className="p-6">
       <div className="flex flex-wrap items-center gap-6">
         <div>
-          <p className="text-[11px] font-medium uppercase tracking-wide muted">
-            Financial Health Score
+          <p className="text-xs font-medium text-ink-500 dark:text-ink-400">
+            Composite Health Index
           </p>
-          <p className={`mt-1 text-4xl font-semibold tnum ${tone}`}>
+          <p className="display-serif mt-1 text-4xl text-ink-900 dark:text-ink-100 tnum">
             {result.score}
-            <span className="text-lg font-normal muted"> / 100</span>
+            <span className="font-sans text-lg font-normal muted"> / 100</span>
           </p>
           <div className="mt-1.5 flex flex-wrap items-center gap-2">
             <Badge tone={result.score >= 65 ? 'positive' : result.score >= 50 ? 'warning' : 'negative'}>
               {result.band}
             </Badge>
-            <span className="text-[11px] muted">
-              {result.months_of_data} month(s) of data · {result.month_label}
+            <span className="font-mono text-[11px] muted">
+              {result.months_of_data}m history · {result.month_label}
             </span>
           </div>
         </div>
 
         <div className="min-w-[240px] flex-1">
           <ProgressBar value={result.score} tone={bar} />
-          <div className="mt-1.5 flex justify-between text-[10px] muted">
-            <span>0 · At risk</span>
-            <span>50 · Fair</span>
-            <span>100 · Excellent</span>
+          <div className="mt-1.5 flex justify-between font-mono text-[10px] muted">
+            <span>0 · Critical</span>
+            <span>50 · Moderate</span>
+            <span>100 · Optimal</span>
           </div>
         </div>
       </div>
@@ -235,7 +236,7 @@ function ComponentRow({ component }) {
   return (
     <div className="px-5 py-4">
       <div className="flex items-baseline justify-between gap-3">
-        <p className="text-sm font-medium">
+        <p className="text-sm font-medium text-ink-900 dark:text-ink-100">
           {component.label}
           {component.neutral && (
             <Badge tone="neutral" className="ml-2">
@@ -248,8 +249,8 @@ function ComponentRow({ component }) {
             </Badge>
           )}
         </p>
-        <p className="shrink-0 text-sm tnum">
-          <span className="font-semibold">{component.points}</span>
+        <p className="shrink-0 font-mono text-xs tnum">
+          <span className="font-semibold text-ink-900 dark:text-ink-100">{component.points}</span>
           <span className="muted"> / {component.max_points}</span>
         </p>
       </div>
@@ -285,20 +286,18 @@ function ListCard({ title, icon: Icon, tone, items, empty }) {
 function SavingsTargetCard({ target }) {
   return (
     <Card>
-      <CardHeader title="Suggested savings target" subtitle={target.basis} />
+      <CardHeader title="Target monthly retention" subtitle={target.basis} />
       <div className="p-5">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <p className="text-[11px] uppercase tracking-wide muted">Target</p>
-            <p className="mt-0.5 text-lg font-semibold tnum">{money(target.monthly_target)}</p>
+            <p className="text-xs text-ink-500">Recommended target</p>
+            <p className="mt-0.5 font-mono text-lg font-medium text-ink-900 dark:text-ink-100 tnum">
+              {money(target.monthly_target)}
+            </p>
           </div>
           <div className="text-right">
-            <p className="text-[11px] uppercase tracking-wide muted">You saved</p>
-            <p
-              className={`mt-0.5 text-lg font-semibold tnum ${
-                target.achieved ? 'text-pos' : 'text-neg'
-              }`}
-            >
+            <p className="text-xs text-ink-500">Recorded savings</p>
+            <p className="mt-0.5 font-mono text-lg font-medium text-ink-900 dark:text-ink-100 tnum">
               {money(target.current_savings)}
             </p>
           </div>
@@ -318,7 +317,7 @@ function SavingsTargetCard({ target }) {
           <Target size={13} />
           {target.achieved
             ? 'Target met this month.'
-            : `${money(target.gap)} short of the target.`}
+            : `${money(target.gap)} short of target.`}
         </p>
       </div>
     </Card>

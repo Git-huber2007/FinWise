@@ -5,61 +5,55 @@ export default {
   theme: {
     extend: {
       colors: {
-        // High-craft fintech palette inspired by Stripe & Mercury (neutral-first, restrained)
-        brand: {
-          50: '#F0F5FF',
-          100: '#E1ECFE',
-          200: '#C7DCFE',
-          300: '#A4C6FC',
-          400: '#6FA4F8',
-          500: '#2563EB', // Clean Institutional Blue
-          600: '#1D4ED8',
-          700: '#1E40AF',
-          800: '#1E3A8A',
-          900: '#172554',
-        },
+        // Warm architectural stone & carbon ink (zero blue-slate AI tint)
         ink: {
           0: '#FFFFFF',
-          50: '#F9FAFB',
-          100: '#F3F4F6',
-          200: '#E5E7EB',
-          300: '#D1D5DB',
-          400: '#9CA3AF',
-          500: '#6B7280',
-          600: '#4B5563',
-          700: '#374151',
-          800: '#1F2937',
-          850: '#171E2B',
-          900: '#111827',
-          950: '#0B0F17',
+          50: '#F8F7F4',
+          100: '#F1EFEA',
+          200: '#E5E3DC',
+          300: '#D4D1C7',
+          400: '#9E9B91',
+          500: '#6E6B63',
+          600: '#4A4842',
+          700: '#2C2B28',
+          800: '#1E1E1C',
+          850: '#161615',
+          900: '#111110',
+          950: '#0A0A09',
         },
-        surface: {
-          light: '#FFFFFF',
-          dark: '#14171F',
-          darker: '#0D0E12',
-          borderLight: '#E5E7EB',
-          borderDark: '#222634',
+        brand: {
+          50: '#EFF6FF',
+          100: '#DBEAFE',
+          200: '#BFDBFE',
+          300: '#93C5FD',
+          400: '#3B82F6',
+          500: '#1D4ED8',
+          600: '#1E40AF',
+          700: '#1E3A8A',
+          800: '#172554',
+          900: '#0F172A',
         },
-        pos: '#059669', // Clean Forest Emerald (not neon)
-        neg: '#E11D48', // Clean Crimson Rose
-        warn: '#D97706', // Clean Amber
+        pos: '#15803D', // Deep banknote green
+        neg: '#BE123C', // Ledger crimson
+        warn: '#B45309', // Ochre amber
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        sans: ['"Geist"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['"Geist"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+        mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       boxShadow: {
-        subtle: '0 1px 2px 0 rgba(0, 0, 0, 0.04)',
-        card: '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)',
-        pop: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+        subtle: '0 1px 2px 0 rgba(17, 17, 16, 0.03)',
+        card: '0 1px 2px 0 rgba(17, 17, 16, 0.04)',
+        pop: '0 12px 32px -4px rgba(17, 17, 16, 0.12), 0 4px 12px -2px rgba(17, 17, 16, 0.06)',
       },
       borderRadius: {
-        sm: '6px',
-        md: '8px',
-        lg: '10px',
-        xl: '12px',
-        card: '14px',
+        sm: '4px',
+        md: '6px',
+        lg: '6px',
+        xl: '8px',
+        card: '8px',
       },
     },
   },

@@ -1,4 +1,4 @@
-import { AlertTriangle, Pencil, Plus, Target, Trash2, Wallet } from 'lucide-react'
+import { AlertTriangle, Pencil, Plus, Trash2, Wallet } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 import { api } from '../api'
@@ -12,20 +12,13 @@ import {
   Field,
   Input,
   Modal,
+  PageHeader,
   ProgressBar,
   Select,
   Spinner,
 } from '../components/ui'
 import { money, moneyExact } from '../format'
 
-/**
- * Budget Planner.
- *
- * Utilisation comes from the server, computed by the same function that feeds
- * the dashboard alerts, the health score and the PDF. The page deliberately
- * does not divide spent by limit itself: a second implementation of the one
- * number this page exists to show is how two screens start disagreeing.
- */
 export default function Budget() {
   const [month, setMonth] = useState(null)
   const [months, setMonths] = useState([])
@@ -54,9 +47,6 @@ export default function Budget() {
     load(null)
   }, [load])
 
-  // The month list lives on the reports endpoint, which already derives it
-  // from the transaction history. Fetched once; budgets can be set for a month
-  // with no transactions yet, so the current month is merged in below.
   useEffect(() => {
     api
       .get('/api/reports/monthly')
@@ -77,36 +67,33 @@ export default function Budget() {
 
   return (
     <>
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="display text-2xl">Budget Planner</h1>
-          <p className="mt-1 text-sm muted">
-            What you planned to spend, against what you actually did
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Select
-            value={month ?? ''}
-            onChange={(event) => load(event.target.value)}
-            aria-label="Budget month"
-            className="w-auto"
-          >
-            {options.map((option) => (
-              <option key={option.month} value={option.month}>
-                {option.label}
-              </option>
-            ))}
-          </Select>
-          <Button onClick={() => setEditing({})}>
-            <Plus size={15} /> New budget
-          </Button>
-        </div>
-      </div>
+      <PageHeader
+        title="Budgets & Limits"
+        subtitle="Planned category allocations measured against recorded outflows"
+        action={
+          <>
+            <Select
+              value={month ?? ''}
+              onChange={(event) => load(event.target.value)}
+              aria-label="Budget month"
+              className="w-auto"
+            >
+              {options.map((option) => (
+                <option key={option.month} value={option.month}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+            <Button onClick={() => setEditing({})}>
+              <Plus size={14} /> New allocation
+            </Button>
+          </>
+        }
+      />
 
       {data.partial_month && (
         <p className="mb-5 text-xs muted">
-          {data.month_label} is still in progress, so spending will keep rising against
-          these limits.
+          {data.month_label} is still in progress — recorded outflows will continue accumulating against these limits.
         </p>
       )}
 
@@ -115,16 +102,16 @@ export default function Budget() {
           <EmptyState
             icon={Wallet}
             title={`No budgets set for ${data.month_label}`}
-            body="Set a monthly limit overall or per category, and FINWISE will track your spending against it here, on the dashboard and in your reports."
+            body="Define a monthly ceiling overall or per category to monitor utilisation across the ledger and monthly reports."
             action={
               <Button onClick={() => setEditing({})}>
-                <Plus size={15} /> Set your first budget
+                <Plus size={14} /> Set first budget
               </Button>
             }
           />
         </Card>
       ) : (
-        <div className="space-y-5">
+        <div className="space-y-6">
           {data.overall && (
             <OverallCard
               budget={data.overall}
@@ -135,31 +122,37 @@ export default function Budget() {
           )}
 
           {perCategory.length > 0 && (
-            <div className="grid gap-4 md:grid-cols-2">
-              {perCategory.map((budget) => (
-                <BudgetCard
-                  key={budget.id}
-                  budget={budget}
-                  warnAt={data.warn_at_pct}
-                  onEdit={() => setEditing(budget)}
-                  onDelete={() => setDeleting(budget)}
-                />
-              ))}
-            </div>
+            <Card className="overflow-hidden">
+              <CardHeader
+                title="Category ceilings"
+                subtitle={`${perCategory.length} active category limits for ${data.month_label}`}
+              />
+              <div className="grid divide-y divide-ink-200 md:grid-cols-2 md:divide-x dark:divide-[#222220]">
+                {perCategory.map((budget) => (
+                  <BudgetCard
+                    key={budget.id}
+                    budget={budget}
+                    warnAt={data.warn_at_pct}
+                    onEdit={() => setEditing(budget)}
+                    onDelete={() => setDeleting(budget)}
+                  />
+                ))}
+              </div>
+            </Card>
           )}
 
           {!data.has_overall && (
-            <Card className="p-4">
-              <p className="text-sm">
-                No overall monthly budget set.{' '}
+            <Card className="px-5 py-3.5">
+              <p className="text-xs">
+                No overall monthly ceiling configured.{' '}
                 <button
                   onClick={() => setEditing({ category: 'overall' })}
-                  className="text-brand-400 hover:underline"
+                  className="font-medium text-ink-900 underline underline-offset-4 dark:text-ink-100"
                 >
-                  Set one
+                  Set overall limit
                 </button>{' '}
                 <span className="muted">
-                  to track total spending, not just the categories below.
+                  to track aggregate monthly outflow alongside individual categories.
                 </span>
               </p>
             </Card>
@@ -168,12 +161,12 @@ export default function Budget() {
       )}
 
       {data.unbudgeted.length > 0 && (
-        <Card className="mt-5">
+        <Card className="mt-6">
           <CardHeader
-            title="Spending with no budget"
-            subtitle="These categories are not counted against any category limit"
+            title="Unallocated outflows"
+            subtitle="Categories with recorded activity but no assigned ceiling"
           />
-          <ul className="divide-y divide-ink-200 dark:divide-ink-800">
+          <ul className="divide-y divide-ink-200 dark:divide-[#222220]">
             {data.unbudgeted.map((item) => (
               <li
                 key={item.category}
@@ -181,7 +174,7 @@ export default function Budget() {
               >
                 <span>
                   {item.category}{' '}
-                  <span className="muted tnum">{moneyExact(item.spent)} this month</span>
+                  <span className="font-mono text-xs muted tnum">{moneyExact(item.spent)} this month</span>
                 </span>
                 <Button
                   variant="ghost"
@@ -192,7 +185,7 @@ export default function Budget() {
                     })
                   }
                 >
-                  <Plus size={14} /> Set a budget
+                  <Plus size={13} /> Assign limit
                 </Button>
               </li>
             ))}
@@ -203,7 +196,7 @@ export default function Budget() {
       <Modal
         open={Boolean(editing)}
         onClose={() => setEditing(null)}
-        title={editing?.id ? 'Edit budget' : 'New budget'}
+        title={editing?.id ? 'Edit allocation' : 'New allocation'}
       >
         {editing && (
           <BudgetForm
@@ -266,12 +259,12 @@ function OverallCard({ budget, warnAt, onEdit, onDelete }) {
     <Card>
       <div className="flex flex-wrap items-start justify-between gap-3 p-5 pb-3">
         <div>
-          <p className="flex items-center gap-2 text-sm font-medium">
-            <Target size={15} className="text-brand-400" /> Overall monthly budget
+          <p className="text-xs font-medium text-ink-500 dark:text-ink-400">
+            Overall monthly ceiling
           </p>
-          <p className="mt-1 text-2xl font-semibold tnum">
+          <p className="display-serif mt-1 text-3xl text-ink-900 dark:text-ink-100 tnum">
             {moneyExact(budget.spent)}{' '}
-            <span className="text-base font-normal muted">
+            <span className="font-sans text-sm font-normal muted">
               of {moneyExact(budget.amount)}
             </span>
           </p>
@@ -288,7 +281,7 @@ function OverallCard({ budget, warnAt, onEdit, onDelete }) {
       </div>
       <div className="px-5 pb-5">
         <ProgressBar value={budget.used_pct} tone={tone} />
-        <p className="mt-1.5 text-[11px] muted tnum">{budget.used_pct}% used</p>
+        <p className="mt-1.5 font-mono text-[11px] muted tnum">{budget.used_pct}% utilised</p>
       </div>
     </Card>
   )
@@ -297,31 +290,33 @@ function OverallCard({ budget, warnAt, onEdit, onDelete }) {
 function BudgetCard({ budget, warnAt, onEdit, onDelete }) {
   const tone = toneFor(budget.status)
   return (
-    <Card className="p-5">
+    <div className="p-5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <h3 className="truncate font-medium">{budget.category}</h3>
-          <p className="mt-0.5 text-sm tnum">
+          <h3 className="truncate text-sm font-medium text-ink-900 dark:text-ink-100">
+            {budget.category}
+          </h3>
+          <p className="mt-0.5 font-mono text-xs text-ink-900 dark:text-ink-100 tnum">
             {moneyExact(budget.spent)}{' '}
-            <span className="muted">of {moneyExact(budget.amount)}</span>
+            <span className="muted">/ {moneyExact(budget.amount)}</span>
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-1">
           <Button variant="ghost" onClick={onEdit} aria-label={`Edit ${budget.category} budget`}>
-            <Pencil size={14} />
+            <Pencil size={13} />
           </Button>
           <Button
             variant="ghost"
             onClick={onDelete}
             aria-label={`Delete ${budget.category} budget`}
           >
-            <Trash2 size={14} />
+            <Trash2 size={13} />
           </Button>
         </div>
       </div>
 
       <ProgressBar className="mt-3" value={budget.used_pct} tone={tone} />
-      <div className="mt-1.5 flex flex-wrap items-center justify-between gap-2 text-[11px]">
+      <div className="mt-1.5 flex flex-wrap items-center justify-between gap-2 font-mono text-[11px]">
         <span className="muted tnum">{budget.used_pct}% used</span>
         <span
           className={
@@ -336,7 +331,7 @@ function BudgetCard({ budget, warnAt, onEdit, onDelete }) {
           {statusLabel(budget, warnAt)}
         </span>
       </div>
-    </Card>
+    </div>
   )
 }
 
@@ -350,8 +345,6 @@ function BudgetForm({ budget, data, month, onCancel, onSaved }) {
   const [saving, setSaving] = useState(false)
 
   const suggestion = category !== 'overall' ? data.typical[category] : null
-  // The category being edited is not in available_categories (it is taken, by
-  // this budget), so it has to be added back or the select shows the wrong one.
   const choices = [
     ...(isEdit && !budget.is_overall ? [budget.category] : []),
     ...data.available_categories,
@@ -424,9 +417,9 @@ function BudgetForm({ budget, data, month, onCancel, onSaved }) {
         <button
           type="button"
           onClick={() => setAmount(String(Math.round(suggestion)))}
-          className="text-xs text-brand-400 hover:underline"
+          className="text-xs font-medium text-ink-900 underline underline-offset-4 dark:text-ink-100"
         >
-          Use my recent average ({moneyExact(suggestion)})
+          Use recent average ({moneyExact(suggestion)})
         </button>
       )}
 

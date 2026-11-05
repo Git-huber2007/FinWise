@@ -10,19 +10,13 @@ import {
   EmptyState,
   ErrorState,
   EstimateNote,
+  PageHeader,
   ProgressBar,
   Select,
   Spinner,
 } from '../components/ui'
 import { longDate, money, moneyExact, pct, signedPct } from '../format'
 
-/**
- * Reports.
- *
- * The preview on this page and the downloaded PDF are rendered from one
- * `/api/reports/monthly` payload on the server, so a report the user saves
- * cannot disagree with the one they were just looking at.
- */
 export default function Reports() {
   const [month, setMonth] = useState(null)
   const [report, setReport] = useState(null)
@@ -74,46 +68,42 @@ export default function Reports() {
 
   return (
     <>
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="display text-2xl">Reports</h1>
-          <p className="mt-1 text-sm muted">
-            A monthly summary you can keep, built from your recorded transactions
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <Select
-            value={month ?? ''}
-            onChange={(event) => load(event.target.value)}
-            aria-label="Report month"
-            className="w-auto"
-          >
-            {meta.available_months.map((option) => (
-              <option key={option.month} value={option.month}>
-                {option.label}
-              </option>
-            ))}
-          </Select>
-          <Button onClick={() => download('pdf')} loading={downloading === 'pdf'}>
-            <FileText size={15} /> PDF
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => download('csv')}
-            loading={downloading === 'csv'}
-          >
-            <FileSpreadsheet size={15} /> CSV
-          </Button>
-        </div>
-      </div>
+      <PageHeader
+        title="Monthly Statements"
+        subtitle="Audit-ready monthly ledger summary and exportable register"
+        action={
+          <>
+            <Select
+              value={month ?? ''}
+              onChange={(event) => load(event.target.value)}
+              aria-label="Report month"
+              className="w-auto"
+            >
+              {meta.available_months.map((option) => (
+                <option key={option.month} value={option.month}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+            <Button onClick={() => download('pdf')} loading={downloading === 'pdf'}>
+              <FileText size={14} /> Export PDF
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => download('csv')}
+              loading={downloading === 'csv'}
+            >
+              <FileSpreadsheet size={14} /> Export CSV
+            </Button>
+          </>
+        }
+      />
 
       {meta.is_sample_data && (
-        <div className="mb-5 flex items-start gap-2 rounded-xl border border-warn/30 bg-warn/[0.07] p-4 text-sm">
-          <Info size={16} className="mt-0.5 shrink-0 text-warn" />
+        <div className="mb-5 flex items-start gap-2.5 rounded-md border border-ink-200 bg-[#F1EFEA] px-4 py-2.5 text-xs dark:border-[#242422] dark:bg-[#171715]">
+          <Info size={14} className="mt-0.5 shrink-0 text-warn" />
           <span>
-            <strong>Sample data.</strong> {meta.sample_notice} The PDF is stamped the same
-            way.
+            <strong className="font-semibold">Sample ledger.</strong> {meta.sample_notice} The exported PDF carries the same notice.
           </span>
         </div>
       )}
@@ -133,27 +123,27 @@ export default function Reports() {
           />
         </Card>
       ) : (
-        <div className="space-y-5">
-          <Card>
+        <div className="space-y-6">
+          <Card className="overflow-hidden">
             <CardHeader
-              title={`Summary — ${meta.month_label}`}
+              title={`Statement summary — ${meta.month_label}`}
               subtitle={
                 report.previous_month
                   ? `Compared with ${meta.available_months.find((m) => m.month === report.previous_month)?.label ?? report.previous_month}`
                   : 'No earlier month to compare against'
               }
             />
-            <div className="grid gap-px overflow-hidden bg-ink-200 sm:grid-cols-2 lg:grid-cols-4 dark:bg-ink-800">
-              <SummaryCell label="Income" value={totals.income} before={previous?.income} />
+            <div className="grid divide-y divide-ink-200 sm:grid-cols-2 sm:divide-x lg:grid-cols-4 lg:divide-y-0 dark:divide-[#222220]">
+              <SummaryCell label="Gross inflows" value={totals.income} before={previous?.income} />
               <SummaryCell
-                label="Expenses"
+                label="Total outflows"
                 value={totals.expense}
                 before={previous?.expense}
                 invert
               />
-              <SummaryCell label="Savings" value={totals.savings} before={previous?.savings} />
+              <SummaryCell label="Net retained" value={totals.savings} before={previous?.savings} />
               <SummaryCell
-                label="Savings rate"
+                label="Retention rate"
                 value={totals.savings_rate}
                 before={previous?.savings_rate}
                 isPercent
@@ -161,18 +151,18 @@ export default function Reports() {
             </div>
           </Card>
 
-          <div className="grid gap-5 lg:grid-cols-2">
+          <div className="grid gap-6 lg:grid-cols-2">
             <Card>
-              <CardHeader title="Where the money went" subtitle={`${totals.transactions} entries`} />
-              <div className="space-y-3 p-5 pt-0">
+              <CardHeader title="Outflow allocation" subtitle={`${totals.transactions} entries`} />
+              <div className="space-y-3.5 p-5">
                 {report.category_breakdown.length === 0 && (
                   <p className="text-sm muted">No expenses recorded this month.</p>
                 )}
                 {report.category_breakdown.map((item) => (
                   <div key={item.category}>
-                    <div className="flex justify-between text-sm">
-                      <span>{item.category}</span>
-                      <span className="tnum">
+                    <div className="flex justify-between text-xs">
+                      <span className="font-medium text-ink-900 dark:text-ink-100">{item.category}</span>
+                      <span className="font-mono tnum">
                         {moneyExact(item.amount)}{' '}
                         <span className="muted">({item.share}%)</span>
                       </span>
@@ -185,7 +175,7 @@ export default function Reports() {
 
             <Card>
               <CardHeader
-                title="Financial health"
+                title="Composite health index"
                 subtitle={report.health.band}
                 action={
                   report.health.provisional ? (
@@ -193,16 +183,16 @@ export default function Reports() {
                   ) : null
                 }
               />
-              <div className="p-5 pt-0">
-                <p className="text-2xl font-semibold tnum">
+              <div className="p-5">
+                <p className="display-serif text-3xl text-ink-900 dark:text-ink-100 tnum">
                   {report.health.score}
-                  <span className="text-base font-normal muted"> / 100</span>
+                  <span className="font-sans text-base font-normal muted"> / 100</span>
                 </p>
-                <div className="mt-4 space-y-2">
+                <div className="mt-4 space-y-2 border-t border-ink-200 pt-3 dark:border-[#222220]">
                   {report.health.components.map((component) => (
                     <div key={component.key} className="flex justify-between text-xs">
                       <span className="muted">{component.label}</span>
-                      <span className="tnum">
+                      <span className="font-mono text-ink-900 dark:text-ink-100 tnum">
                         {component.points.toFixed(1)} / {component.max_points}
                       </span>
                     </div>
@@ -220,27 +210,27 @@ export default function Reports() {
                 subtitle={
                   meta.partial_month
                     ? 'Both months truncated to the same elapsed day'
-                    : 'Biggest changes first'
+                    : 'Sorted by largest variance'
                 }
               />
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
-                  <thead className="border-b border-ink-200 text-xs muted dark:border-ink-800">
+                  <thead className="border-b border-ink-200 bg-ink-50/60 text-xs muted dark:border-[#222220] dark:bg-[#171715]">
                     <tr>
-                      <th className="px-5 py-2 text-left font-medium">Category</th>
-                      <th className="px-5 py-2 text-right font-medium">This month</th>
-                      <th className="px-5 py-2 text-right font-medium">Previous</th>
-                      <th className="px-5 py-2 text-right font-medium">Change</th>
+                      <th className="px-5 py-2.5 text-left font-medium">Category</th>
+                      <th className="px-5 py-2.5 text-right font-medium">This month</th>
+                      <th className="px-5 py-2.5 text-right font-medium">Previous</th>
+                      <th className="px-5 py-2.5 text-right font-medium">Variance</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-ink-200 dark:divide-[#1F1F1D]">
                     {report.comparison.slice(0, 8).map((row) => (
-                      <tr key={row.category} className="border-b border-ink-200 last:border-0 dark:border-ink-800">
-                        <td className="px-5 py-2">{row.category}</td>
-                        <td className="px-5 py-2 text-right tnum">{moneyExact(row.current)}</td>
-                        <td className="px-5 py-2 text-right tnum">{moneyExact(row.previous)}</td>
+                      <tr key={row.category}>
+                        <td className="px-5 py-2.5 font-medium text-ink-900 dark:text-ink-100">{row.category}</td>
+                        <td className="px-5 py-2.5 text-right font-mono text-xs tnum">{moneyExact(row.current)}</td>
+                        <td className="px-5 py-2.5 text-right font-mono text-xs muted tnum">{moneyExact(row.previous)}</td>
                         <td
-                          className={`px-5 py-2 text-right tnum ${
+                          className={`px-5 py-2.5 text-right font-mono text-xs tnum ${
                             row.change > 0 ? 'text-neg' : row.change < 0 ? 'text-pos' : 'muted'
                           }`}
                         >
@@ -261,16 +251,16 @@ export default function Reports() {
           {report.anomalies.anomalies.length > 0 && (
             <Card>
               <CardHeader
-                title="Spending to confirm"
-                subtitle="Included in the PDF"
+                title="Flagged entries"
+                subtitle="Included in the PDF statement"
                 action={<Badge tone="warning">{report.anomalies.count}</Badge>}
               />
-              <ul className="divide-y divide-ink-200 dark:divide-ink-800">
+              <ul className="divide-y divide-ink-200 dark:divide-[#222220]">
                 {report.anomalies.anomalies.map((item) => (
                   <li key={item.id} className="px-5 py-3 text-sm">
-                    <span className="font-medium">{item.description}</span>{' '}
-                    <span className="tnum">{moneyExact(item.amount)}</span>
-                    <span className="muted"> · {longDate(item.date)}</span>
+                    <span className="font-medium text-ink-900 dark:text-ink-100">{item.description}</span>{' '}
+                    <span className="font-mono text-xs tnum">{moneyExact(item.amount)}</span>
+                    <span className="font-mono text-xs muted"> · {longDate(item.date)}</span>
                     <p className="mt-0.5 text-xs muted">{item.reason}</p>
                   </li>
                 ))}
@@ -279,26 +269,29 @@ export default function Reports() {
           )}
 
           <Card>
-            <CardHeader title="Transactions in this report" subtitle={`${report.transactions.length} entries, oldest first`} />
+            <CardHeader
+              title="Statement register"
+              subtitle={`${report.transactions.length} entries, chronological`}
+            />
             <div className="max-h-96 overflow-y-auto">
               <table className="w-full text-sm">
-                <thead className="sticky top-0 border-b border-ink-200 bg-white text-xs muted dark:border-ink-800 dark:bg-ink-900">
+                <thead className="sticky top-0 border-b border-ink-200 bg-white text-xs muted dark:border-[#222220] dark:bg-[#141413]">
                   <tr>
-                    <th className="px-5 py-2 text-left font-medium">Date</th>
-                    <th className="px-5 py-2 text-left font-medium">Description</th>
-                    <th className="px-5 py-2 text-left font-medium">Category</th>
-                    <th className="px-5 py-2 text-right font-medium">Amount</th>
+                    <th className="px-5 py-2.5 text-left font-medium">Date</th>
+                    <th className="px-5 py-2.5 text-left font-medium">Description</th>
+                    <th className="px-5 py-2.5 text-left font-medium">Category</th>
+                    <th className="px-5 py-2.5 text-right font-medium">Amount</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-ink-200 dark:divide-[#1F1F1D]">
                   {report.transactions.map((row) => (
-                    <tr key={row.id} className="border-b border-ink-200 last:border-0 dark:border-ink-800">
-                      <td className="whitespace-nowrap px-5 py-2 muted">{longDate(row.date)}</td>
-                      <td className="px-5 py-2">{row.description}</td>
-                      <td className="px-5 py-2 muted">{row.category}</td>
+                    <tr key={row.id}>
+                      <td className="whitespace-nowrap px-5 py-2.5 font-mono text-xs muted">{longDate(row.date)}</td>
+                      <td className="px-5 py-2.5 text-ink-900 dark:text-ink-100">{row.description}</td>
+                      <td className="px-5 py-2.5 text-xs muted">{row.category}</td>
                       <td
-                        className={`whitespace-nowrap px-5 py-2 text-right tnum ${
-                          row.txn_type === 'income' ? 'text-pos' : ''
+                        className={`whitespace-nowrap px-5 py-2.5 text-right font-mono text-xs font-medium tnum ${
+                          row.txn_type === 'income' ? 'text-pos' : 'text-ink-900 dark:text-ink-100'
                         }`}
                       >
                         {row.txn_type === 'income' ? '+' : '−'}
@@ -329,12 +322,12 @@ function SummaryCell({ label, value, before, invert = false, isPercent = false }
     before === null || before === undefined || value === null ? null : value - before
 
   return (
-    <div className="bg-white p-4 dark:bg-ink-900">
-      <p className="text-xs font-medium muted">{label}</p>
-      <p className="mt-1 text-lg font-semibold tnum">{shown}</p>
+    <div className="bg-white p-5 dark:bg-[#141413]">
+      <p className="text-xs font-medium text-ink-500 dark:text-ink-400">{label}</p>
+      <p className="display-serif mt-1.5 text-2xl text-ink-900 dark:text-ink-100 tnum">{shown}</p>
       {delta !== null && (
         <p
-          className={`mt-0.5 text-[11px] tnum ${
+          className={`mt-1 font-mono text-[11px] tnum ${
             delta === 0
               ? 'muted'
               : (delta > 0) !== invert
@@ -343,8 +336,8 @@ function SummaryCell({ label, value, before, invert = false, isPercent = false }
           }`}
         >
           {delta === 0
-            ? 'no change vs previous month'
-            : `${delta > 0 ? '+' : ''}${isPercent ? `${delta.toFixed(1)} pts` : money(delta)} vs previous month`}
+            ? 'flat vs prior month'
+            : `${delta > 0 ? '+' : ''}${isPercent ? `${delta.toFixed(1)} pts` : money(delta)} vs prior`}
         </p>
       )}
     </div>

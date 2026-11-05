@@ -1,4 +1,4 @@
-import { ArrowDownRight, ArrowUpRight, Lightbulb, Minus } from 'lucide-react'
+import { ArrowDownRight, ArrowUpRight, LineChart, Minus } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 import { api } from '../api'
@@ -43,10 +43,10 @@ export default function Insights() {
   if (!data?.has_data) {
     return (
       <>
-        <PageHeader title="Spending Insights" subtitle="Patterns found in your own transactions" />
+        <PageHeader title="Spending Analysis" subtitle="Variance and allocation patterns computed from your ledger" />
         <Card>
           <EmptyState
-            icon={Lightbulb}
+            icon={LineChart}
             title="Nothing to analyse yet"
             body="Record a month of income and expenses and the patterns will appear here."
           />
@@ -58,50 +58,48 @@ export default function Insights() {
   return (
     <>
       <PageHeader
-        title="Spending Insights"
-        subtitle={`${data.month_label} — every figure below is arithmetic on your transactions`}
+        title="Spending Analysis"
+        subtitle={`${data.month_label} — deterministic variance and category share across your recorded ledger`}
       />
 
-      <div className="grid gap-5 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <CardHeader
-            title="What stands out"
-            subtitle={
-              data.previous_month
-                ? `Compared with ${data.previous_month}`
-                : 'No earlier month to compare against yet'
-            }
-          />
-          <div className="divide-y divide-ink-100 dark:divide-ink-800/60">
-            {data.insights.length ? (
-              data.insights.map((insight, index) => <InsightRow key={index} insight={insight} />)
-            ) : (
-              <EmptyState
-                icon={Lightbulb}
-                title="No notable patterns this month"
-                body="Nothing moved enough to be worth flagging. That is usually a good sign."
-              />
-            )}
-          </div>
-        </Card>
-      </div>
+      <Card>
+        <CardHeader
+          title="Notable movements"
+          subtitle={
+            data.previous_month
+              ? `Compared with ${data.previous_month}`
+              : 'No earlier month to compare against yet'
+          }
+        />
+        <div className="divide-y divide-ink-200 dark:divide-[#222220]">
+          {data.insights.length ? (
+            data.insights.map((insight, index) => <InsightRow key={index} insight={insight} />)
+          ) : (
+            <EmptyState
+              icon={LineChart}
+              title="No notable patterns this month"
+              body="Nothing moved enough to be worth flagging. That is usually a good sign."
+            />
+          )}
+        </div>
+      </Card>
 
-      <div className="mt-5 grid gap-5 lg:grid-cols-2">
+      <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <Card>
-          <CardHeader title="Category share" subtitle="Largest first" />
+          <CardHeader title="Category allocation" subtitle="Ranked by share of total outflow" />
           <div className="space-y-3.5 p-5">
             {data.category_breakdown.map((item) => (
               <div key={item.category}>
                 <div className="flex items-baseline justify-between gap-3 text-sm">
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-2 font-medium text-ink-900 dark:text-ink-100">
                     <span
-                      className="h-2.5 w-2.5 shrink-0 rounded-full"
+                      className="h-2 w-2 shrink-0 rounded-[2px]"
                       style={{ background: categoryColor(item.category) }}
                     />
                     {item.category}
                   </span>
-                  <span className="tnum">
-                    <span className="font-medium">{money(item.amount)}</span>
+                  <span className="font-mono text-xs tnum">
+                    <span className="font-medium text-ink-900 dark:text-ink-100">{money(item.amount)}</span>
                     <span className="muted"> · {pct(item.share)}</span>
                   </span>
                 </div>
@@ -110,8 +108,8 @@ export default function Insights() {
                   value={item.share}
                   color={categoryColor(item.category)}
                 />
-                <p className="mt-1 text-[11px] muted">
-                  {item.transactions} transaction(s), averaging {money(item.average)}
+                <p className="mt-1 font-mono text-[11px] muted">
+                  {item.transactions} txn(s) · avg {money(item.average)}
                 </p>
               </div>
             ))}
@@ -120,13 +118,13 @@ export default function Insights() {
 
         <Card>
           <CardHeader
-            title="Month-over-month movement"
+            title="Month-over-month variance"
             subtitle={
               data.previous_month ? `vs ${data.previous_month}` : 'Needs two months of data'
             }
           />
           {data.comparison.length ? (
-            <div className="divide-y divide-ink-100 dark:divide-ink-800/60">
+            <div className="divide-y divide-ink-200 dark:divide-[#222220]">
               {data.comparison.map((row) => (
                 <ComparisonRow key={row.category} row={row} />
               ))}
@@ -141,17 +139,17 @@ export default function Insights() {
       </div>
 
       {data.budget_alerts.length > 0 && (
-        <Card className="mt-5">
-          <CardHeader title="Budget status" subtitle={data.month_label} />
+        <Card className="mt-6">
+          <CardHeader title="Ceiling utilisation" subtitle={data.month_label} />
           <div className="space-y-3.5 p-5">
             {data.budget_alerts.map((alert) => (
               <div key={alert.budget_id}>
                 <div className="flex items-baseline justify-between gap-3 text-sm">
-                  <span>{alert.label}</span>
-                  <span className="tnum">
+                  <span className="font-medium text-ink-900 dark:text-ink-100">{alert.label}</span>
+                  <span className="font-mono text-xs tnum">
                     <span
                       className={`font-medium ${
-                        alert.status === 'over' ? 'text-neg' : alert.status === 'warning' ? 'text-warn' : ''
+                        alert.status === 'over' ? 'text-neg' : alert.status === 'warning' ? 'text-warn' : 'text-ink-900 dark:text-ink-100'
                       }`}
                     >
                       {money(alert.spent)}
@@ -170,7 +168,7 @@ export default function Insights() {
                         : 'positive'
                   }
                 />
-                <p className="mt-1 text-[11px] muted">
+                <p className="mt-1 font-mono text-[11px] muted">
                   {alert.remaining >= 0
                     ? `${money(alert.remaining)} remaining`
                     : `Over by ${money(Math.abs(alert.remaining))}`}
@@ -189,22 +187,21 @@ function ComparisonRow({ row }) {
   const rose = row.change > 0
   const flat = row.change === 0
   const Icon = flat ? Minus : rose ? ArrowUpRight : ArrowDownRight
-  // Spending more is not good news; spending less is. Colour accordingly.
   const tone = flat ? 'muted' : rose ? 'text-neg' : 'text-pos'
 
   return (
     <div className="flex items-center gap-3 px-5 py-3">
       <span
-        className="h-7 w-1 shrink-0 rounded-full"
+        className="h-6 w-1 shrink-0 rounded-[1px]"
         style={{ background: categoryColor(row.category) }}
       />
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium">{row.category}</p>
-        <p className="text-[11px] muted tnum">
+        <p className="text-sm font-medium text-ink-900 dark:text-ink-100">{row.category}</p>
+        <p className="font-mono text-[11px] muted tnum">
           {money(row.previous)} → {money(row.current)}
         </p>
       </div>
-      <span className={`flex shrink-0 items-center gap-0.5 text-xs tnum ${tone}`}>
+      <span className={`flex shrink-0 items-center gap-0.5 font-mono text-xs tnum ${tone}`}>
         <Icon size={13} />
         {row.change_pct === null ? 'new' : signedPct(row.change_pct)}
       </span>

@@ -1,26 +1,23 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
 /**
- * Light/dark mode. Tailwind is configured with darkMode:'class', so all this
- * does is toggle `dark` on <html> and remember the choice.
+ * Light/dark mode. Defaults to the warm architectural paper light theme
+ * unless the user explicitly toggles to carbon dark mode.
  */
 
 const ThemeContext = createContext(null)
-const STORAGE_KEY = 'finwise.theme'
+const STORAGE_KEY = 'finwise.theme.v2'
 
 function initialTheme() {
   const saved = localStorage.getItem(STORAGE_KEY)
   if (saved === 'light' || saved === 'dark') return saved
-  // No stored preference: follow the OS rather than guessing.
-  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+  return 'light'
 }
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(initialTheme)
 
   useEffect(() => {
-    // index.html ships with class="dark" so the first paint is already dark and
-    // there is no white flash before React mounts.
     document.documentElement.classList.toggle('dark', theme === 'dark')
     localStorage.setItem(STORAGE_KEY, theme)
   }, [theme])

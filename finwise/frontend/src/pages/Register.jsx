@@ -24,7 +24,6 @@ export default function Register() {
         name: form.name,
         email: form.email,
         password: form.password,
-        // Optional: omitted rather than sent as an empty string.
         monthly_income: form.monthly_income === '' ? null : Number(form.monthly_income),
       })
       navigate('/', { replace: true })
@@ -39,12 +38,15 @@ export default function Register() {
 
   return (
     <AuthShell
-      title="Create your account"
-      subtitle="Start tracking where your money actually goes."
+      title="Open a personal ledger"
+      subtitle="Record inflows, outflows, and allocations with audit-grade precision."
       footer={
         <>
-          Already have an account?{' '}
-          <Link to="/login" className="font-medium text-brand-400 hover:underline">
+          Already maintain a ledger?{' '}
+          <Link
+            to="/login"
+            className="font-medium text-ink-900 underline decoration-ink-300 underline-offset-4 hover:decoration-ink-900 dark:text-ink-100 dark:decoration-ink-700"
+          >
             Sign in
           </Link>
         </>
@@ -109,13 +111,13 @@ export default function Register() {
         </Field>
 
         {error && !error.field && (
-          <p role="alert" className="rounded-lg bg-neg/10 px-3 py-2 text-xs text-neg">
+          <p role="alert" className="rounded-md border border-neg/25 bg-neg/[0.06] px-3 py-2 text-xs text-neg">
             {error.message}
           </p>
         )}
 
         <Button type="submit" loading={busy} className="w-full" size="lg">
-          Create account
+          Create ledger
         </Button>
       </form>
     </AuthShell>

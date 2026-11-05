@@ -3,78 +3,93 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-  body {
-    @apply bg-[#F9FAFB] text-ink-900 font-sans antialiased min-h-screen;
-  }
-  .dark body {
-    @apply bg-[#0D0E12] text-ink-100;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
-  /* Strict tabular numbers for financial figures */
+  body {
+    @apply bg-[#F8F7F4] text-ink-900 font-sans antialiased min-h-dvh selection:bg-ink-900 selection:text-[#F8F7F4];
+  }
+
+  .dark body {
+    @apply bg-[#0A0A09] text-ink-100 selection:bg-ink-100 selection:text-ink-900;
+  }
+
+  /* Strict tabular numerals for all financial figures and dates */
   .tnum {
     font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1, "zero" 1;
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white;
+    @apply outline-none ring-2 ring-ink-900 ring-offset-2 ring-offset-[#F8F7F4];
   }
   .dark :focus-visible {
-    @apply ring-offset-[#0D0E12];
+    @apply ring-ink-200 ring-offset-[#0A0A09];
   }
 }
 
 @layer components {
-  /* Clean, structured card containers — no tacky neon glows */
+  /* Architectural ledger sheet — replaces bubbly floating cards */
   .card {
-    @apply rounded-card bg-white border border-ink-200 shadow-subtle transition-colors;
+    @apply rounded-card bg-white border border-ink-200/90 shadow-subtle;
   }
   .dark .card {
-    @apply bg-[#14171F] border-[#222634] shadow-none;
+    @apply bg-[#121211] border-[#242421] shadow-none;
   }
 
-  /* Hero financial card: elevated by high-contrast layout, not glowing balls */
   .card-hero {
-    @apply rounded-card bg-white border border-ink-200 shadow-sm;
+    @apply rounded-card bg-white border border-ink-200;
   }
   .dark .card-hero {
-    @apply bg-[#181C26] border-[#292E3E];
+    @apply bg-[#121211] border-[#242421];
   }
 
   .muted {
     @apply text-ink-500 dark:text-ink-400 font-normal;
   }
 
-  /* Display numbers: tight letter-spacing for large figures */
   .display {
     font-family: theme('fontFamily.display');
     font-weight: 600;
     letter-spacing: -0.025em;
   }
+
+  .display-serif {
+    font-family: theme('fontFamily.serif');
+    font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+
   .display-xl {
     font-family: theme('fontFamily.display');
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: -0.035em;
-    line-height: 1;
+    line-height: 1.05;
   }
 }
 
-/* Recharts chart styling */
+/* Recharts styling */
 .recharts-cartesian-axis-tick text {
   fill: currentColor;
-  opacity: 0.5;
+  opacity: 0.55;
   font-size: 11px;
-  font-family: theme('fontFamily.sans');
+  font-family: theme('fontFamily.mono');
 }
 .recharts-cartesian-grid line {
   stroke: currentColor;
-  opacity: 0.06;
+  opacity: 0.07;
 }
 
-/* Minimal clean scrollbar */
+/* Restrained scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -83,15 +98,12 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(156, 163, 175, 0.3);
-  border-radius: 9999px;
+  background: rgba(110, 107, 99, 0.25);
+  border-radius: 3px;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.14);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(156, 163, 175, 0.5);
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(110, 107, 99, 0.45);
 }

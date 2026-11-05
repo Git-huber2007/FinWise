@@ -8,8 +8,6 @@ import {
   Legend,
   Line,
   LineChart,
-  Pie,
-  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -19,68 +17,24 @@ import {
 import { money, moneyCompact } from '../format'
 import { useTheme } from '../theme'
 
-/**
- * Chart wrappers.
- *
- * Recharts renders inline SVG that Tailwind cannot reach, so colours and
- * typography are passed explicitly here. Defining them once is what keeps five
- * charts on one dashboard looking like one system.
- */
-
-// One colour per category, fixed by name so a category keeps its colour across
-// every chart and every page. Ordered to keep adjacent slices distinguishable.
-/**
- * Category colours.
- *
- * Two earlier attempts were wrong, and the second was wrong in a way that only
- * measurement caught. The first was the stock Tailwind 500 ramp. The second was
- * hand-picked "to harmonise" and failed three objective checks: indigo against
- * blue measured ΔE 2.5 under deuteranopia (invisible to a red-green colourblind
- * reader), teal against sea-green measured ΔE 7.3 for *normal* vision, which is
- * below the 15 floor at which two series can be told apart at all, and three of
- * the eleven fell under the chroma floor and read as grey.
- *
- * These eight hues and their per-mode steps come from a palette validated with
- * the data-viz validator against this app's own card surfaces (#ffffff light,
- * #161a22 dark). Both modes pass every gate: worst adjacent CVD ΔE 9.1 light /
- * 8.4 dark, worst adjacent normal-vision ΔE 19.6 / 19.3.
- *
- * Dark is a separate set of steps chosen for the dark surface, not an automatic
- * lightening of the light values.
- *
- * Eight is the cap, not a coincidence: past eight slots no ordering clears the
- * separation floors, so a ninth hue would be indistinguishable from one already
- * on screen. The eight consumption categories take the eight slots; the three
- * that are not consumption are handled outside the categorical set.
- */
 const CATEGORICAL = {
   //                      light      dark
-  Food: ['#2a78d6', '#3987e5'], // slot 1  blue
-  Housing: ['#eb6834', '#d95926'], // slot 2  orange
-  Transportation: ['#1baf7a', '#199e70'], // slot 3  aqua
-  Shopping: ['#eda100', '#c98500'], // slot 4  yellow
-  Entertainment: ['#e87ba4', '#d55181'], // slot 5  magenta
-  Utilities: ['#008300', '#008300'], // slot 6  green
-  Education: ['#6250d6', '#9085e9'], // slot 7  violet
-  Healthcare: ['#e34948', '#e66767'], // slot 8  red
+  Food: ['#1D4ED8', '#60A5FA'],
+  Housing: ['#B45309', '#F59E0B'],
+  Transportation: ['#0F766E', '#2DD4BF'],
+  Shopping: ['#A16207', '#FACC15'],
+  Entertainment: ['#9D174D', '#F472B6'],
+  Utilities: ['#15803D', '#4ADE80'],
+  Education: ['#4338CA', '#818CF8'],
+  Healthcare: ['#BE123C', '#FB7185'],
 }
 
-// Residual slots, deliberately neutral. An earlier draft gave Investments its
-// own income-green, which measured ΔE 9.3 light / 12.1 dark against the slot-6
-// green of Utilities -- below the 15 floor, so the two were hard to tell apart
-// in the same donut even with full colour vision. There is no ninth hue
-// available that clears the floors, so the tail is folded instead of coloured
-// (see MAX_SLICES below), which is the structural fix rather than a new colour.
 const NON_CATEGORICAL = {
-  Investments: ['#8b93a3', '#6c7384'],
-  Salary: ['#8b93a3', '#6c7384'],
-  Other: ['#8b93a3', '#6c7384'],
+  Investments: ['#6E6B63', '#8C887E'],
+  Salary: ['#6E6B63', '#8C887E'],
+  Other: ['#6E6B63', '#8C887E'],
 }
 
-// Eight hues clear the separation floors; a ninth cannot. So no chart shows
-// more than eight slices: the largest seven keep their own colour and
-// everything past them is summed into one labelled neutral slice. The sum is
-// the true total of the remainder, so nothing is hidden -- only merged.
 export const MAX_SLICES = 8
 
 export function foldTail(breakdown, max = MAX_SLICES) {
@@ -106,43 +60,49 @@ export function categoryColor(category, isDark = false) {
   return pair[isDark ? 1 : 0]
 }
 
-/** Hook form, so a swatch repaints when the theme toggles. */
 export function useCategoryColor() {
   const { isDark } = useTheme()
   return (category) => categoryColor(category, isDark)
 }
 
-const POSITIVE = '#10B981'
-const NEGATIVE = '#F43F5E'
-const BRAND = '#6366F1'
-
 function useChartTheme() {
   const { isDark } = useTheme()
   return {
-    axis: isDark ? '#94A3B8' : '#64748B',
-    grid: isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.05)',
-    tooltipBg: isDark ? 'rgba(14, 21, 38, 0.95)' : 'rgba(255, 255, 255, 0.95)',
-    tooltipBorder: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(226, 232, 240, 0.9)',
-    tooltipText: isDark ? '#F8FAFC' : '#0F172A',
+    axis: isDark ? '#8C887E' : '#6E6B63',
+    grid: isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(17, 17, 16, 0.06)',
+    tooltipBg: isDark ? '#181816' : '#FFFFFF',
+    tooltipBorder: isDark ? '#2E2E2A' : '#E5E3DC',
+    tooltipText: isDark ? '#F1EFEA' : '#111110',
+    inflowBar: isDark ? '#F1EFEA' : '#181816',
+    outflowBar: isDark ? '#57554E' : '#B8B4A9',
+    linePrimary: isDark ? '#F1EFEA' : '#181816',
+    savingsStroke: isDark ? '#4ADE80' : '#15803D',
   }
 }
 
-/** Shared tooltip so every chart formats rupees the same way. */
 function MoneyTooltip({ active, payload, label, theme }) {
   if (!active || !payload?.length) return null
   return (
     <div
-      className="rounded-xl border px-3.5 py-2.5 text-xs shadow-2xl backdrop-blur-xl"
-      style={{ background: theme.tooltipBg, borderColor: theme.tooltipBorder, color: theme.tooltipText }}
+      className="rounded-md border px-3 py-2 text-xs shadow-card"
+      style={{
+        background: theme.tooltipBg,
+        borderColor: theme.tooltipBorder,
+        color: theme.tooltipText,
+      }}
     >
-      {label && <p className="mb-1 font-medium">{label}</p>}
-      {payload.map((entry) => (
-        <p key={entry.name} className="flex items-center gap-2 tnum">
-          <span className="h-2 w-2 rounded-full" style={{ background: entry.color || entry.fill }} />
-          <span className="muted">{entry.name}</span>
-          <span className="ml-auto font-medium">{money(entry.value)}</span>
-        </p>
-      ))}
+      {label && <p className="mb-1.5 font-mono text-[11px] font-medium">{label}</p>}
+      <div className="space-y-1">
+        {payload.map((entry) => (
+          <p key={entry.name} className="flex items-center justify-between gap-4 font-mono text-[11px] tnum">
+            <span className="flex items-center gap-1.5">
+              <span className="size-2 rounded-xs" style={{ background: entry.color || entry.fill }} />
+              <span className="muted font-sans">{entry.name}</span>
+            </span>
+            <span className="font-medium">{money(entry.value)}</span>
+          </p>
+        ))}
+      </div>
     </div>
   )
 }
@@ -154,64 +114,48 @@ const axisProps = (theme) => ({
   axisLine: false,
 })
 
-export function IncomeVsExpenseChart({ data, height = 260 }) {
+export function IncomeVsExpenseChart({ data, height = 250 }) {
   const theme = useChartTheme()
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <BarChart data={data} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
+      <BarChart data={data} margin={{ top: 8, right: 8, left: -12, bottom: 0 }} barGap={3}>
         <CartesianGrid vertical={false} stroke={theme.grid} />
         <XAxis dataKey="label" {...axisProps(theme)} />
         <YAxis tickFormatter={moneyCompact} {...axisProps(theme)} width={56} />
-        <Tooltip content={<MoneyTooltip theme={theme} />} cursor={{ fill: theme.grid, opacity: 0.4 }} />
-        <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: theme.axis }} />
-        <Bar dataKey="income" name="Income" fill={POSITIVE} radius={[6, 6, 0, 0]} maxBarSize={28} />
-        <Bar dataKey="expense" name="Expenses" fill={NEGATIVE} radius={[6, 6, 0, 0]} maxBarSize={28} />
+        <Tooltip content={<MoneyTooltip theme={theme} />} cursor={{ fill: theme.grid, opacity: 0.5 }} />
+        <Legend iconType="square" iconSize={8} wrapperStyle={{ fontSize: 11, color: theme.axis }} />
+        <Bar dataKey="income" name="Inflows" fill={theme.inflowBar} radius={[2, 2, 0, 0]} maxBarSize={22} />
+        <Bar dataKey="expense" name="Outflows" fill={theme.outflowBar} radius={[2, 2, 0, 0]} maxBarSize={22} />
       </BarChart>
     </ResponsiveContainer>
   )
 }
 
-/**
- * Spending by category, as a ranked bar list rather than a donut.
- *
- * The form changed for a measured reason, not a stylistic one. A donut is an
- * all-pairs form -- every slice can sit beside every other and the legend lists
- * them together -- and no eight-hue palette clears the separation floors under
- * all-pairs: in this one, red against orange measures ΔE 7.1 for normal vision,
- * against a floor of 15. Adding a ninth hue for Investments made it worse, and
- * the pair that failed was not even the new one.
- *
- * A ranked bar list is an adjacent-pairs form, and more importantly it carries
- * a direct label on every row, so identity never depends on colour at all. It
- * also answers the question the page is actually asking -- "which category is
- * biggest, and by how much" -- which is a length comparison, something a bar
- * does well and a ring of angles does badly.
- */
 export function CategoryBars({ data, max }) {
   const colour = useCategoryColor()
   if (!data?.length) return null
   const rows = foldTail(data, max)
 
   return (
-    <ul className="space-y-3">
+    <ul className="divide-y divide-ink-200/70 dark:divide-[#222220]">
       {rows.map((row) => (
-        <li key={row.category}>
-          <div className="flex items-baseline justify-between gap-3 text-sm">
-            <span className="flex min-w-0 items-center gap-2">
+        <li key={row.category} className="py-2.5 first:pt-0 last:pb-0">
+          <div className="flex items-baseline justify-between gap-3 text-xs">
+            <span className="flex min-w-0 items-center gap-2 font-medium text-ink-900 dark:text-ink-100">
               <span
-                className="h-2.5 w-2.5 shrink-0 rounded-full"
+                className="size-2 shrink-0 rounded-xs"
                 style={{ background: colour(row.category) }}
               />
               <span className="truncate">{row.category}</span>
             </span>
-            <span className="shrink-0 tnum">
-              <span className="font-medium">{money(row.amount)}</span>
+            <span className="shrink-0 font-mono text-xs tnum">
+              <span className="font-medium text-ink-900 dark:text-ink-100">{money(row.amount)}</span>
               <span className="muted"> · {row.share}%</span>
             </span>
           </div>
-          <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-ink-100 dark:bg-ink-800">
+          <div className="mt-1.5 h-1 w-full overflow-hidden rounded-xs bg-ink-100 dark:bg-[#222220]">
             <div
-              className="h-full rounded-full transition-[width] duration-500"
+              className="h-full transition-[width] duration-300"
               style={{ width: `${Math.max(1, row.share)}%`, background: colour(row.category) }}
             />
           </div>
@@ -220,7 +164,8 @@ export function CategoryBars({ data, max }) {
     </ul>
   )
 }
-export function ExpenseTrendChart({ data, height = 240 }) {
+
+export function ExpenseTrendChart({ data, height = 220 }) {
   const theme = useChartTheme()
   return (
     <ResponsiveContainer width="100%" height={height}>
@@ -232,21 +177,19 @@ export function ExpenseTrendChart({ data, height = 240 }) {
         <Line
           type="monotone"
           dataKey="expense"
-          name="Expenses"
-          stroke={NEGATIVE}
-          strokeWidth={2}
-          dot={{ r: 3, strokeWidth: 0, fill: NEGATIVE }}
-          activeDot={{ r: 5 }}
+          name="Outflows"
+          stroke={theme.linePrimary}
+          strokeWidth={1.75}
+          dot={{ r: 2.5, strokeWidth: 0, fill: theme.linePrimary }}
+          activeDot={{ r: 4 }}
         />
       </LineChart>
     </ResponsiveContainer>
   )
 }
 
-export function SavingsGrowthChart({ data, height = 240 }) {
+export function SavingsGrowthChart({ data, height = 220 }) {
   const theme = useChartTheme()
-  // Running total, because "savings growth" is cumulative — a per-month bar
-  // chart would answer a different question.
   let running = 0
   const cumulative = data.map((row) => {
     running += row.savings
@@ -258,8 +201,8 @@ export function SavingsGrowthChart({ data, height = 240 }) {
       <AreaChart data={cumulative} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
         <defs>
           <linearGradient id="savingsFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={BRAND} stopOpacity={0.35} />
-            <stop offset="100%" stopColor={BRAND} stopOpacity={0.02} />
+            <stop offset="0%" stopColor={theme.savingsStroke} stopOpacity={0.16} />
+            <stop offset="100%" stopColor={theme.savingsStroke} stopOpacity={0.0} />
           </linearGradient>
         </defs>
         <CartesianGrid vertical={false} stroke={theme.grid} />
@@ -269,9 +212,9 @@ export function SavingsGrowthChart({ data, height = 240 }) {
         <Area
           type="monotone"
           dataKey="cumulative"
-          name="Cumulative savings"
-          stroke={BRAND}
-          strokeWidth={2}
+          name="Cumulative retained"
+          stroke={theme.savingsStroke}
+          strokeWidth={1.75}
           fill="url(#savingsFill)"
         />
       </AreaChart>
@@ -279,14 +222,12 @@ export function SavingsGrowthChart({ data, height = 240 }) {
   )
 }
 
-export function BudgetUtilisationChart({ alerts, height = 240 }) {
+export function BudgetUtilisationChart({ alerts, height = 220 }) {
   const theme = useChartTheme()
   const { isDark } = useTheme()
   if (!alerts?.length) return null
   const data = alerts.map((a) => ({ ...a, name: a.label }))
-  // The grid colour is deliberately near-invisible; a reference bar drawn in
-  // it reads as a rendering fault rather than as the budget line.
-  const budgetBar = isDark ? '#39414f' : '#cbd2dd'
+  const budgetBar = isDark ? '#2C2C28' : '#E5E3DC'
 
   return (
     <ResponsiveContainer width="100%" height={height}>
@@ -295,16 +236,22 @@ export function BudgetUtilisationChart({ alerts, height = 240 }) {
         <XAxis type="number" tickFormatter={moneyCompact} {...axisProps(theme)} />
         <YAxis type="category" dataKey="name" width={96} {...axisProps(theme)} />
         <Tooltip content={<MoneyTooltip theme={theme} />} cursor={{ fill: theme.grid, opacity: 0.4 }} />
-        <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: theme.axis }} />
-        <Bar dataKey="spent" name="Spent" radius={[0, 4, 4, 0]} maxBarSize={18}>
+        <Legend iconType="square" iconSize={8} wrapperStyle={{ fontSize: 11, color: theme.axis }} />
+        <Bar dataKey="spent" name="Spent" radius={[0, 2, 2, 0]} maxBarSize={14}>
           {data.map((entry) => (
             <Cell
               key={entry.label}
-              fill={entry.status === 'over' ? NEGATIVE : entry.status === 'warning' ? '#c98a1b' : POSITIVE}
+              fill={
+                entry.status === 'over'
+                  ? '#BE123C'
+                  : entry.status === 'warning'
+                    ? '#B45309'
+                    : theme.inflowBar
+              }
             />
           ))}
         </Bar>
-        <Bar dataKey="budget" name="Budget" fill={budgetBar} radius={[0, 4, 4, 0]} maxBarSize={18} />
+        <Bar dataKey="budget" name="Limit" fill={budgetBar} radius={[0, 2, 2, 0]} maxBarSize={14} />
       </BarChart>
     </ResponsiveContainer>
   )
