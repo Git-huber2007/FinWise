@@ -8,7 +8,7 @@
 FinWise is a personal finance and spending intelligence web application. It combines double-entry style ledger tracking, monthly category limits, statistical anomaly detection, and offline transaction classification powered by Scikit-Learn.
 
 - **Live Application**: [https://finwise-omega-nine.vercel.app/](https://finwise-omega-nine.vercel.app/)
-- **Demo Credentials**: `demo@finwise.ai` / `demo1234`
+
 
 ---
 
