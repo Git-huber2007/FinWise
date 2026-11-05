@@ -17,62 +17,23 @@ Every number, budget utilization metric, anomaly warning, and savings projection
 ## Architecture Overview
 
 <p align="center">
-  <a href="https://finwise-omega-nine.vercel.app/architecture.html" title="Click to open live interactive explorer with live trace animation">
+  <a href="https://finwise-omega-nine.vercel.app/architecture.html" target="_blank" title="Open Live Interactive Architecture Explorer">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="docs/architecture-dark.png">
-      <img alt="FinWise System Architecture" src="docs/architecture-light.png" width="100%" style="border-radius: 8px;">
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Git-huber2007/FinWise/main/docs/architecture-dark.png">
+      <img alt="FinWise System Architecture" src="https://raw.githubusercontent.com/Git-huber2007/FinWise/main/docs/architecture-light.png" width="100%">
     </picture>
   </a>
 </p>
 
 <p align="center">
-  <em>Click the architecture diagram above to open the <strong>Live Interactive Explorer</strong> (with animated trace motion, pan/zoom, and node inspectors), or explore via the interactive component map below:</em>
+  <a href="https://finwise-omega-nine.vercel.app/architecture.html">
+    <img src="https://img.shields.io/badge/%E2%96%B6_Launch_Live_Interactive_Architecture-15803D?style=for-the-badge&logo=diagramsdotnet&logoColor=white" alt="Launch Live Interactive Architecture">
+  </a>
 </p>
 
-```mermaid
-flowchart LR
-    subgraph ClientTier["1. Client Tier"]
-        UI["React 18 SPA<br/><i>(Tailwind · Geist)</i>"]
-    end
-
-    subgraph EdgeTier["2. Vercel Edge"]
-        VercelEdge["Edge CDN & Routing<br/><i>(/api/* -> WSGI)</i>"]
-    end
-
-    subgraph AppTier["3. Flask Serverless"]
-        direction TB
-        Auth["Session Auth & CORS"]
-        Routes["Ledger & Ceilings<br/><i>(Txn · Budgets · Goals)</i>"]
-        Auth --> Routes
-    end
-
-    subgraph IntelligenceTier["4. Intelligence Tier"]
-        direction TB
-        ML["ML Categorizer<br/><i>ComplementNB</i>"]
-        Rubric["Health Engine<br/><i>6-Factor Rubric</i>"]
-        Gemini["Google Gemini 2.5<br/><i>Grounded Advice</i>"]
-    end
-
-    subgraph DataTier["5. Persistence"]
-        Neon[("Neon PostgreSQL<br/><i>(Pooler + SSL)</i>")]
-    end
-
-    UI -->|"HTTPS / Cookie"| VercelEdge
-    VercelEdge -->|"WSGI Proxy"| Auth
-    Routes -->|"Classify merchant"| ML
-    Routes -->|"Score rubric"| Rubric
-    Rubric -->|"Grounded context"| Gemini
-    Routes -->|"SQLAlchemy 2.0"| Neon
-
-    click UI href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/frontend/src/App.jsx" "View React App Source"
-    click VercelEdge href "https://github.com/Git-huber2007/FinWise/blob/main/vercel.json" "View Vercel Config"
-    click Auth href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/app.py" "View Auth Code"
-    click Routes href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/routes/transactions.py" "View Ledger Routes"
-    click ML href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/ai/categorizer.py" "View Scikit-Learn Model"
-    click Rubric href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/ai/health.py" "View Health Engine"
-    click Gemini href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/ai/chat.py" "View Gemini Assistant"
-    click Neon href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/models.py" "View Database Schema"
-```
+<p align="center">
+  <em>Click the architecture diagram above or the green launch button to explore the <strong>live interactive canvas</strong> with active signal trace animations, guided tours, pan/zoom controls, and node inspector cards.</em>
+</p>
 
 ---
 
