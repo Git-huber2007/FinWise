@@ -17,22 +17,22 @@ Every number, budget utilization metric, anomaly warning, and savings projection
 ## Architecture Overview
 
 <p align="center">
-  <a href="https://finwise-omega-nine.vercel.app/architecture.html" target="_blank" title="Open Live Interactive Architecture Explorer">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Git-huber2007/FinWise/main/docs/architecture-dark.png">
-      <img alt="FinWise System Architecture" src="https://raw.githubusercontent.com/Git-huber2007/FinWise/main/docs/architecture-light.png" width="100%">
-    </picture>
+  <a href="https://finwise-omega-nine.vercel.app/architecture.html" target="_blank" title="Click to open the Full-Screen Interactive Explorer with Guided Views and Node Inspectors">
+    <img src="https://raw.githubusercontent.com/Git-huber2007/FinWise/main/docs/architecture-animated.svg" alt="FinWise System Architecture (Live Animated)" width="100%">
   </a>
 </p>
 
 <p align="center">
   <a href="https://finwise-omega-nine.vercel.app/architecture.html">
-    <img src="https://img.shields.io/badge/%E2%96%B6_Launch_Live_Interactive_Architecture-15803D?style=for-the-badge&logo=diagramsdotnet&logoColor=white" alt="Launch Live Interactive Architecture">
+    <img src="https://img.shields.io/badge/%E2%96%B6_Launch_Full_Interactive_Explorer-15803D?style=for-the-badge&logo=diagramsdotnet&logoColor=white" alt="Launch Live Interactive Architecture">
+  </a>
+  <a href="https://finwise-omega-nine.vercel.app/architecture">
+    <img src="https://img.shields.io/badge/FinWise_App-Open_in_App-181816?style=for-the-badge&logo=vercel" alt="Open in FinWise App">
   </a>
 </p>
 
 <p align="center">
-  <em>Click the architecture diagram above or the green launch button to explore the <strong>live interactive canvas</strong> with active signal trace animations, guided tours, pan/zoom controls, and node inspector cards.</em>
+  <em>The diagram above shows <strong>live signal pulse animations</strong> directly on GitHub. Click anywhere on the diagram to launch the full-screen interactive explorer with pan/zoom, guided tours, and node inspectors.</em>
 </p>
 
 ---

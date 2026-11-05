@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 560" width="100%" height="100%" style="background:#0D1117; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,sans-serif; border-radius:8px;">
+  <defs>
+    <style>
+      @keyframes dash {
+        to { stroke-dashoffset: -28; }
+      }
+      @keyframes pulseGlow {
+        0%, 100% { opacity: 0.35; }
+        50% { opacity: 0.85; }
+      }
+      @keyframes blinkDot {
+        0%, 100% { fill: #238636; }
+        50% { fill: #3fb950; filter: drop-shadow(0 0 4px #2ea043); }
+      }
+      .conn-line {
+        stroke: #30363D;
+        stroke-width: 1.5;
+        fill: none;
+      }
+      .anim-flow {
+        stroke: #388BFD;
+        stroke-width: 2;
+        stroke-dasharray: 6 8;
+        animation: dash 1.2s linear infinite;
+        fill: none;
+      }
+      .anim-green {
+        stroke: #2EA043;
+        stroke-width: 2;
+        stroke-dasharray: 6 8;
+        animation: dash 1.4s linear infinite;
+        fill: none;
+      }
+      .anim-purple {
+        stroke: #A371F7;
+        stroke-width: 2;
+        stroke-dasharray: 6 8;
+        animation: dash 1.3s linear infinite;
+        fill: none;
+      }
+      .node-card {
+        fill: #161B22;
+        stroke: #30363D;
+        stroke-width: 1.2;
+        rx: 6;
+      }
+      .node-card-active {
+        fill: #161B22;
+        stroke: #388BFD;
+        stroke-width: 1.5;
+        rx: 6;
+      }
+      .group-box {
+        fill: rgba(22, 27, 34, 0.4);
+        stroke: #21262D;
+        stroke-dasharray: 4 4;
+        stroke-width: 1;
+        rx: 8;
+      }
+      .group-label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        fill: #8B949E;
+      }
+      .node-title {
+        font-size: 13px;
+        font-weight: 600;
+        fill: #F0F6FC;
+      }
+      .node-sub {
+        font-size: 11px;
+        font-family: 'SF Mono', Consolas, monospace;
+        fill: #8B949E;
+      }
+      .badge-text {
+        font-size: 9px;
+        font-family: 'SF Mono', Consolas, monospace;
+        font-weight: 600;
+      }
+      .edge-tag {
+        font-size: 10px;
+        font-family: 'SF Mono', Consolas, monospace;
+        fill: #58A6FF;
+      }
+      .indicator {
+        animation: blinkDot 2s ease-in-out infinite;
+      }
+    </style>
+
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#58A6FF"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2EA043"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#A371F7"/>
+    </marker>
+  </defs>
+
+  <!-- Header & Live Indicator -->
+  <text x="40" y="38" font-size="15" font-weight="700" fill="#F0F6FC" letter-spacing="-0.02em">FinWise System Architecture</text>
+  <text x="255" y="38" font-size="12" fill="#8B949E">· Institutional Ledger &amp; Spending Intelligence</text>
+  <circle cx="1070" cy="34" r="4.5" class="indicator" />
+  <text x="1082" y="38" font-size="11" font-weight="600" fill="#3FB950" font-family="'SF Mono', monospace">LIVE TRACE</text>
+
+  <!-- Group Boundaries -->
+  <rect x="250" y="65" width="580" height="460" class="group-box" />
+  <text x="265" y="85" class="group-label">Vercel Serverless Platform</text>
+
+  <rect x="870" y="65" width="250" height="235" class="group-box" />
+  <text x="885" y="85" class="group-label">Neon PostgreSQL Cloud</text>
+
+  <rect x="870" y="325" width="250" height="200" class="group-box" />
+  <text x="885" y="345" class="group-label">Google AI Cloud</text>
+
+  <!-- Connection Paths (Static underneath, Animated pulse on top) -->
+  <!-- Client to Edge -->
+  <path d="M 190 145 L 290 145" class="conn-line" />
+  <path d="M 190 145 L 290 145" class="anim-flow" marker-end="url(#arrow)" />
+  <text x="206" y="137" class="edge-tag">HTTPS / JSON</text>
+
+  <!-- Edge to Gateway -->
+  <path d="M 450 145 L 530 145" class="conn-line" />
+  <path d="M 450 145 L 530 145" class="anim-flow" marker-end="url(#arrow)" />
+  <text x="460" y="137" class="edge-tag">/api/* Proxy</text>
+
+  <!-- Gateway to Routes -->
+  <path d="M 610 180 L 610 260" class="conn-line" />
+  <path d="M 610 180 L 610 260" class="anim-flow" marker-end="url(#arrow)" />
+  <text x="618" y="224" class="edge-tag">Dispatch</text>
+
+  <!-- Gateway to Neon (Session verify) -->
+  <path d="M 690 145 L 910 145" class="conn-line" />
+  <path d="M 690 145 L 910 145" class="anim-green" marker-end="url(#arrow-green)" />
+  <text x="735" y="137" class="edge-tag" fill="#2EA043">Verify Session</text>
+
+  <!-- Routes to Neon (SQLAlchemy CRUD) -->
+  <path d="M 690 295 L 910 200" class="conn-line" />
+  <path d="M 690 295 L 910 200" class="anim-green" marker-end="url(#arrow-green)" />
+  <text x="735" y="240" class="edge-tag" fill="#2EA043">SQLAlchemy 2.0</text>
+
+  <!-- Routes to ML Engine -->
+  <path d="M 530 295 L 450 295" class="conn-line" />
+  <path d="M 530 295 L 450 295" class="anim-purple" marker-end="url(#arrow-purple)" />
+  <text x="460" y="287" class="edge-tag" fill="#A371F7">TF-IDF Vector</text>
+
+  <!-- Routes to Health Analytics -->
+  <path d="M 610 330 L 610 410" class="conn-line" />
+  <path d="M 610 330 L 610 410" class="anim-flow" marker-end="url(#arrow)" />
+  <text x="618" y="374" class="edge-tag">Ledger Feed</text>
+
+  <!-- Health Analytics to Gemini -->
+  <path d="M 690 445 L 910 445" class="conn-line" />
+  <path d="M 690 445 L 910 445" class="anim-purple" marker-end="url(#arrow-purple)" />
+  <text x="730" y="437" class="edge-tag" fill="#A371F7">JSON Aggregates</text>
+
+  <!-- Nodes -->
+
+  <!-- Node 1: Client Application -->
+  <g transform="translate(40, 110)">
+    <rect width="150" height="70" class="node-card" />
+    <circle cx="20" cy="24" r="5" fill="#388BFD" />
+    <text x="32" y="28" class="node-title">Client SPA</text>
+    <text x="18" y="48" class="node-sub">React 18 · Vite · CSS</text>
+    <rect x="18" y="53" width="76" height="12" rx="3" fill="#1F242C" />
+    <text x="22" y="62" class="badge-text" fill="#58A6FF">Geist Typography</text>
+  </g>
+
+  <!-- Node 2: Vercel Edge & Routing -->
+  <g transform="translate(300, 110)">
+    <rect width="150" height="70" class="node-card" />
+    <circle cx="20" cy="24" r="5" fill="#58A6FF" />
+    <text x="32" y="28" class="node-title">Vercel Edge</text>
+    <text x="18" y="48" class="node-sub">Global CDN · Rewrites</text>
+    <rect x="18" y="53" width="70" height="12" rx="3" fill="#1F242C" />
+    <text x="22" y="62" class="badge-text" fill="#8B949E">vercel.json</text>
+  </g>
+
+  <!-- Node 3: Flask Application Shell -->
+  <g transform="translate(540, 110)">
+    <rect width="150" height="70" class="node-card-active" />
+    <circle cx="20" cy="24" r="5" fill="#388BFD" />
+    <text x="32" y="28" class="node-title">Flask Gateway</text>
+    <text x="18" y="48" class="node-sub">Flask 3.0.3 · WSGI</text>
+    <rect x="18" y="53" width="82" height="12" rx="3" fill="#1F242C" />
+    <text x="22" y="62" class="badge-text" fill="#58A6FF">Flask-Login Auth</text>
+  </g>
+
+  <!-- Node 4: Financial Domain Engine -->
+  <g transform="translate(540, 260)">
+    <rect width="150" height="70" class="node-card" />
+    <circle cx="20" cy="24" r="5" fill="#3FB950" />
+    <text x="32" y="28" class="node-title">Domain Engine</text>
+    <text x="18" y="48" class="node-sub">Ledger · Ceilings · PDF</text>
+    <rect x="18" y="53" width="86" height="12" rx="3" fill="#1F242C" />
+    <text x="22" y="62" class="badge-text" fill="#3FB950">Deterministic Math</text>
+  </g>
+
+  <!-- Node 5: ML Transaction Classifier -->
+  <g transform="translate(300, 260)">
+    <rect width="150" height="70" class="node-card" />
+    <circle cx="20" cy="24" r="5" fill="#BC8CFF" />
+    <text x="32" y="28" class="node-title">ML Categorizer</text>
+    <text x="18" y="48" class="node-sub">Scikit-Learn Pipeline</text>
+    <rect x="18" y="53" width="84" height="12" rx="3" fill="#1F242C" />
+    <text x="22" y="62" class="badge-text" fill="#BC8CFF">ComplementNB</text>
+  </g>
+
+  <!-- Node 6: Health & Analytics Engine -->
+  <g transform="translate(540, 410)">
+    <rect width="150" height="70" class="node-card" />
+    <circle cx="20" cy="24" r="5" fill="#388BFD" />
+    <text x="32" y="28" class="node-title">Health Rubric</text>
+    <text x="18" y="48" class="node-sub">6-Factor Index / 100</text>
+    <rect x="18" y="53" width="76" height="12" rx="3" fill="#1F242C" />
+    <text x="22" y="62" class="badge-text" fill="#58A6FF">Auditable Weights</text>
+  </g>
+
+  <!-- Node 7: Neon Cloud PostgreSQL -->
+  <g transform="translate(920, 135)">
+    <rect width="170" height="85" class="node-card" />
+    <circle cx="20" cy="24" r="5" fill="#2EA043" />
+    <text x="32" y="28" class="node-title">Neon PostgreSQL</text>
+    <text x="18" y="48" class="node-sub">Serverless Cloud DB</text>
+    <text x="18" y="62" class="node-sub" fill="#3FB950">Decimal(12, 2) Money</text>
+    <rect x="18" y="67" width="88" height="12" rx="3" fill="#1F242C" />
+    <text x="22" y="76" class="badge-text" fill="#2EA043">Pooled Connection</text>
+  </g>
+
+  <!-- Node 8: Google Gemini AI -->
+  <g transform="translate(920, 410)">
+    <rect width="170" height="70" class="node-card" />
+    <circle cx="20" cy="24" r="5" fill="#BC8CFF" />
+    <text x="32" y="28" class="node-title">Google Gemini</text>
+    <text x="18" y="48" class="node-sub">Gemini 2.5 Flash</text>
+    <rect x="18" y="53" width="96" height="12" rx="3" fill="#1F242C" />
+    <text x="22" y="62" class="badge-text" fill="#BC8CFF">Strict Zero-Hallucination</text>
+  </g>
+
+</svg>
