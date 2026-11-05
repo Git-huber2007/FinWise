@@ -1,8 +1,8 @@
 # FinWise — Personal Finance & Spending Intelligence
 
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://python.org)
-[![React 19](https://img.shields.io/badge/React-19-61DAFB.svg)](https://react.dev)
-[![Vite](https://img.shields.io/badge/Vite-6.0-646CFF.svg)](https://vitejs.dev)
+[![React 18](https://img.shields.io/badge/React-18.3-61DAFB.svg)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-8.3-646CFF.svg)](https://vitejs.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC.svg)](https://tailwindcss.com)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-00E699.svg)](https://neon.tech)
 [![Vercel Ready](https://img.shields.io/badge/Vercel-Deployed-black.svg)](https://vercel.com)
@@ -188,6 +188,8 @@ The project includes root [`vercel.json`](vercel.json) and [`api/index.py`](api/
      ```
    - `SECRET_KEY`: A random 32-byte hex string (e.g. `b9848c7fa5aa0100a9e59385c601464c1063e53981e6f47077cd7c05ead4ec09`)
    - `GEMINI_API_KEY`: *(Optional)* Your Gemini API key from [Google AI Studio](https://aistudio.google.com).
+   - `SESSION_COOKIE_SECURE`: `1` — required. Vercel serves over HTTPS, and
+     without this the session cookie is issued without the `Secure` flag.
 5. Click **Deploy**.
 
 Vercel will automatically build the React bundle, deploy the Flask API as a serverless function, and route `/api/*` requests with zero CORS latency.

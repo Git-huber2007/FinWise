@@ -146,8 +146,13 @@ def train(extra: list[tuple[str, str]] | None = None, persist: bool = True) -> P
     pipeline.fit(texts, labels)
 
     if persist:
-        MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
-        joblib.dump(pipeline, MODEL_PATH)
+        # shortcut: a read-only filesystem (serverless) just loses the cache,
+        # not the model; revisit if cold-start training time ever matters.
+        try:
+            MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+            joblib.dump(pipeline, MODEL_PATH)
+        except OSError:
+            pass
     return pipeline
 
 

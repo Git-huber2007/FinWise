@@ -42,7 +42,11 @@ class Config:
     GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash").strip()
 
     # ---- cors -----------------------------------------------------------
-    CORS_ORIGINS = [o.strip() for o in os.environ.get("CORS_ORIGINS", "*").split(",") if o.strip()]
+    # NOT "*": with supports_credentials, Flask-CORS reflects whatever Origin
+    # it is sent, so a wildcard default lets any site make credentialed calls.
+    # Frontend and API are same-origin (Vite proxy in dev, Vercel rewrite in
+    # prod), so cross-origin access is opt-in via CORS_ORIGINS.
+    CORS_ORIGINS = [o.strip() for o in os.environ.get("CORS_ORIGINS", "").split(",") if o.strip()]
 
     JSON_SORT_KEYS = False
 

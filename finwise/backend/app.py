@@ -54,7 +54,12 @@ def create_app(config_object=Config) -> Flask:
     app = Flask(__name__)
     app.config.from_object(config_object)
 
-    CORS(app, supports_credentials=True, origins=app.config.get("CORS_ORIGINS", "*"))
+    # An empty list means no cross-origin access, so the extension is not
+    # registered at all: Flask-CORS treats origins=[] as "use my default",
+    # which is the wildcard this is avoiding.
+    cors_origins = app.config.get("CORS_ORIGINS") or []
+    if cors_origins:
+        CORS(app, supports_credentials=True, origins=cors_origins)
     db.init_app(app)
     login_manager.init_app(app)
 

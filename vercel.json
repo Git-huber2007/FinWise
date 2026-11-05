@@ -2,6 +2,11 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "finwise/frontend/dist",
+  "functions": {
+    "api/index.py": {
+      "includeFiles": "finwise/backend/**"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -13,4 +18,3 @@
     }
   ]
 }
-
