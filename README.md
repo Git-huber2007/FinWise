@@ -16,59 +16,62 @@ Every number, budget utilization metric, anomaly warning, and savings projection
 
 ## Architecture Overview
 
-[![Live Interactive Diagram](https://img.shields.io/badge/Archify-Open_Interactive_Diagram-15803D?style=for-the-badge&logo=diagramsdotnet)](https://finwise-omega-nine.vercel.app/architecture.html)
-[![Live App Tab](https://img.shields.io/badge/FinWise_App-System_%E2%86%92_Architecture-181816?style=for-the-badge&logo=vercel)](https://finwise-omega-nine.vercel.app/architecture)
+<p align="center">
+  <a href="https://finwise-omega-nine.vercel.app/architecture.html" title="Click to open live interactive explorer with live trace animation">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="docs/architecture-dark.png">
+      <img alt="FinWise System Architecture" src="docs/architecture-light.png" width="100%" style="border-radius: 8px;">
+    </picture>
+  </a>
+</p>
 
-> 💡 **Interactive Architecture Explorer**:
-> - **Live Full-Screen Explorer**: [finwise-omega-nine.vercel.app/architecture.html](https://finwise-omega-nine.vercel.app/architecture.html) — features animated live trace motion, pan/zoom, node inspectors, and guided architecture tours.
-> - **Inside the FinWise App**: Open the new **System → Architecture** view in the sidebar.
-> - **Offline HTML Artifact**: [`docs/architecture.html`](docs/architecture.html).
+<p align="center">
+  <em>Click the architecture diagram above to open the <strong>Live Interactive Explorer</strong> (with animated trace motion, pan/zoom, and node inspectors), or explore via the interactive component map below:</em>
+</p>
 
 ```mermaid
-flowchart TD
-    subgraph Client["1. Client Tier (React 18 · Vite · Tailwind)"]
-        direction TB
-        UI["React 18 SPA (Geist & Instrument Serif Typography)"]
-        LedgerUI["Ledger Sheets, Ceilings, Health & Analysis Views"]
-        FetchClient["Centralised API Client (api.js)"]
-        UI --- LedgerUI --- FetchClient
+flowchart LR
+    subgraph ClientTier["1. Client Tier"]
+        UI["React 18 SPA<br/><i>(Tailwind · Geist)</i>"]
     end
 
-    subgraph Edge["2. Edge & Routing (Vercel Platform)"]
-        direction TB
-        CDN["Vercel Global Edge CDN (Static Assets & HTML)"]
-        RewriteRule["Vercel Rewrite: /api/* -> api/index.py"]
-        CDN --- RewriteRule
+    subgraph EdgeTier["2. Vercel Edge"]
+        VercelEdge["Edge CDN & Routing<br/><i>(/api/* -> WSGI)</i>"]
     end
 
-    subgraph Serverless["3. Application Core (Flask 3.0.3 WSGI)"]
+    subgraph AppTier["3. Flask Serverless"]
         direction TB
-        WSGIEntry["Serverless Entry (/api/index.py)"]
-        AuthShield["Flask-Login Session Auth & CORS Guard"]
-        DomainRoutes["Domain Blueprints (Transactions, Budgets, Goals, Reports)"]
-        WSGIEntry --> AuthShield --> DomainRoutes
+        Auth["Session Auth & CORS"]
+        Routes["Ledger & Ceilings<br/><i>(Txn · Budgets · Goals)</i>"]
+        Auth --> Routes
     end
 
-    subgraph Intelligence["4. Intelligence Tier (Deterministic + ML)"]
+    subgraph IntelligenceTier["4. Intelligence Tier"]
         direction TB
-        Categorizer["ML Categorizer: Scikit-Learn ComplementNB + TF-IDF"]
-        HealthScorer["Health Engine: Deterministic 6-Factor Weighted Rubric"]
-        GeminiAssistant["AI Assistant: Google Gemini 2.5 Flash (Grounded Summaries)"]
+        ML["ML Categorizer<br/><i>ComplementNB</i>"]
+        Rubric["Health Engine<br/><i>6-Factor Rubric</i>"]
+        Gemini["Google Gemini 2.5<br/><i>Grounded Advice</i>"]
     end
 
-    subgraph DataTier["5. Persistence Tier (Neon PostgreSQL)"]
-        direction TB
-        NeonDB[("Neon Cloud Serverless Postgres (Pooler + SSL)")]
-        SQLAlchemyORM["SQLAlchemy 2.0 (Decimal 12,2 Financial Precision)"]
-        SQLAlchemyORM --- NeonDB
+    subgraph DataTier["5. Persistence"]
+        Neon[("Neon PostgreSQL<br/><i>(Pooler + SSL)</i>")]
     end
 
-    FetchClient -->|"HTTPS /api/* (Credentials: include)"| RewriteRule
-    RewriteRule --> WSGIEntry
-    DomainRoutes -->|"Real-time prediction"| Categorizer
-    DomainRoutes -->|"Rubric calculation"| HealthScorer
-    HealthScorer -->|"Verified aggregates context"| GeminiAssistant
-    DomainRoutes -->|"ORM Queries & Transactions"| SQLAlchemyORM
+    UI -->|"HTTPS / Cookie"| VercelEdge
+    VercelEdge -->|"WSGI Proxy"| Auth
+    Routes -->|"Classify merchant"| ML
+    Routes -->|"Score rubric"| Rubric
+    Rubric -->|"Grounded context"| Gemini
+    Routes -->|"SQLAlchemy 2.0"| Neon
+
+    click UI href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/frontend/src/App.jsx" "View React App Source"
+    click VercelEdge href "https://github.com/Git-huber2007/FinWise/blob/main/vercel.json" "View Vercel Config"
+    click Auth href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/app.py" "View Auth Code"
+    click Routes href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/routes/transactions.py" "View Ledger Routes"
+    click ML href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/ai/categorizer.py" "View Scikit-Learn Model"
+    click Rubric href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/ai/health.py" "View Health Engine"
+    click Gemini href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/ai/chat.py" "View Gemini Assistant"
+    click Neon href "https://github.com/Git-huber2007/FinWise/blob/main/finwise/backend/models.py" "View Database Schema"
 ```
 
 ---
