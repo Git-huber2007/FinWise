@@ -235,7 +235,7 @@
     <rect width="170" height="70" class="node-card" />
     <circle cx="20" cy="24" r="5" fill="#BC8CFF" />
     <text x="32" y="28" class="node-title">Google Gemini</text>
-    <text x="18" y="48" class="node-sub">Gemini 2.5 Flash</text>
+    <text x="18" y="48" class="node-sub">Gemini 3.5 Flash</text>
     <rect x="18" y="53" width="96" height="12" rx="3" fill="#1F242C" />
     <text x="22" y="62" class="badge-text" fill="#BC8CFF">Strict Zero-Hallucination</text>
   </g>

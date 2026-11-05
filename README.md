@@ -16,7 +16,7 @@ FinWise is a personal finance and spending intelligence web application. It comb
 
 <p align="center">
   <a href="https://finwise-omega-nine.vercel.app/architecture.html">
-    <img src="https://raw.githubusercontent.com/Git-huber2007/FinWise/main/docs/architecture-animated.svg" alt="FinWise System Architecture" width="100%">
+    <img src="docs/architecture-animated.svg" alt="FinWise System Architecture" width="100%">
   </a>
 </p>
 
@@ -37,7 +37,7 @@ The system runs as an all-in-one deployment on Vercel:
 - **Financial Health Score**: Transparent 100-point rubric calculated across savings rate, budget discipline, and spending stability.
 - **Savings Goals**: Goal ETA projections based on historical monthly net retention rates.
 - **PDF & CSV Export**: Download monthly statements with audit summaries and export full transaction history to CSV.
-- **Assistant**: Natural-language ledger query interface with deterministic rule-based calculation and optional Gemini 2.5 Flash phrasing.
+- **Assistant**: Natural-language ledger query interface with deterministic rule-based calculation and optional Gemini 3.5 Flash phrasing.
 
 ---
 
@@ -105,7 +105,8 @@ npm run dev
 | `DATABASE_URL` | No | PostgreSQL connection URL (e.g. Neon). Defaults to local SQLite (`finwise.db`) if unset. |
 | `SECRET_KEY` | In Prod | Session signing key (generate with `python -c "import secrets; print(secrets.token_hex(32))"`). |
 | `SESSION_COOKIE_SECURE` | In Prod | Set to `1` when served over HTTPS (e.g. Vercel) to enforce secure session cookies. |
-| `GEMINI_API_KEY` | No | Google AI Studio API key for optional Gemini 2.5 Flash assistant mode. |
+| `GEMINI_API_KEY` | No | Google AI Studio API key for optional Gemini 3.5 Flash assistant mode. |
+| `GEMINI_MODEL` | No | Model identifier (defaults to `gemini-3.5-flash-lite`). |
 | `CORS_ORIGINS` | No | Comma-separated list of allowed origins. Defaults to empty for same-origin proxying. |
 
 ---
