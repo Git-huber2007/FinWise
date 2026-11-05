@@ -34,6 +34,7 @@ The system runs as an all-in-one deployment on Vercel:
 - **Ledger & Cash Flow**: Track inflows, outflows, and net retention with chronological register sheets and trajectory charts.
 - **Merchant Auto-Categorization**: Real-time classification running locally in Python without external API calls; user corrections retrain the model online.
 - **Budget Limits**: Define monthly spending ceilings per category with 80% and 100% utilization tracking.
+- **Subscriptions & Bills Tracker**: Track recurring commitments (streaming, utilities, memberships, SaaS), auto-detect repeating charges from ledger transactions, and receive 7-day renewal alerts with one-click payment logging.
 - **Financial Health Score**: Transparent 100-point rubric calculated across savings rate, budget discipline, and spending stability.
 - **Savings Goals**: Goal ETA projections based on historical monthly net retention rates.
 - **PDF & CSV Export**: Download monthly statements with audit summaries and export full transaction history to CSV.

@@ -13,6 +13,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Reports from './pages/Reports'
 import Settings from './pages/Settings'
+import Subscriptions from './pages/Subscriptions'
 import Transactions from './pages/Transactions'
 
 function NotFound() {
@@ -59,6 +60,7 @@ export default function App() {
       >
         <Route index element={<Dashboard />} />
         <Route path="transactions" element={<Transactions />} />
+        <Route path="subscriptions" element={<Subscriptions />} />
         <Route path="budget" element={<Budget />} />
         <Route path="insights" element={<Insights />} />
         <Route path="health" element={<Health />} />

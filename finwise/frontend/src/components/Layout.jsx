@@ -2,6 +2,7 @@ import {
   Activity,
   ArrowLeftRight,
   BarChart3,
+  CalendarClock,
   FileText,
   Landmark,
   Layers,
@@ -23,6 +24,7 @@ import { useTheme } from '../theme'
 export const NAV_ITEMS = [
   { to: '/', label: 'Overview', icon: Layers, group: 'Ledger' },
   { to: '/transactions', label: 'Transactions', icon: ArrowLeftRight, group: 'Ledger' },
+  { to: '/subscriptions', label: 'Subscriptions', icon: CalendarClock, group: 'Ledger' },
   { to: '/budget', label: 'Budget Limits', icon: BarChart3, group: 'Ledger' },
   { to: '/goals', label: 'Savings Goals', icon: Landmark, group: 'Ledger' },
   { to: '/insights', label: 'Spending Analysis', icon: TrendingUp, group: 'Analysis' },

@@ -101,6 +101,9 @@ class User(Base, UserMixin):
     insights: Mapped[list["FinancialInsight"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
+    subscriptions: Mapped[list["Subscription"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
     preferences: Mapped["UserPreference | None"] = relationship(
         back_populates="user", cascade="all, delete-orphan", uselist=False
     )
@@ -310,6 +313,63 @@ class UserPreference(Base):
             "theme": self.theme,
             "currency": self.currency,
             "alerts_enabled": self.alerts_enabled,
+        }
+
+
+
+
+class Subscription(Base):
+    __tablename__ = "subscriptions"
+    __table_args__ = (
+        CheckConstraint("amount > 0", name="ck_sub_amount_positive"),
+        CheckConstraint("billing_cycle IN ('weekly', 'monthly', 'quarterly', 'yearly')", name="ck_sub_cycle"),
+        CheckConstraint("status IN ('active', 'paused', 'cancelled')", name="ck_sub_status"),
+        Index("ix_sub_user_next_date", "user_id", "next_billing_date"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    amount: Mapped[Decimal] = mapped_column(Money, nullable=False)
+    category: Mapped[str] = mapped_column(String(40), nullable=False, default="Subscriptions")
+    billing_cycle: Mapped[str] = mapped_column(String(20), nullable=False, default="monthly")
+    next_billing_date: Mapped[date] = mapped_column(Date, nullable=False)
+    payment_method: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    status: Mapped[str] = mapped_column(String(20), nullable=False, default="active")
+    notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, default=_now
+    )
+
+    user: Mapped["User"] = relationship(back_populates="subscriptions")
+
+    @property
+    def monthly_cost(self) -> float:
+        amt = float(self.amount or 0)
+        if self.billing_cycle == "yearly":
+            return round(amt / 12, 2)
+        elif self.billing_cycle == "quarterly":
+            return round(amt / 3, 2)
+        elif self.billing_cycle == "weekly":
+            return round(amt * 52 / 12, 2)
+        return round(amt, 2)
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "amount": _f(self.amount),
+            "category": self.category,
+            "billing_cycle": self.billing_cycle,
+            "next_billing_date": self.next_billing_date.isoformat() if self.next_billing_date else None,
+            "payment_method": self.payment_method,
+            "status": self.status,
+            "notes": self.notes,
+            "monthly_cost": self.monthly_cost,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
         }
 
 

@@ -20,7 +20,7 @@ from decimal import Decimal
 from sqlalchemy import select
 
 from app import create_app
-from models import Budget, SavingsGoal, Transaction, User, UserPreference, db
+from models import Budget, SavingsGoal, Subscription, Transaction, User, UserPreference, db
 
 DEMO_EMAIL = "demo@finwise.ai"
 DEMO_PASSWORD = "demo1234"
@@ -200,6 +200,29 @@ def seed(reset: bool = False) -> None:
                         target_amount=Decimal(target), saved_amount=Decimal(saved),
                         target_date=date.today() + timedelta(days=days))
             for name, target, saved, days in GOALS
+        ])
+
+        today = date.today()
+        sample_subs = [
+            ("Netflix Premium", Decimal("649.00"), "Entertainment", "monthly", 4, "Credit Card"),
+            ("Spotify Individual", Decimal("119.00"), "Entertainment", "monthly", 14, "UPI"),
+            ("Jio Fiber Broadband", Decimal("799.00"), "Utilities", "monthly", 3, "Auto Debit"),
+            ("Cult.fit Elite Pass", Decimal("1400.00"), "Healthcare", "monthly", 21, "Debit Card"),
+            ("Google One (2TB Cloud)", Decimal("6500.00"), "Utilities", "yearly", 110, "Credit Card"),
+            ("Amazon Prime Annual", Decimal("1499.00"), "Shopping", "yearly", 75, "Credit Card"),
+        ]
+        db.session.add_all([
+            Subscription(
+                user_id=user.id,
+                name=name,
+                amount=amt,
+                category=cat,
+                billing_cycle=cycle,
+                next_billing_date=today + timedelta(days=offset),
+                payment_method=pm,
+                status="active",
+            )
+            for name, amt, cat, cycle, offset, pm in sample_subs
         ])
 
         db.session.commit()
