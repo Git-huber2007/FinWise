@@ -30,3 +30,6 @@ Thumbs.db
 
 # local test output
 *.log
+
+docs/visual-check/
+
