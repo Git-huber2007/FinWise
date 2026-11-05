@@ -16,6 +16,8 @@ Every number, budget utilization metric, anomaly warning, and savings projection
 
 ## Architecture Overview
 
+> 📐 **Interactive Architecture Diagram**: An interactive, source-verified architecture diagram is available at [.archify/architecture-finwise-20261105-095000/finwise-architecture.html](.archify/architecture-finwise-20261105-095000/finwise-architecture.html).
+
 ```mermaid
 flowchart TD
     subgraph Client["Frontend (Vercel CDN / Vite)"]

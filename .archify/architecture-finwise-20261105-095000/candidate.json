@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "FinWise System Architecture",
+    "subtitle": "Full-Stack Personal Finance & Spending Intelligence Ledger",
+    "output": ".archify/architecture-finwise-20261105-095000/finwise-architecture.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Git-huber2007/FinWise.git",
+      "provider": "github",
+      "revision": "1d84cf185d8e6beb9fc5fc91a0ad44128e71de50"
+    }
+  },
+  "components": [
+    {
+      "id": "client",
+      "type": "frontend",
+      "label": "Client Application",
+      "sublabel": "React 18 · Vite · Tailwind",
+      "pos": [50, 140],
+      "size": [170, 68],
+      "sources": [
+        { "path": "finwise/frontend/src/App.jsx", "line": 33, "end_line": 72 },
+        { "path": "finwise/frontend/src/api.js", "line": 8, "end_line": 35 }
+      ]
+    },
+    {
+      "id": "edge",
+      "type": "cloud",
+      "label": "Vercel Edge & Routing",
+      "sublabel": "Static CDN · Serverless Proxy",
+      "pos": [340, 140],
+      "size": [170, 68],
+      "sources": [
+        { "path": "vercel.json", "line": 1, "end_line": 19 },
+        { "path": "api/index.py", "line": 1, "end_line": 16 }
+      ]
+    },
+    {
+      "id": "gateway",
+      "type": "backend",
+      "label": "Flask Application Shell",
+      "sublabel": "Flask 3.0.3 · Session Auth",
+      "pos": [630, 140],
+      "size": [170, 68],
+      "sources": [
+        { "path": "finwise/backend/app.py", "line": 53, "end_line": 75 },
+        { "path": "finwise/backend/config.py", "line": 15, "end_line": 55 }
+      ]
+    },
+    {
+      "id": "routes",
+      "type": "backend",
+      "label": "Financial Domain Engine",
+      "sublabel": "Ledger · Ceilings · Reports",
+      "pos": [630, 290],
+      "size": [170, 68],
+      "sources": [
+        { "path": "finwise/backend/routes/transactions.py", "line": 1, "end_line": 40 },
+        { "path": "finwise/backend/reporting.py", "line": 1, "end_line": 45 }
+      ]
+    },
+    {
+      "id": "database",
+      "type": "database",
+      "label": "Neon Cloud PostgreSQL",
+      "sublabel": "Serverless · SQLAlchemy 2.0",
+      "pos": [920, 290],
+      "size": [170, 68],
+      "sources": [
+        { "path": "finwise/backend/models.py", "line": 1, "end_line": 35 }
+      ]
+    },
+    {
+      "id": "ml_engine",
+      "type": "backend",
+      "label": "ML Transaction Classifier",
+      "sublabel": "TF-IDF · ComplementNB",
+      "pos": [340, 290],
+      "size": [170, 68],
+      "sources": [
+        { "path": "finwise/backend/ai/categorizer.py", "line": 1, "end_line": 35 }
+      ]
+    },
+    {
+      "id": "analytics",
+      "type": "backend",
+      "label": "Health & Analytics Engine",
+      "sublabel": "6-Factor Rubric · Anomalies",
+      "pos": [630, 440],
+      "size": [170, 68],
+      "sources": [
+        { "path": "finwise/backend/ai/health.py", "line": 1, "end_line": 35 },
+        { "path": "finwise/backend/ai/analytics.py", "line": 1, "end_line": 40 }
+      ]
+    },
+    {
+      "id": "gemini",
+      "type": "external",
+      "label": "Google Gemini AI",
+      "sublabel": "Gemini 2.5 Flash Assistant",
+      "pos": [920, 440],
+      "size": [170, 68],
+      "sources": [
+        { "path": "finwise/backend/ai/chat.py", "line": 1, "end_line": 40 }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Vercel Serverless Platform",
+      "wraps": ["edge", "gateway", "routes", "ml_engine", "analytics"]
+    },
+    {
+      "kind": "region",
+      "label": "Neon Cloud Platform",
+      "wraps": ["database"]
+    },
+    {
+      "kind": "region",
+      "label": "Google AI Cloud",
+      "wraps": ["gemini"]
+    }
+  ],
+  "connections": [
+    {
+      "id": "users-to-edge",
+      "from": "client",
+      "to": "edge",
+      "label": "HTTPS / UI Assets",
+      "variant": "emphasis"
+    },
+    {
+      "id": "edge-to-gateway",
+      "from": "edge",
+      "to": "gateway",
+      "label": "Rewrite /api/*"
+    },
+    {
+      "id": "gateway-to-routes",
+      "from": "gateway",
+      "to": "routes",
+      "label": "Dispatch Requests"
+    },
+    {
+      "id": "gateway-to-db",
+      "from": "gateway",
+      "to": "database",
+      "label": "Verify Session",
+      "fromSide": "right",
+      "toSide": "top"
+    },
+    {
+      "id": "routes-to-db",
+      "from": "routes",
+      "to": "database",
+      "label": "SQLAlchemy CRUD"
+    },
+    {
+      "id": "routes-to-ml",
+      "from": "routes",
+      "to": "ml_engine",
+      "label": "Classify Merchant"
+    },
+    {
+      "id": "routes-to-analytics",
+      "from": "routes",
+      "to": "analytics",
+      "label": "Compute Metrics"
+    },
+    {
+      "id": "analytics-to-gemini",
+      "from": "analytics",
+      "to": "gemini",
+      "label": "Grounded Context"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Client Experience",
+      "items": [
+        "React 18 Single Page Application served from Vercel Global Edge CDN",
+        "Architectural Swiss Ledger aesthetic with warm stone palette and tabular Geist typography",
+        "Session-based authentication with secure same-origin cookie transport"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Application Core",
+      "items": [
+        "Flask 3.0.3 serverless runtime on Vercel with strict CORS and CSRF guards",
+        "Deterministic financial calculations: zero LLM arithmetic drift",
+        "Audit-ready ReportLab PDF exporter and CSV register generation"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Intelligence & ML",
+      "items": [
+        "Sub-second scikit-learn Complement Naive Bayes classifier with TF-IDF character/word n-grams",
+        "Transparent 6-component financial health index scoring out of 100",
+        "Google Gemini 2.5 Flash advisor bounded by real calculated aggregates"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Data Persistence",
+      "items": [
+        "Neon Cloud serverless PostgreSQL with connection pooling",
+        "SQLAlchemy 2.0 declarative models with exact Decimal(12, 2) financial precision",
+        "Strict tenant boundary isolation enforcing non-nullable user foreign keys"
+      ]
+    }
+  ]
+}

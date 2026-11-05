@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "592d484a-179a-4763-8e67-fce317d4ceaf",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\AI-Powered Smart Personal Finance & Spending Intelligence System\\.archify\\architecture-finwise-20261105-095000\\candidate.json",
+  "output": "C:\\AI-Powered Smart Personal Finance & Spending Intelligence System\\.archify\\architecture-finwise-20261105-095000\\finwise-architecture.html",
+  "specification": {
+    "sha256": "130b67a6c96a68de8dc04a23a74072ac21da82e7d24ff5a6598d732c5bac55f8",
+    "bytes": 6210
+  },
+  "artifact": {
+    "sha256": "8984b35dd9b6557326a03c61c44d1a2e4a2b919c4ff73813dbf745dba3154764",
+    "bytes": 765757
+  }
+}
