@@ -6,11 +6,11 @@
   "status": "pass",
   "visualReview": "not-requested",
   "provenance": "current",
-  "deliveryReceiptId": "592d484a-179a-4763-8e67-fce317d4ceaf",
+  "deliveryReceiptId": "280178a9-1281-404c-a4f7-f98ffdf846ab",
   "artifact": {
     "path": "C:\\AI-Powered Smart Personal Finance & Spending Intelligence System\\.archify\\architecture-finwise-20261105-095000\\finwise-architecture.html",
-    "sha256": "8984b35dd9b6557326a03c61c44d1a2e4a2b919c4ff73813dbf745dba3154764",
-    "bytes": 765757
+    "sha256": "6e61d4f851ece357e7ffab81d6e91a4bd2434ff89f6c4bb1f2a6a366876166a6",
+    "bytes": 766372
   },
   "state": {
     "detail": "read",

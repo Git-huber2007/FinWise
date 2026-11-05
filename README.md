@@ -16,7 +16,13 @@ Every number, budget utilization metric, anomaly warning, and savings projection
 
 ## Architecture Overview
 
-> 📐 **Interactive Architecture Diagram**: An interactive, source-verified architecture diagram is deployed live at **[finwise-omega-nine.vercel.app/architecture.html](https://finwise-omega-nine.vercel.app/architecture.html)**. You can also view the standalone file at [`docs/architecture.html`](docs/architecture.html).
+[![Live Interactive Diagram](https://img.shields.io/badge/Archify-Open_Interactive_Diagram-15803D?style=for-the-badge&logo=diagramsdotnet)](https://finwise-omega-nine.vercel.app/architecture.html)
+[![Live App Tab](https://img.shields.io/badge/FinWise_App-System_%E2%86%92_Architecture-181816?style=for-the-badge&logo=vercel)](https://finwise-omega-nine.vercel.app/architecture)
+
+> 💡 **Interactive Architecture Explorer**:
+> - **Live Full-Screen Explorer**: [finwise-omega-nine.vercel.app/architecture.html](https://finwise-omega-nine.vercel.app/architecture.html) — features animated live trace motion, pan/zoom, node inspectors, and guided architecture tours.
+> - **Inside the FinWise App**: Open the new **System → Architecture** view in the sidebar.
+> - **Offline HTML Artifact**: [`docs/architecture.html`](docs/architecture.html).
 
 ```mermaid
 flowchart TD

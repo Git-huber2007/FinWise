@@ -6,6 +6,26 @@
     "subtitle": "Full-Stack Personal Finance & Spending Intelligence Ledger",
     "output": ".archify/architecture-finwise-20261105-095000/finwise-architecture.html",
     "quality_profile": "showcase",
+    "animation": "trace",
+    "views": [
+      {
+        "id": "overview",
+        "label": "Full Architecture",
+        "focus": ["client", "edge", "gateway", "routes", "database"]
+      },
+      {
+        "id": "client-journey",
+        "label": "Client & Auth Flow",
+        "focus": ["client", "edge", "gateway", "database"],
+        "note": "React SPA authentication via Vercel Edge proxy with session-cookie verification"
+      },
+      {
+        "id": "intelligence-engine",
+        "label": "ML & AI Intelligence",
+        "focus": ["routes", "ml_engine", "analytics", "gemini"],
+        "note": "Sub-second Naive Bayes categorizer coupled with 6-factor deterministic rubric and Gemini 2.5 Flash"
+      }
+    ],
     "repository": {
       "url": "https://github.com/Git-huber2007/FinWise.git",
       "provider": "github",

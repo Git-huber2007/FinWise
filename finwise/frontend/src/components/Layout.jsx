@@ -8,6 +8,7 @@ import {
   LogOut,
   Menu,
   Moon,
+  Network,
   SlidersHorizontal,
   Sun,
   Terminal,
@@ -29,6 +30,7 @@ export const NAV_ITEMS = [
   { to: '/health', label: 'Health Rubric', icon: Activity, group: 'Analysis' },
   { to: '/assistant', label: 'Query Ledger', icon: Terminal, group: 'Analysis' },
   { to: '/reports', label: 'Statements', icon: FileText, group: 'Analysis' },
+  { to: '/architecture', label: 'Architecture', icon: Network, group: 'System' },
   { to: '/settings', label: 'Preferences', icon: SlidersHorizontal, group: 'System' },
 ]
 

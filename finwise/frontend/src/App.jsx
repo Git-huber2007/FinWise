@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { ProtectedRoute, PublicOnlyRoute } from './auth'
 import Layout from './components/Layout'
 import { Card, PageHeader } from './components/ui'
+import Architecture from './pages/Architecture'
 import Assistant from './pages/Assistant'
 import Budget from './pages/Budget'
 import Dashboard from './pages/Dashboard'
@@ -65,6 +66,7 @@ export default function App() {
         <Route path="goals" element={<Goals />} />
         <Route path="assistant" element={<Assistant />} />
         <Route path="reports" element={<Reports />} />
+        <Route path="architecture" element={<Architecture />} />
         <Route path="settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
       </Route>

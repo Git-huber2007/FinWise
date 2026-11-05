@@ -5,16 +5,16 @@
   "status": "pass",
   "type": "architecture",
   "quality": "showcase",
-  "startedAt": "2026-11-05T04:20:26.787Z",
+  "startedAt": "2026-11-05T04:28:49.076Z",
   "specification": {
     "path": "C:\\AI-Powered Smart Personal Finance & Spending Intelligence System\\.archify\\architecture-finwise-20261105-095000\\candidate.json",
-    "sha256": "130b67a6c96a68de8dc04a23a74072ac21da82e7d24ff5a6598d732c5bac55f8",
-    "bytes": 6210
+    "sha256": "2e572b1c2600ceb7fa161995168b1f7f34734234b907c322905bb79b017cc382",
+    "bytes": 6930
   },
   "artifact": {
     "path": "C:\\AI-Powered Smart Personal Finance & Spending Intelligence System\\.archify\\architecture-finwise-20261105-095000\\finwise-architecture.html",
-    "sha256": "8984b35dd9b6557326a03c61c44d1a2e4a2b919c4ff73813dbf745dba3154764",
-    "bytes": 765757
+    "sha256": "6e61d4f851ece357e7ffab81d6e91a4bd2434ff89f6c4bb1f2a6a366876166a6",
+    "bytes": 766372
   },
   "stages": {
     "validate": {
@@ -40,8 +40,8 @@
         "ok": true,
         "command": "validate",
         "specification": {
-          "sha256": "130b67a6c96a68de8dc04a23a74072ac21da82e7d24ff5a6598d732c5bac55f8",
-          "bytes": 6210
+          "sha256": "2e572b1c2600ceb7fa161995168b1f7f34734234b907c322905bb79b017cc382",
+          "bytes": 6930
         },
         "validation": {
           "checksPassed": 9,
@@ -56,7 +56,7 @@
     "deliver": {
       "status": "pass",
       "exitCode": 0,
-      "durationMs": 2594,
+      "durationMs": 2488,
       "command": [
         "C:\\Program Files\\nodejs\\node.exe",
         "C:\\Users\\New\\.gemini\\config\\skills\\archify\\bin\\archify.mjs",
@@ -72,19 +72,19 @@
       ],
       "receipt": {
         "schemaVersion": 1,
-        "receiptId": "592d484a-179a-4763-8e67-fce317d4ceaf",
+        "receiptId": "280178a9-1281-404c-a4f7-f98ffdf846ab",
         "ok": true,
         "command": "deliver",
         "type": "architecture",
         "input": "C:\\AI-Powered Smart Personal Finance & Spending Intelligence System\\.archify\\architecture-finwise-20261105-095000\\candidate.json",
         "output": "C:\\AI-Powered Smart Personal Finance & Spending Intelligence System\\.archify\\architecture-finwise-20261105-095000\\finwise-architecture.html",
         "specification": {
-          "sha256": "130b67a6c96a68de8dc04a23a74072ac21da82e7d24ff5a6598d732c5bac55f8",
-          "bytes": 6210
+          "sha256": "2e572b1c2600ceb7fa161995168b1f7f34734234b907c322905bb79b017cc382",
+          "bytes": 6930
         },
         "artifact": {
-          "sha256": "8984b35dd9b6557326a03c61c44d1a2e4a2b919c4ff73813dbf745dba3154764",
-          "bytes": 765757
+          "sha256": "6e61d4f851ece357e7ffab81d6e91a4bd2434ff89f6c4bb1f2a6a366876166a6",
+          "bytes": 766372
         },
         "validation": {
           "checksPassed": 9,
@@ -116,7 +116,7 @@
     "check": {
       "status": "pass",
       "exitCode": 0,
-      "durationMs": 552,
+      "durationMs": 495,
       "command": [
         "C:\\Program Files\\nodejs\\node.exe",
         "C:\\Users\\New\\.gemini\\config\\skills\\archify\\bin\\archify.mjs",
@@ -128,8 +128,8 @@
         "ok": true,
         "file": "C:\\AI-Powered Smart Personal Finance & Spending Intelligence System\\.archify\\architecture-finwise-20261105-095000\\finwise-architecture.html",
         "artifact": {
-          "sha256": "8984b35dd9b6557326a03c61c44d1a2e4a2b919c4ff73813dbf745dba3154764",
-          "bytes": 765757
+          "sha256": "6e61d4f851ece357e7ffab81d6e91a4bd2434ff89f6c4bb1f2a6a366876166a6",
+          "bytes": 766372
         },
         "checks": [
           {
@@ -257,13 +257,13 @@
           "issues": []
         },
         "provenance": "current",
-        "deliveryReceiptId": "592d484a-179a-4763-8e67-fce317d4ceaf"
+        "deliveryReceiptId": "280178a9-1281-404c-a4f7-f98ffdf846ab"
       }
     },
     "browser-check": {
       "status": "pass",
       "exitCode": 0,
-      "durationMs": 3365,
+      "durationMs": 3417,
       "command": [
         "C:\\Program Files\\nodejs\\node.exe",
         "C:\\Users\\New\\.gemini\\config\\skills\\archify\\bin\\archify.mjs",
@@ -281,11 +281,11 @@
         "status": "pass",
         "visualReview": "not-requested",
         "provenance": "current",
-        "deliveryReceiptId": "592d484a-179a-4763-8e67-fce317d4ceaf",
+        "deliveryReceiptId": "280178a9-1281-404c-a4f7-f98ffdf846ab",
         "artifact": {
           "path": "C:\\AI-Powered Smart Personal Finance & Spending Intelligence System\\.archify\\architecture-finwise-20261105-095000\\finwise-architecture.html",
-          "sha256": "8984b35dd9b6557326a03c61c44d1a2e4a2b919c4ff73813dbf745dba3154764",
-          "bytes": 765757
+          "sha256": "6e61d4f851ece357e7ffab81d6e91a4bd2434ff89f6c4bb1f2a6a366876166a6",
+          "bytes": 766372
         },
         "state": {
           "detail": "read",
@@ -1003,8 +1003,8 @@
     "browserCheckReceipt": "C:\\AI-Powered Smart Personal Finance & Spending Intelligence System\\.archify\\architecture-finwise-20261105-095000\\finwise-architecture.browser-check.json"
   },
   "visualReview": "not-requested",
-  "finishedAt": "2026-11-05T04:20:35.389Z",
-  "durationMs": 8601,
+  "finishedAt": "2026-11-05T04:28:57.363Z",
+  "durationMs": 8287,
   "update": {
     "status": "update_available",
     "installedVersion": "3.0.1",

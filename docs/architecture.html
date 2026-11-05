@@ -4988,7 +4988,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     <!-- Main Diagram -->
     <div class="diagram-container" data-detail-level="read"
          data-preset-badge-editorial-plate="ARCHIFY / PLATE 04">
-      <svg viewBox="0 0 1160 596" role="img" lang="en" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase" data-reader-fit="intrinsic-height" data-reader-min-text="7.5" data-reader-primary-text="14">
+      <svg viewBox="0 0 1160 596" role="img" lang="en" aria-labelledby="archify-diagram-title archify-diagram-description" data-animation="trace" data-preset="classic" data-quality-profile="showcase" data-reader-fit="intrinsic-height" data-reader-min-text="7.5" data-reader-primary-text="14">
         <title id="archify-diagram-title">FinWise System Architecture</title>
         <desc id="archify-diagram-description">Full-Stack Personal Finance &amp; Spending Intelligence Ledger</desc>
         <!-- Definitions -->
@@ -5023,42 +5023,42 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <!-- Connection paths (before components for correct z-order) -->
         <g data-graph-role="automatic-crossover" style="--step:0">
           <path data-graph-role="automatic-crossover-underlay" d="M 220 174 L 340 174" fill="none" stroke="var(--mask)" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="client" data-edge-to="edge" data-edge-label="HTTPS / UI Assets" data-edge-key="0" data-edge-id="users-to-edge" data-composition-points="220,174;340,174" data-composition-crossover="halo" data-composition-independent="true" d="M 220 174 L 340 174" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+          <path data-edge-from="client" data-edge-to="edge" data-edge-label="HTTPS / UI Assets" data-edge-key="0" data-edge-id="users-to-edge" data-composition-points="220,174;340,174" data-composition-crossover="halo" data-composition-independent="true" d="M 220 174 L 340 174" class="a-emphasis" data-animate="edge" style="--step:0" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:1">
           <path data-graph-role="automatic-crossover-underlay" d="M 510 174 L 630 174" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="edge" data-edge-to="gateway" data-edge-label="Rewrite /api/*" data-edge-key="1" data-edge-id="edge-to-gateway" data-composition-points="510,174;630,174" data-composition-crossover="halo" data-composition-independent="true" d="M 510 174 L 630 174" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-edge-from="edge" data-edge-to="gateway" data-edge-label="Rewrite /api/*" data-edge-key="1" data-edge-id="edge-to-gateway" data-composition-points="510,174;630,174" data-composition-crossover="halo" data-composition-independent="true" d="M 510 174 L 630 174" class="a-default" data-animate="edge" style="--step:1" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:2">
           <path data-graph-role="automatic-crossover-underlay" d="M 715 208 L 715 290" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="gateway" data-edge-to="routes" data-edge-label="Dispatch Requests" data-edge-key="2" data-edge-id="gateway-to-routes" data-composition-points="715,208;715,290" data-composition-crossover="halo" data-composition-independent="true" d="M 715 208 L 715 290" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-edge-from="gateway" data-edge-to="routes" data-edge-label="Dispatch Requests" data-edge-key="2" data-edge-id="gateway-to-routes" data-composition-points="715,208;715,290" data-composition-crossover="halo" data-composition-independent="true" d="M 715 208 L 715 290" class="a-default" data-animate="edge" style="--step:2" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:3">
           <path data-graph-role="automatic-crossover-underlay" d="M 800 174 L 997 174 Q 1005 174 1005 182 L 1005 290" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="gateway" data-edge-to="database" data-edge-label="Verify Session" data-edge-key="3" data-edge-id="gateway-to-db" data-composition-points="800,174;1005,174;1005,290" data-composition-crossover="halo" data-composition-independent="true" d="M 800 174 L 997 174 Q 1005 174 1005 182 L 1005 290" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-edge-from="gateway" data-edge-to="database" data-edge-label="Verify Session" data-edge-key="3" data-edge-id="gateway-to-db" data-composition-points="800,174;1005,174;1005,290" data-composition-crossover="halo" data-composition-independent="true" d="M 800 174 L 997 174 Q 1005 174 1005 182 L 1005 290" class="a-default" data-animate="edge" style="--step:3" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:4">
           <path data-graph-role="automatic-crossover-underlay" d="M 800 324 L 920 324" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="routes" data-edge-to="database" data-edge-label="SQLAlchemy CRUD" data-edge-key="4" data-edge-id="routes-to-db" data-composition-points="800,324;920,324" data-composition-crossover="halo" data-composition-independent="true" d="M 800 324 L 920 324" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-edge-from="routes" data-edge-to="database" data-edge-label="SQLAlchemy CRUD" data-edge-key="4" data-edge-id="routes-to-db" data-composition-points="800,324;920,324" data-composition-crossover="halo" data-composition-independent="true" d="M 800 324 L 920 324" class="a-default" data-animate="edge" style="--step:4" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:5">
           <path data-graph-role="automatic-crossover-underlay" d="M 630 324 L 510 324" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="routes" data-edge-to="ml_engine" data-edge-label="Classify Merchant" data-edge-key="5" data-edge-id="routes-to-ml" data-composition-points="630,324;510,324" data-composition-crossover="halo" data-composition-independent="true" d="M 630 324 L 510 324" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-edge-from="routes" data-edge-to="ml_engine" data-edge-label="Classify Merchant" data-edge-key="5" data-edge-id="routes-to-ml" data-composition-points="630,324;510,324" data-composition-crossover="halo" data-composition-independent="true" d="M 630 324 L 510 324" class="a-default" data-animate="edge" style="--step:5" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:6">
           <path data-graph-role="automatic-crossover-underlay" d="M 715 358 L 715 440" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="routes" data-edge-to="analytics" data-edge-label="Compute Metrics" data-edge-key="6" data-edge-id="routes-to-analytics" data-composition-points="715,358;715,440" data-composition-crossover="halo" data-composition-independent="true" d="M 715 358 L 715 440" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-edge-from="routes" data-edge-to="analytics" data-edge-label="Compute Metrics" data-edge-key="6" data-edge-id="routes-to-analytics" data-composition-points="715,358;715,440" data-composition-crossover="halo" data-composition-independent="true" d="M 715 358 L 715 440" class="a-default" data-animate="edge" style="--step:6" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:7">
           <path data-graph-role="automatic-crossover-underlay" d="M 800 474 L 920 474" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="analytics" data-edge-to="gemini" data-edge-label="Grounded Context" data-edge-key="7" data-edge-id="analytics-to-gemini" data-composition-points="800,474;920,474" data-composition-crossover="halo" data-composition-independent="true" d="M 800 474 L 920 474" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-edge-from="analytics" data-edge-to="gemini" data-edge-label="Grounded Context" data-edge-key="7" data-edge-id="analytics-to-gemini" data-composition-points="800,474;920,474" data-composition-crossover="halo" data-composition-independent="true" d="M 800 474 L 920 474" class="a-default" data-animate="edge" style="--step:7" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
 
         <!-- Components -->
         <g id="node-client" data-node-id="client" data-node-label="Client Application" tabindex="0" role="button" aria-label="Focus Client Application, React 18 · Vite · Tailwind, Architecture component" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="React 18 · Vite · Tailwind" data-node-context="Architecture component">
           <title>Client Application · React 18 · Vite · Tailwind · Architecture component</title>
           <rect x="50" y="140" width="170" height="68" rx="6" class="c-mask"/>
-          <rect x="50" y="140" width="170" height="68" rx="6" class="c-frontend" stroke-width="1.5"/>
+          <rect x="50" y="140" width="170" height="68" rx="6" class="c-frontend" data-animate="node" style="--step:0" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(56 146) scale(0.6875)">
             <rect x="2" y="3" width="12" height="10" rx="2"/>
             <path d="M2 6.5h12"/>
@@ -5072,7 +5072,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <g id="node-edge" data-node-id="edge" data-node-label="Vercel Edge &amp; Routing" tabindex="0" role="button" aria-label="Focus Vercel Edge &amp; Routing, Static CDN · Serverless Proxy, Vercel Serverless Platform" aria-pressed="false" data-node-kind="cloud" data-node-sublabel="Static CDN · Serverless Proxy" data-node-context="Vercel Serverless Platform">
           <title>Vercel Edge &amp; Routing · Static CDN · Serverless Proxy · Vercel Serverless Platform</title>
           <rect x="340" y="140" width="170" height="68" rx="6" class="c-mask"/>
-          <rect x="340" y="140" width="170" height="68" rx="6" class="c-cloud" stroke-width="1.5"/>
+          <rect x="340" y="140" width="170" height="68" rx="6" class="c-cloud" data-animate="node" style="--step:1" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="cloud" class="semantic-sigil s-cloud" transform="translate(346 146) scale(0.6875)">
             <path d="M4.3 12.5h7.3a2.4 2.4 0 0 0 .2-4.8 4 4 0 0 0-7.5-1.3A3.1 3.1 0 0 0 4.3 12.5Z"/>
           </g>
@@ -5083,7 +5083,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <g id="node-gateway" data-node-id="gateway" data-node-label="Flask Application Shell" tabindex="0" role="button" aria-label="Focus Flask Application Shell, Flask 3.0.3 · Session Auth, Vercel Serverless Platform" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Flask 3.0.3 · Session Auth" data-node-context="Vercel Serverless Platform">
           <title>Flask Application Shell · Flask 3.0.3 · Session Auth · Vercel Serverless Platform</title>
           <rect x="630" y="140" width="170" height="68" rx="6" class="c-mask"/>
-          <rect x="630" y="140" width="170" height="68" rx="6" class="c-backend" stroke-width="1.5"/>
+          <rect x="630" y="140" width="170" height="68" rx="6" class="c-backend" data-animate="node" style="--step:2" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(636 146) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
@@ -5094,7 +5094,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <g id="node-routes" data-node-id="routes" data-node-label="Financial Domain Engine" tabindex="0" role="button" aria-label="Focus Financial Domain Engine, Ledger · Ceilings · Reports, Vercel Serverless Platform" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Ledger · Ceilings · Reports" data-node-context="Vercel Serverless Platform">
           <title>Financial Domain Engine · Ledger · Ceilings · Reports · Vercel Serverless Platform</title>
           <rect x="630" y="290" width="170" height="68" rx="6" class="c-mask"/>
-          <rect x="630" y="290" width="170" height="68" rx="6" class="c-backend" stroke-width="1.5"/>
+          <rect x="630" y="290" width="170" height="68" rx="6" class="c-backend" data-animate="node" style="--step:3" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(636 296) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
@@ -5105,7 +5105,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <g id="node-database" data-node-id="database" data-node-label="Neon Cloud PostgreSQL" tabindex="0" role="button" aria-label="Focus Neon Cloud PostgreSQL, Serverless · SQLAlchemy 2.0, Neon Cloud Platform" aria-pressed="false" data-node-kind="database" data-node-sublabel="Serverless · SQLAlchemy 2.0" data-node-context="Neon Cloud Platform">
           <title>Neon Cloud PostgreSQL · Serverless · SQLAlchemy 2.0 · Neon Cloud Platform</title>
           <rect x="920" y="290" width="170" height="68" rx="6" class="c-mask"/>
-          <rect x="920" y="290" width="170" height="68" rx="6" class="c-database" stroke-width="1.5"/>
+          <rect x="920" y="290" width="170" height="68" rx="6" class="c-database" data-animate="node" style="--step:4" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(926 296) scale(0.6875)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
@@ -5117,7 +5117,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <g id="node-ml_engine" data-node-id="ml_engine" data-node-label="ML Transaction Classifier" tabindex="0" role="button" aria-label="Focus ML Transaction Classifier, TF-IDF · ComplementNB, Vercel Serverless Platform" aria-pressed="false" data-node-kind="backend" data-node-sublabel="TF-IDF · ComplementNB" data-node-context="Vercel Serverless Platform">
           <title>ML Transaction Classifier · TF-IDF · ComplementNB · Vercel Serverless Platform</title>
           <rect x="340" y="290" width="170" height="68" rx="6" class="c-mask"/>
-          <rect x="340" y="290" width="170" height="68" rx="6" class="c-backend" stroke-width="1.5"/>
+          <rect x="340" y="290" width="170" height="68" rx="6" class="c-backend" data-animate="node" style="--step:6" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(346 296) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
@@ -5128,7 +5128,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <g id="node-analytics" data-node-id="analytics" data-node-label="Health &amp; Analytics Engine" tabindex="0" role="button" aria-label="Focus Health &amp; Analytics Engine, 6-Factor Rubric · Anomalies, Vercel Serverless Platform" aria-pressed="false" data-node-kind="backend" data-node-sublabel="6-Factor Rubric · Anomalies" data-node-context="Vercel Serverless Platform">
           <title>Health &amp; Analytics Engine · 6-Factor Rubric · Anomalies · Vercel Serverless Platform</title>
           <rect x="630" y="440" width="170" height="68" rx="6" class="c-mask"/>
-          <rect x="630" y="440" width="170" height="68" rx="6" class="c-backend" stroke-width="1.5"/>
+          <rect x="630" y="440" width="170" height="68" rx="6" class="c-backend" data-animate="node" style="--step:7" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(636 446) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
@@ -5139,7 +5139,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <g id="node-gemini" data-node-id="gemini" data-node-label="Google Gemini AI" tabindex="0" role="button" aria-label="Focus Google Gemini AI, Gemini 2.5 Flash Assistant, Google AI Cloud" aria-pressed="false" data-node-kind="external" data-node-sublabel="Gemini 2.5 Flash Assistant" data-node-context="Google AI Cloud">
           <title>Google Gemini AI · Gemini 2.5 Flash Assistant · Google AI Cloud</title>
           <rect x="920" y="440" width="170" height="68" rx="6" class="c-mask"/>
-          <rect x="920" y="440" width="170" height="68" rx="6" class="c-external" stroke-width="1.5"/>
+          <rect x="920" y="440" width="170" height="68" rx="6" class="c-external" data-animate="node" style="--step:8" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(926 446) scale(0.6875)">
             <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
             <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
