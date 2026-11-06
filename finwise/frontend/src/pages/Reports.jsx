@@ -133,7 +133,7 @@ export default function Reports() {
                   : 'No earlier month to compare against'
               }
             />
-            <div className="grid divide-y divide-ink-200 sm:grid-cols-2 sm:divide-x lg:grid-cols-4 lg:divide-y-0 dark:divide-[#222220]">
+            <div className="grid divide-y divide-slate-200/80 sm:grid-cols-2 sm:divide-x lg:grid-cols-4 lg:divide-y-0 dark:divide-slate-800/80">
               <SummaryCell label="Gross inflows" value={totals.income} before={previous?.income} />
               <SummaryCell
                 label="Total outflows"
@@ -152,7 +152,7 @@ export default function Reports() {
           </Card>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader title="Outflow allocation" subtitle={`${totals.transactions} entries`} />
               <div className="space-y-3.5 p-5">
                 {report.category_breakdown.length === 0 && (
@@ -161,7 +161,7 @@ export default function Reports() {
                 {report.category_breakdown.map((item) => (
                   <div key={item.category}>
                     <div className="flex justify-between text-xs">
-                      <span className="font-medium text-ink-900 dark:text-ink-100">{item.category}</span>
+                      <span className="font-medium text-slate-900 dark:text-white">{item.category}</span>
                       <span className="font-mono tnum">
                         {moneyExact(item.amount)}{' '}
                         <span className="muted">({item.share}%)</span>
@@ -173,7 +173,7 @@ export default function Reports() {
               </div>
             </Card>
 
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader
                 title="Composite health index"
                 subtitle={report.health.band}
@@ -184,15 +184,15 @@ export default function Reports() {
                 }
               />
               <div className="p-5">
-                <p className="display-serif text-3xl text-ink-900 dark:text-ink-100 tnum">
+                <p className="font-display font-bold text-3xl tracking-tight text-slate-900 dark:text-white tnum">
                   {report.health.score}
                   <span className="font-sans text-base font-normal muted"> / 100</span>
                 </p>
-                <div className="mt-4 space-y-2 border-t border-ink-200 pt-3 dark:border-[#222220]">
+                <div className="mt-4 space-y-2 border-t border-slate-200/80 pt-3 dark:border-slate-800/80">
                   {report.health.components.map((component) => (
                     <div key={component.key} className="flex justify-between text-xs">
                       <span className="muted">{component.label}</span>
-                      <span className="font-mono text-ink-900 dark:text-ink-100 tnum">
+                      <span className="font-mono text-slate-900 dark:text-white tnum">
                         {component.points.toFixed(1)} / {component.max_points}
                       </span>
                     </div>
@@ -204,7 +204,7 @@ export default function Reports() {
           </div>
 
           {report.comparison.length > 0 && (
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader
                 title="Month-on-month movement"
                 subtitle={
@@ -215,7 +215,7 @@ export default function Reports() {
               />
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
-                  <thead className="border-b border-ink-200 bg-ink-50/60 text-xs muted dark:border-[#222220] dark:bg-[#171715]">
+                  <thead className="border-b border-slate-200/80 bg-slate-50/60 text-xs muted dark:border-slate-800/80 dark:bg-slate-900/40">
                     <tr>
                       <th className="px-5 py-2.5 text-left font-medium">Category</th>
                       <th className="px-5 py-2.5 text-right font-medium">This month</th>
@@ -223,10 +223,10 @@ export default function Reports() {
                       <th className="px-5 py-2.5 text-right font-medium">Variance</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-ink-200 dark:divide-[#1F1F1D]">
+                  <tbody className="divide-y divide-slate-200/60 dark:divide-slate-800/60">
                     {report.comparison.slice(0, 8).map((row) => (
-                      <tr key={row.category}>
-                        <td className="px-5 py-2.5 font-medium text-ink-900 dark:text-ink-100">{row.category}</td>
+                      <tr key={row.category} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
+                        <td className="px-5 py-2.5 font-medium text-slate-900 dark:text-white">{row.category}</td>
                         <td className="px-5 py-2.5 text-right font-mono text-xs tnum">{moneyExact(row.current)}</td>
                         <td className="px-5 py-2.5 text-right font-mono text-xs muted tnum">{moneyExact(row.previous)}</td>
                         <td
@@ -249,13 +249,13 @@ export default function Reports() {
           )}
 
           {report.anomalies.anomalies.length > 0 && (
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader
                 title="Flagged entries"
                 subtitle="Included in the PDF statement"
                 action={<Badge tone="warning">{report.anomalies.count}</Badge>}
               />
-              <ul className="divide-y divide-ink-200 dark:divide-[#222220]">
+              <ul className="divide-y divide-slate-200/60 dark:divide-slate-800/60">
                 {report.anomalies.anomalies.map((item) => (
                   <li key={item.id} className="px-5 py-3 text-sm">
                     <span className="font-medium text-ink-900 dark:text-ink-100">{item.description}</span>{' '}
@@ -322,9 +322,9 @@ function SummaryCell({ label, value, before, invert = false, isPercent = false }
     before === null || before === undefined || value === null ? null : value - before
 
   return (
-    <div className="bg-white p-5 dark:bg-[#141413]">
-      <p className="text-xs font-medium text-ink-500 dark:text-ink-400">{label}</p>
-      <p className="display-serif mt-1.5 text-2xl text-ink-900 dark:text-ink-100 tnum">{shown}</p>
+    <div className="bg-white p-5 dark:bg-[#0F1422]">
+      <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</p>
+      <p className="font-display font-bold mt-1.5 text-2xl tracking-tight text-slate-900 dark:text-white tnum">{shown}</p>
       {delta !== null && (
         <p
           className={`mt-1 font-mono text-[11px] tnum ${

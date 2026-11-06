@@ -270,7 +270,7 @@ export default function Subscriptions() {
       )}
 
       {/* Subscriptions List Card */}
-      <Card>
+      <Card className="overflow-hidden">
         <CardHeader
           title="Tracked Subscriptions"
           subtitle={`${filteredSubs.length} recurring obligation${filteredSubs.length === 1 ? '' : 's'}`}
@@ -281,10 +281,10 @@ export default function Subscriptions() {
                   key={key}
                   type="button"
                   onClick={() => setFilter(key)}
-                  className={`rounded px-2.5 py-1 text-xs capitalize transition-colors ${
+                  className={`rounded-lg px-2.5 py-1 text-xs capitalize transition-colors ${
                     filter === key
-                      ? 'bg-ink-900 text-[#F8F7F4] font-medium dark:bg-ink-100 dark:text-ink-900'
-                      : 'text-ink-600 hover:bg-ink-100 dark:text-ink-400 dark:hover:bg-[#1C1C1A]'
+                      ? 'bg-slate-900 text-white font-medium dark:bg-white dark:text-slate-900'
+                      : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
                   }`}
                 >
                   {key}
@@ -306,9 +306,9 @@ export default function Subscriptions() {
             }
           />
         ) : (
-          <div className="divide-y divide-ink-200/90 overflow-x-auto dark:divide-[#242421]">
+          <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-ink-50/50 font-mono text-[10px] uppercase text-ink-500 dark:bg-[#121211] dark:text-ink-400">
+              <thead className="border-b border-slate-200/80 bg-slate-50/60 font-mono text-[10px] uppercase muted dark:border-slate-800/80 dark:bg-slate-900/40">
                 <tr>
                   <th className="px-5 py-3">Subscription</th>
                   <th className="px-4 py-3">Cycle</th>
@@ -319,23 +319,23 @@ export default function Subscriptions() {
                   <th className="px-5 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-ink-200/60 font-sans dark:divide-[#1C1C1A]">
+              <tbody className="divide-y divide-slate-200/60 font-sans dark:divide-slate-800/60">
                 {filteredSubs.map((sub) => {
                   const days = getDaysUntil(sub.next_billing_date)
                   const isDueSoon = sub.status === 'active' && days !== null && days <= 7 && days >= 0
                   const isOverdue = sub.status === 'active' && days !== null && days < 0
 
                   return (
-                    <tr key={sub.id} className="hover:bg-ink-50/40 dark:hover:bg-[#161614] transition-colors">
+                    <tr key={sub.id} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
                       <td className="px-5 py-3.5">
-                        <div className="font-medium text-ink-900 dark:text-ink-100">{sub.name}</div>
+                        <div className="font-medium text-slate-900 dark:text-white">{sub.name}</div>
                         <div className="mt-0.5 text-[11px] muted">{sub.category}</div>
                       </td>
-                      <td className="px-4 py-3.5 capitalize text-ink-700 dark:text-ink-300">
+                      <td className="px-4 py-3.5 capitalize text-slate-700 dark:text-slate-300">
                         {sub.billing_cycle}
                       </td>
                       <td className="px-4 py-3.5">
-                        <div className="font-mono font-medium text-ink-900 dark:text-ink-100">
+                        <div className="font-mono font-medium text-slate-900 dark:text-white">
                           {money(sub.amount)}
                         </div>
                         {sub.billing_cycle !== 'monthly' && (

@@ -71,7 +71,7 @@ export default function Budget() {
         title="Budgets & Limits"
         subtitle="Planned category allocations measured against recorded outflows"
         action={
-          <>
+          <div className="flex items-center gap-2">
             <Select
               value={month ?? ''}
               onChange={(event) => load(event.target.value)}
@@ -87,7 +87,7 @@ export default function Budget() {
             <Button onClick={() => setEditing({})}>
               <Plus size={14} /> New allocation
             </Button>
-          </>
+          </div>
         }
       />
 
@@ -127,7 +127,7 @@ export default function Budget() {
                 title="Category ceilings"
                 subtitle={`${perCategory.length} active category limits for ${data.month_label}`}
               />
-              <div className="grid divide-y divide-ink-200 md:grid-cols-2 md:divide-x dark:divide-[#222220]">
+              <div className="grid divide-y divide-slate-200/80 md:grid-cols-2 md:divide-x dark:divide-slate-800/80">
                 {perCategory.map((budget) => (
                   <BudgetCard
                     key={budget.id}
@@ -262,7 +262,7 @@ function OverallCard({ budget, warnAt, onEdit, onDelete }) {
           <p className="text-xs font-medium text-ink-500 dark:text-ink-400">
             Overall monthly ceiling
           </p>
-          <p className="display-serif mt-1 text-3xl text-ink-900 dark:text-ink-100 tnum">
+          <p className="font-display font-bold mt-1 text-3xl tracking-tight text-slate-900 dark:text-white tnum">
             {moneyExact(budget.spent)}{' '}
             <span className="font-sans text-sm font-normal muted">
               of {moneyExact(budget.amount)}

@@ -161,7 +161,7 @@ export default function TaxEstimator() {
             Effective rate: {old_regime.effective_tax_rate}%
           </p>
 
-          <div className="mt-4 space-y-2 border-t border-ink-200/60 pt-3 text-xs dark:border-[#1E1E1C]">
+          <div className="mt-4 space-y-2 border-t border-slate-200/80 pt-3 text-xs dark:border-slate-800/80">
             <div className="flex justify-between">
               <span className="muted">Standard Deduction</span>
               <span className="font-mono font-medium text-pos">-₹50,000</span>
@@ -189,13 +189,13 @@ export default function TaxEstimator() {
       </div>
 
       {/* Interactive Scenario Controls */}
-      <Card className="p-5">
+      <Card className="overflow-hidden">
         <CardHeader
           title="Interactive Deduction & Salary Simulator"
           subtitle="Adjust income and investment deductions to see which regime benefits your specific situation:"
         />
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="p-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Field label="Gross Annual Salary / Income">
             <Input
               type="number"

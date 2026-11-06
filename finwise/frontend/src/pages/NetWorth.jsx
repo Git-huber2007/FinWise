@@ -174,19 +174,19 @@ export default function NetWorth() {
 
       {/* Asset Allocation Breakdown */}
       {asset_allocation.length > 0 && (
-        <Card className="p-5">
+        <Card className="overflow-hidden">
           <CardHeader
             title="Asset Distribution"
             subtitle="Portfolio allocation across liquid, invested, and retirement asset classes"
           />
-          <div className="mt-4 space-y-3">
+          <div className="p-5 space-y-3">
             {asset_allocation.map((item) => (
               <div key={item.type}>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium capitalize text-ink-900 dark:text-ink-100">
+                  <span className="font-medium capitalize text-slate-900 dark:text-white">
                     {item.type.replace('_', ' ')}
                   </span>
-                  <span className="font-mono text-ink-700 dark:text-ink-300">
+                  <span className="font-mono text-slate-700 dark:text-slate-300">
                     {money(item.amount)} <span className="muted">({item.share_pct}%)</span>
                   </span>
                 </div>
@@ -200,7 +200,7 @@ export default function NetWorth() {
       {/* Assets & Liabilities Split Tables */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Assets Table */}
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader
             title="Assets & Holdings"
             subtitle={`${assets.length} recorded accounts`}
@@ -222,17 +222,17 @@ export default function NetWorth() {
               }
             />
           ) : (
-            <div className="divide-y divide-ink-200/80 dark:divide-[#242421]">
+            <div className="divide-y divide-slate-200/80 dark:divide-slate-800/80">
               {assets.map((asset) => {
                 const Icon = ASSET_ICONS[asset.asset_type] || PieChart
                 return (
                   <div key={asset.id} className="flex items-center justify-between p-4 text-xs">
                     <div className="flex items-center gap-3">
-                      <div className="rounded border border-ink-200/80 bg-ink-50 p-2 text-ink-700 dark:border-[#2E2E2A] dark:bg-[#1A1A18] dark:text-ink-300">
+                      <div className="rounded-lg border border-slate-200/80 bg-slate-50 p-2 text-slate-700 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
                         <Icon size={14} />
                       </div>
                       <div>
-                        <p className="font-medium text-ink-900 dark:text-ink-100">{asset.name}</p>
+                        <p className="font-medium text-slate-900 dark:text-white">{asset.name}</p>
                         <p className="mt-0.5 text-[11px] muted">
                           <span className="capitalize">{asset.asset_type}</span>
                           {asset.institution && ` · ${asset.institution}`}
@@ -247,14 +247,14 @@ export default function NetWorth() {
                         <button
                           type="button"
                           onClick={() => setEditingAsset(asset)}
-                          className="rounded p-1 text-ink-500 hover:text-ink-900 dark:hover:text-ink-100"
+                          className="rounded p-1 text-slate-400 hover:text-slate-900 dark:hover:text-white"
                         >
                           <Pencil size={13} />
                         </button>
                         <button
                           type="button"
                           onClick={() => setDeletingAsset(asset)}
-                          className="rounded p-1 text-ink-500 hover:text-neg"
+                          className="rounded p-1 text-slate-400 hover:text-neg"
                         >
                           <Trash2 size={13} />
                         </button>
@@ -268,7 +268,7 @@ export default function NetWorth() {
         </Card>
 
         {/* Liabilities Table */}
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader
             title="Liabilities & Debts"
             subtitle={`${debts.length} active commitments`}
@@ -280,15 +280,15 @@ export default function NetWorth() {
               body="Credit cards and loans appear here automatically from your Debt Planner."
             />
           ) : (
-            <div className="divide-y divide-ink-200/80 dark:divide-[#242421]">
+            <div className="divide-y divide-slate-200/80 dark:divide-slate-800/80">
               {debts.map((debt) => (
                 <div key={debt.id} className="flex items-center justify-between p-4 text-xs">
                   <div className="flex items-center gap-3">
-                    <div className="rounded border border-ink-200/80 bg-ink-50 p-2 text-neg dark:border-[#2E2E2A] dark:bg-[#1A1A18]">
+                    <div className="rounded-lg border border-slate-200/80 bg-slate-50 p-2 text-neg dark:border-slate-800 dark:bg-slate-900/60">
                       <CreditCard size={14} />
                     </div>
                     <div>
-                      <p className="font-medium text-ink-900 dark:text-ink-100">{debt.name}</p>
+                      <p className="font-medium text-slate-900 dark:text-white">{debt.name}</p>
                       <p className="mt-0.5 text-[11px] muted">
                         <span className="capitalize">{debt.debt_type.replace('_', ' ')}</span>
                         {debt.interest_rate > 0 && ` · ${debt.interest_rate}% APR`}

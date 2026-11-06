@@ -302,7 +302,7 @@ function Forecast({ forecast }) {
             value={String(forecast.months_of_history)}
             hint="The in-progress month is excluded"
           />
-          <p className="border-t border-ink-200 pt-3 text-xs leading-relaxed muted dark:border-[#222220]">
+          <p className="border-t border-slate-200/80 pt-3 text-xs leading-relaxed muted dark:border-slate-800/80">
             {forecast.explanation}
           </p>
         </div>
@@ -320,7 +320,7 @@ function Figure({ icon: Icon, label, value, hint }) {
       <p className="flex items-center gap-1.5 text-xs muted">
         {Icon && <Icon size={12} />} {label}
       </p>
-      <p className="mt-0.5 font-mono text-sm font-medium text-ink-900 dark:text-ink-100 tnum">{value}</p>
+      <p className="mt-0.5 font-mono text-sm font-medium text-slate-900 dark:text-white tnum">{value}</p>
       {hint && <p className="text-[11px] muted">{hint}</p>}
     </div>
   )
@@ -342,7 +342,7 @@ function GoalCard({ goal, onEdit, onDelete, onContribute }) {
     <Card className="flex flex-col">
       <div className="flex items-start justify-between gap-3 p-5 pb-3">
         <div className="min-w-0">
-          <h3 className="flex items-center gap-2 truncate text-sm font-medium text-ink-900 dark:text-ink-100">
+          <h3 className="flex items-center gap-2 truncate text-sm font-medium text-slate-900 dark:text-white">
             {done && <Check size={14} className="shrink-0 text-pos" />}
             {goal.name}
           </h3>
@@ -366,7 +366,7 @@ function GoalCard({ goal, onEdit, onDelete, onContribute }) {
       </div>
 
       {!done && (
-        <div className="mx-5 mt-4 rounded-md border border-ink-200 bg-ink-50/70 p-3 dark:border-[#222220] dark:bg-[#181816]">
+        <div className="mx-5 mt-4 rounded-lg border border-slate-200/80 bg-slate-50/70 p-3 dark:border-slate-800/80 dark:bg-slate-900/40">
           <p className="flex items-center gap-1.5 text-xs font-medium text-ink-900 dark:text-ink-100">
             <CalendarClock size={13} className="shrink-0 text-ink-500" />
             {projection.eta_label ? (

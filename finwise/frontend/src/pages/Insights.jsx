@@ -62,7 +62,7 @@ export default function Insights() {
         subtitle={`${data.month_label} — deterministic variance and category share across your recorded ledger`}
       />
 
-      <Card>
+      <Card className="overflow-hidden">
         <CardHeader
           title="Notable movements"
           subtitle={
@@ -71,7 +71,7 @@ export default function Insights() {
               : 'No earlier month to compare against yet'
           }
         />
-        <div className="divide-y divide-ink-200 dark:divide-[#222220]">
+        <div className="divide-y divide-slate-200/80 dark:divide-slate-800/80">
           {data.insights.length ? (
             data.insights.map((insight, index) => <InsightRow key={index} insight={insight} />)
           ) : (
@@ -85,13 +85,13 @@ export default function Insights() {
       </Card>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader title="Category allocation" subtitle="Ranked by share of total outflow" />
           <div className="space-y-3.5 p-5">
             {data.category_breakdown.map((item) => (
               <div key={item.category}>
                 <div className="flex items-baseline justify-between gap-3 text-sm">
-                  <span className="flex items-center gap-2 font-medium text-ink-900 dark:text-ink-100">
+                  <span className="flex items-center gap-2 font-medium text-slate-900 dark:text-white">
                     <span
                       className="h-2 w-2 shrink-0 rounded-[2px]"
                       style={{ background: categoryColor(item.category) }}
@@ -99,7 +99,7 @@ export default function Insights() {
                     {item.category}
                   </span>
                   <span className="font-mono text-xs tnum">
-                    <span className="font-medium text-ink-900 dark:text-ink-100">{money(item.amount)}</span>
+                    <span className="font-medium text-slate-900 dark:text-white">{money(item.amount)}</span>
                     <span className="muted"> · {pct(item.share)}</span>
                   </span>
                 </div>
@@ -116,7 +116,7 @@ export default function Insights() {
           </div>
         </Card>
 
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader
             title="Month-over-month variance"
             subtitle={
@@ -124,7 +124,7 @@ export default function Insights() {
             }
           />
           {data.comparison.length ? (
-            <div className="divide-y divide-ink-200 dark:divide-[#222220]">
+            <div className="divide-y divide-slate-200/80 dark:divide-slate-800/80">
               {data.comparison.map((row) => (
                 <ComparisonRow key={row.category} row={row} />
               ))}
@@ -139,7 +139,7 @@ export default function Insights() {
       </div>
 
       {data.budget_alerts.length > 0 && (
-        <Card className="mt-6">
+        <Card className="mt-6 overflow-hidden">
           <CardHeader title="Ceiling utilisation" subtitle={data.month_label} />
           <div className="space-y-3.5 p-5">
             {data.budget_alerts.map((alert) => (

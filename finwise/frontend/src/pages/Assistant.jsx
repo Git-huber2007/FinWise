@@ -59,7 +59,7 @@ export default function Assistant() {
       />
 
       <Card className="flex h-[calc(100dvh-13rem)] min-h-[480px] flex-col overflow-hidden">
-        <div className="flex-1 divide-y divide-ink-200/70 overflow-y-auto dark:divide-[#222220]">
+        <div className="flex-1 divide-y divide-slate-200/80 overflow-y-auto dark:divide-slate-800/80">
           {messages.length === 0 && <Welcome meta={meta} onPick={send} />}
 
           {messages.map((message, index) =>
@@ -72,7 +72,7 @@ export default function Assistant() {
 
           {busy && (
             <div className="flex items-center gap-2.5 px-6 py-4 font-mono text-xs muted">
-              <span className="size-2 rounded-full bg-ink-400 animate-pulse" />
+              <span className="size-2 rounded-full bg-slate-400 animate-pulse" />
               <span>Computing response from ledger entries…</span>
             </div>
           )}
@@ -84,7 +84,7 @@ export default function Assistant() {
             event.preventDefault()
             send()
           }}
-          className="flex items-end gap-2 border-t border-ink-200 bg-[#F3F1EC] p-3.5 dark:border-[#242421] dark:bg-[#161614]"
+          className="flex items-end gap-2 border-t border-slate-200/80 bg-slate-50/70 p-3.5 dark:border-slate-800/80 dark:bg-slate-900/40"
         >
           <textarea
             rows={1}
@@ -98,10 +98,10 @@ export default function Assistant() {
             }}
             placeholder="Enter a financial query (e.g., Where did my money go this month?)…"
             aria-label="Query the ledger"
-            className="max-h-32 min-h-[38px] flex-1 resize-none rounded-md border border-ink-300
-              bg-white px-3 py-2 text-sm placeholder:text-ink-400 transition-colors
-              focus:border-ink-900 focus:outline-none focus:ring-1 focus:ring-ink-900
-              dark:border-[#2E2E2A] dark:bg-[#0E0E0D] dark:text-ink-100 dark:focus:border-ink-200"
+            className="max-h-32 min-h-[38px] flex-1 resize-none rounded-lg border border-slate-200
+              bg-white px-3 py-2 text-sm placeholder:text-slate-400 transition-colors
+              focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500
+              dark:border-slate-800 dark:bg-slate-950 dark:text-white dark:focus:border-blue-400"
           />
           <Button type="submit" size="lg" loading={busy} disabled={!input.trim()}>
             <Send size={13} />
@@ -139,13 +139,13 @@ function Welcome({ meta, onPick }) {
             <button
               key={question}
               onClick={() => onPick(question)}
-              className="flex items-center justify-between gap-2 rounded-md border border-ink-200 bg-[#FAF9F6] px-3.5 py-2.5 text-left text-xs font-medium text-ink-800
-                hover:border-ink-400 hover:bg-white dark:border-[#282825] dark:bg-[#161614] dark:text-ink-200 dark:hover:border-[#3A3A35] transition-colors group"
+              className="flex items-center justify-between gap-2 rounded-lg border border-slate-200/80 bg-slate-50/60 px-3.5 py-2.5 text-left text-xs font-medium text-slate-800
+                hover:border-slate-300 hover:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-200 dark:hover:border-slate-700 transition-colors group"
             >
               <span className="truncate">{question}</span>
               <ArrowUpRight
                 size={13}
-                className="shrink-0 text-ink-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                className="shrink-0 text-slate-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
               />
             </button>
           ))}
@@ -157,10 +157,10 @@ function Welcome({ meta, onPick }) {
 
 function QueryRow({ text }) {
   return (
-    <div className="bg-[#FAF9F6] px-6 py-4 dark:bg-[#161614]">
+    <div className="bg-slate-50/70 px-6 py-4 dark:bg-slate-900/40">
       <div className="flex items-baseline gap-3">
         <span className="font-mono text-[10px] uppercase muted shrink-0 w-16">Query</span>
-        <p className="text-sm font-medium text-ink-900 dark:text-ink-100">{text}</p>
+        <p className="text-sm font-medium text-slate-900 dark:text-white">{text}</p>
       </div>
     </div>
   )
@@ -170,7 +170,7 @@ function ResponseRow({ message, onPick }) {
   const fromModel = message.source === 'gemini'
 
   return (
-    <div className="px-6 py-5 bg-white dark:bg-[#121211]">
+    <div className="px-6 py-5 bg-white dark:bg-[#0F1422]">
       <div className="flex items-start gap-3">
         <span className="font-mono text-[10px] uppercase muted shrink-0 w-16 pt-0.5">Result</span>
         <div className="min-w-0 flex-1 space-y-3">
@@ -178,7 +178,7 @@ function ResponseRow({ message, onPick }) {
             className={`text-sm leading-relaxed whitespace-pre-line ${
               message.failed
                 ? 'text-neg'
-                : 'text-ink-900 dark:text-ink-100'
+                : 'text-slate-900 dark:text-white'
             }`}
           >
             {message.answer}
@@ -206,8 +206,8 @@ function ResponseRow({ message, onPick }) {
                 <button
                   key={question}
                   onClick={() => onPick(question)}
-                  className="rounded border border-ink-200 bg-[#FAF9F6] px-2.5 py-1 text-[11px] text-ink-700
-                    hover:border-ink-400 hover:text-ink-900 dark:border-[#282825] dark:bg-[#181816] dark:text-ink-300 dark:hover:text-white transition-colors"
+                  className="rounded-lg border border-slate-200/80 bg-slate-50/60 px-2.5 py-1 text-[11px] text-slate-700
+                    hover:border-slate-300 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300 dark:hover:text-white transition-colors"
                 >
                   {question}
                 </button>

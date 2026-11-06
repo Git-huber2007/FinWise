@@ -109,7 +109,7 @@ export default function Transactions() {
       />
 
       {totals && (
-        <section className="mb-5 card overflow-hidden grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 divide-x divide-ink-200/90 dark:divide-[#242421]">
+        <section className="mb-5 card overflow-hidden grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 divide-x divide-slate-200/80 dark:divide-slate-800/80">
           <SummaryCell label="Filtered Inflows" value={totals.income} dot="bg-pos" />
           <SummaryCell label="Filtered Outflows" value={totals.expense} dot="bg-ink-400" />
           <SummaryCell
@@ -129,7 +129,7 @@ export default function Transactions() {
 
       {/* Unified Filter Toolbar + Accounting Table Sheet */}
       <Card className="overflow-hidden">
-        <div className="border-b border-ink-200/90 bg-[#FAF9F6] p-3.5 dark:border-[#242421] dark:bg-[#161614]">
+        <div className="border-b border-slate-200/80 bg-slate-50/70 p-3.5 dark:border-slate-800/80 dark:bg-slate-900/40">
           <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-6">
             <div className="relative lg:col-span-2">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
@@ -283,12 +283,12 @@ export default function Transactions() {
 
 function SummaryCell({ label, value, dot, prefix = '', raw = false }) {
   return (
-    <div className="px-4 py-3.5 bg-white dark:bg-[#121211]">
+    <div className="px-4 py-3.5 bg-white dark:bg-[#0F1422]">
       <div className="flex items-center gap-1.5 text-xs muted">
         {dot && <span className={`size-1.5 rounded-full ${dot}`} />}
         <span>{label}</span>
       </div>
-      <p className="mt-1.5 font-mono text-lg font-semibold text-ink-900 dark:text-ink-100 tnum">
+      <p className="mt-1.5 font-mono text-lg font-semibold text-slate-900 dark:text-white tnum">
         {raw ? value : `${prefix}${money(Math.abs(value))}`}
       </p>
     </div>
@@ -300,7 +300,7 @@ function TransactionTable({ rows, onEdit, onDelete }) {
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-ink-200/90 bg-[#FAF9F6]/60 text-left font-mono text-[11px] uppercase muted dark:border-[#242421] dark:bg-[#141413]">
+          <tr className="border-b border-slate-200/80 bg-slate-50/60 text-left font-mono text-[11px] uppercase muted dark:border-slate-800/80 dark:bg-slate-900/40">
             <th className="px-4 py-2.5 font-medium">Date</th>
             <th className="px-4 py-2.5 font-medium">Description</th>
             <th className="px-4 py-2.5 font-medium">Category</th>
@@ -309,17 +309,17 @@ function TransactionTable({ rows, onEdit, onDelete }) {
             <th className="w-20 px-4 py-2.5" />
           </tr>
         </thead>
-        <tbody className="divide-y divide-ink-200/60 dark:divide-[#20201E]">
+        <tbody className="divide-y divide-slate-200/60 dark:divide-slate-800/60">
           {rows.map((row) => (
             <tr
               key={row.id}
-              className="group hover:bg-ink-50/70 dark:hover:bg-[#181816] transition-colors"
+              className="group hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors"
             >
               <td className="whitespace-nowrap px-4 py-2.5 font-mono text-xs muted tnum">
                 {shortDate(row.date)}
               </td>
               <td className="max-w-[20rem] px-4 py-2.5">
-                <p className="truncate text-xs sm:text-sm font-medium text-ink-900 dark:text-ink-100">
+                <p className="truncate text-xs sm:text-sm font-medium text-slate-900 dark:text-white">
                   {row.description}
                 </p>
                 {row.notes && <p className="truncate text-xs muted">{row.notes}</p>}
@@ -336,7 +336,7 @@ function TransactionTable({ rows, onEdit, onDelete }) {
                 className={`whitespace-nowrap px-4 py-2.5 text-right font-mono text-xs sm:text-sm font-medium tnum ${
                   row.txn_type === 'income'
                     ? 'text-pos dark:text-emerald-400'
-                    : 'text-ink-900 dark:text-ink-100'
+                    : 'text-slate-900 dark:text-white'
                 }`}
               >
                 {row.txn_type === 'income' ? '+' : '−'}
@@ -347,7 +347,7 @@ function TransactionTable({ rows, onEdit, onDelete }) {
                   <button
                     onClick={() => onEdit(row)}
                     aria-label={`Edit ${row.description}`}
-                    className="rounded p-1 muted hover:bg-ink-200/70 hover:text-ink-900 dark:hover:bg-[#262623] dark:hover:text-ink-100"
+                    className="rounded p-1 muted hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
                   >
                     <Pencil size={13} />
                   </button>

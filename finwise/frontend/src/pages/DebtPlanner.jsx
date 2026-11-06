@@ -171,9 +171,9 @@ export default function DebtPlanner() {
       {/* Interactive Repayment Acceleration Simulator */}
       {debts.length > 0 && (
         <Card className="p-5">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-ink-200/90 pb-4 dark:border-[#242421]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-4 dark:border-slate-800/80">
             <div>
-              <h3 className="text-sm font-semibold text-ink-900 dark:text-ink-100">
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
                 Acceleration Prepayment Simulator
               </h3>
               <p className="text-xs muted mt-0.5">
@@ -193,7 +193,7 @@ export default function DebtPlanner() {
               step="500"
               value={extraMonthly}
               onChange={(e) => setExtraMonthly(Number(e.target.value))}
-              className="w-full accent-ink-900 dark:accent-ink-100 cursor-pointer"
+              className="w-full accent-blue-600 dark:accent-white cursor-pointer"
             />
             <div className="flex justify-between font-mono text-[10px] muted mt-1">
               <span>+₹0 (Minimums Only)</span>
@@ -205,20 +205,20 @@ export default function DebtPlanner() {
           {/* Strategy Comparison Grid */}
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {/* Avalanche Card */}
-            <div className="rounded-lg border-2 border-pos/50 bg-pos/5 p-4">
+            <div className="rounded-lg border border-pos/40 bg-emerald-50/30 p-4 dark:bg-emerald-950/20 dark:border-emerald-800/50">
               <div className="flex items-center justify-between">
-                <span className="font-medium text-ink-900 dark:text-ink-100 text-xs">
+                <span className="font-medium text-slate-900 dark:text-white text-xs">
                   Debt Avalanche (Highest APR First)
                 </span>
                 <Badge tone="positive">Maximum Savings</Badge>
               </div>
               <div className="mt-3 flex items-baseline gap-2">
-                <span className="font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
+                <span className="font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-white tnum">
                   {avalanche.months} months
                 </span>
                 <span className="text-xs muted">({avalanche.years} years)</span>
               </div>
-              <p className="mt-1 text-xs text-ink-700 dark:text-ink-300">
+              <p className="mt-1 text-xs text-slate-700 dark:text-slate-300">
                 Total interest: <span className="font-mono font-medium">{money(avalanche.total_interest || 0)}</span>
               </p>
               {months_saved > 0 && (
@@ -229,20 +229,20 @@ export default function DebtPlanner() {
             </div>
 
             {/* Snowball Card */}
-            <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/60 shadow-sm">
+            <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/60 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="font-medium text-ink-900 dark:text-white text-xs">
+                <span className="font-medium text-slate-900 dark:text-white text-xs">
                   Debt Snowball (Smallest Balance First)
                 </span>
                 <Badge tone="neutral">Behavioral Momentum</Badge>
               </div>
               <div className="mt-3 flex items-baseline gap-2">
-                <span className="font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
+                <span className="font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-white tnum">
                   {snowball.months} months
                 </span>
                 <span className="text-xs muted">({snowball.years} years)</span>
               </div>
-              <p className="mt-1 text-xs text-ink-700 dark:text-ink-300">
+              <p className="mt-1 text-xs text-slate-700 dark:text-slate-300">
                 Total interest: <span className="font-mono font-medium">{money(snowball.total_interest || 0)}</span>
               </p>
               <p className="mt-2 text-[11px] muted">
@@ -254,7 +254,7 @@ export default function DebtPlanner() {
       )}
 
       {/* Debts Table */}
-      <Card>
+      <Card className="overflow-hidden">
         <CardHeader
           title="Active Debts & Credit Accounts"
           subtitle={`${debts.length} outstanding accounts`}
@@ -272,9 +272,9 @@ export default function DebtPlanner() {
             }
           />
         ) : (
-          <div className="divide-y divide-ink-200/80 overflow-x-auto dark:divide-[#242421]">
+          <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-ink-50/50 font-mono text-[10px] uppercase text-ink-500 dark:bg-[#121211] dark:text-ink-400">
+              <thead className="border-b border-slate-200/80 bg-slate-50/60 font-mono text-[10px] uppercase muted dark:border-slate-800/80 dark:bg-slate-900/40">
                 <tr>
                   <th className="px-5 py-3">Debt / Account</th>
                   <th className="px-4 py-3">Type</th>
@@ -285,28 +285,28 @@ export default function DebtPlanner() {
                   <th className="px-5 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-ink-200/60 font-sans dark:divide-[#1C1C1A]">
+              <tbody className="divide-y divide-slate-200/60 font-sans dark:divide-slate-800/60">
                 {debts.map((debt) => (
-                  <tr key={debt.id} className="hover:bg-ink-50/40 dark:hover:bg-[#161614] transition-colors">
+                  <tr key={debt.id} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
                     <td className="px-5 py-3.5">
-                      <div className="font-medium text-ink-900 dark:text-ink-100">{debt.name}</div>
+                      <div className="font-medium text-slate-900 dark:text-white">{debt.name}</div>
                       {debt.institution && (
                         <div className="mt-0.5 text-[11px] muted">{debt.institution}</div>
                       )}
                     </td>
-                    <td className="px-4 py-3.5 capitalize text-ink-700 dark:text-ink-300">
+                    <td className="px-4 py-3.5 capitalize text-slate-700 dark:text-slate-300">
                       {debt.debt_type.replace('_', ' ')}
                     </td>
-                    <td className="px-4 py-3.5 font-mono text-ink-900 dark:text-ink-100">
+                    <td className="px-4 py-3.5 font-mono text-slate-900 dark:text-white">
                       {debt.interest_rate}%
                     </td>
                     <td className="px-4 py-3.5 font-mono font-medium text-neg">
                       {money(debt.current_balance)}
                     </td>
-                    <td className="px-4 py-3.5 font-mono text-ink-900 dark:text-ink-100">
+                    <td className="px-4 py-3.5 font-mono text-slate-900 dark:text-white">
                       {money(debt.minimum_payment)}
                     </td>
-                    <td className="px-4 py-3.5 text-ink-600 dark:text-ink-400">
+                    <td className="px-4 py-3.5 text-slate-600 dark:text-slate-400">
                       {debt.due_day ? `${debt.due_day}th of month` : '—'}
                     </td>
                     <td className="px-5 py-3.5 text-right">
@@ -314,14 +314,14 @@ export default function DebtPlanner() {
                         <button
                           type="button"
                           onClick={() => setEditingDebt(debt)}
-                          className="rounded p-1.5 text-ink-600 hover:bg-ink-100 hover:text-ink-900 dark:text-ink-400 dark:hover:bg-[#20201D]"
+                          className="rounded p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
                         >
                           <Pencil size={13} />
                         </button>
                         <button
                           type="button"
                           onClick={() => setDeletingDebt(debt)}
-                          className="rounded p-1.5 text-ink-600 hover:bg-neg/15 hover:text-neg dark:text-ink-400"
+                          className="rounded p-1.5 text-slate-400 hover:bg-rose-50 hover:text-neg dark:hover:bg-rose-950/40"
                         >
                           <Trash2 size={13} />
                         </button>

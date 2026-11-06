@@ -73,7 +73,7 @@ function ProfileCard({ user, onSave }) {
   const fieldError = (key) => (error?.field === key ? error.message : null)
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <CardHeader title="Profile" subtitle="Used across your dashboard and reports" />
       <form
         className="space-y-4 p-5"
@@ -138,7 +138,7 @@ function ProfileCard({ user, onSave }) {
 
 function AppearanceCard({ theme, onToggle }) {
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <CardHeader title="Appearance" subtitle="Applies immediately on this device" />
       <div className="p-5">
         <Field label="Theme">
@@ -166,7 +166,7 @@ function PasswordCard() {
   const set = (key) => (event) => setForm({ ...form, [key]: event.target.value })
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <CardHeader title="Password" />
       <form className="space-y-4 p-5" onSubmit={(event) => run(event, form)} noValidate>
         <Field

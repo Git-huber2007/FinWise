@@ -90,12 +90,12 @@ export default function Health() {
           <ScoreCard result={result} />
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader
                 title="Component breakdown"
                 subtitle="Each factor, its maximum weight, and the underlying ledger figures"
               />
-              <div className="divide-y divide-ink-200 dark:divide-[#222220]">
+              <div className="divide-y divide-slate-200/80 dark:divide-slate-800/80">
                 {result.components.map((component) => (
                   <ComponentRow key={component.key} component={component} />
                 ))}
@@ -141,7 +141,7 @@ export default function Health() {
           </div>
 
           {result.recommendations.length > 0 && (
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader
                 title="Recommended adjustments"
                 subtitle="Prioritised by lowest-scoring ledger components"
@@ -149,7 +149,7 @@ export default function Health() {
               <ul className="space-y-3 p-5">
                 {result.recommendations.map((item, index) => (
                   <li key={index} className="flex gap-2.5 text-sm leading-relaxed">
-                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded bg-ink-100 font-mono text-[11px] font-medium text-ink-900 dark:bg-[#222220] dark:text-ink-100">
+                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded bg-slate-100 font-mono text-[11px] font-medium text-slate-800 dark:bg-slate-800 dark:text-slate-200">
                       {index + 1}
                     </span>
                     <span>{item}</span>
@@ -160,17 +160,17 @@ export default function Health() {
           )}
 
           {result.monthly_plan.length > 0 && (
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader
                 title="Monthly action schedule"
                 subtitle="Concrete adjustments derived from your recorded figures"
               />
-              <div className="divide-y divide-ink-200 dark:divide-[#222220]">
+              <div className="divide-y divide-slate-200/80 dark:divide-slate-800/80">
                 {result.monthly_plan.map((step, index) => (
                   <div key={index} className="flex gap-3 px-5 py-3.5">
-                    <ClipboardList size={15} className="mt-0.5 shrink-0 text-ink-500" />
+                    <ClipboardList size={15} className="mt-0.5 shrink-0 text-slate-400" />
                     <div>
-                      <p className="text-sm font-medium text-ink-900 dark:text-ink-100">{step.step}</p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">{step.step}</p>
                       <p className="mt-0.5 text-xs leading-relaxed muted">{step.detail}</p>
                     </div>
                   </div>
@@ -203,7 +203,7 @@ function ScoreCard({ result }) {
           <p className="text-xs font-medium text-ink-500 dark:text-ink-400">
             Composite Health Index
           </p>
-          <p className="display-serif mt-1 text-4xl text-ink-900 dark:text-ink-100 tnum">
+          <p className="font-display font-bold mt-1 text-4xl tracking-tight text-slate-900 dark:text-white tnum">
             {result.score}
             <span className="font-sans text-lg font-normal muted"> / 100</span>
           </p>

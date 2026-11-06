@@ -14,15 +14,15 @@ export default function AnomalyAlerts({ anomalies = [], note, compact = false })
 
   if (compact) {
     return (
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-card border border-ink-300/90 bg-[#F1EFEA] px-4 py-2.5 text-xs dark:border-[#2C2C28] dark:bg-[#161614]">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-card border border-amber-200/80 bg-amber-50/50 px-4 py-2.5 text-xs dark:border-amber-900/40 dark:bg-amber-950/20">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
-          <span className="inline-flex items-center gap-1.5 font-medium text-ink-900 dark:text-ink-100">
+          <span className="inline-flex items-center gap-1.5 font-medium text-slate-900 dark:text-white">
             <span className="size-1.5 rounded-full bg-warn" />
             {anomalies.length} atypical {anomalies.length === 1 ? 'outflow' : 'outflows'} flagged for review:
           </span>
           {anomalies.map((item) => (
-            <span key={item.id} className="inline-flex items-center gap-1.5 text-ink-700 dark:text-ink-300">
-              <span className="font-mono font-medium text-ink-900 dark:text-ink-100 tnum">
+            <span key={item.id} className="inline-flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
+              <span className="font-mono font-medium text-slate-900 dark:text-white tnum">
                 {money(item.amount)}
               </span>
               <span className="truncate max-w-[180px]">{item.description}</span>
@@ -32,7 +32,7 @@ export default function AnomalyAlerts({ anomalies = [], note, compact = false })
         </div>
         <Link
           to="/transactions"
-          className="inline-flex items-center gap-1 font-mono text-[11px] font-medium text-ink-900 hover:underline dark:text-ink-100 shrink-0"
+          className="inline-flex items-center gap-1 font-mono text-[11px] font-medium text-slate-900 hover:underline dark:text-white shrink-0"
         >
           Inspect ledger
           <ArrowUpRight size={12} />
@@ -42,31 +42,31 @@ export default function AnomalyAlerts({ anomalies = [], note, compact = false })
   }
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <CardHeader
         title="Outliers for confirmation"
         subtitle="Entries significantly larger than your historical category baseline"
         action={<Badge tone="warning">{anomalies.length} flagged</Badge>}
       />
-      <ul className="divide-y divide-ink-200/80 dark:divide-[#242421]">
+      <ul className="divide-y divide-slate-200/80 dark:divide-slate-800/80">
         {anomalies.map((item) => (
           <li key={item.id} className="flex items-start gap-3 px-5 py-3.5">
             <AlertTriangle
               size={15}
               className={`mt-0.5 shrink-0 ${
-                item.severity === 'high' ? 'text-warn' : 'text-ink-400'
+                item.severity === 'high' ? 'text-warn' : 'text-slate-400'
               }`}
             />
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
-                <span className="font-medium text-ink-900 dark:text-ink-100 truncate">
+                <span className="font-medium text-slate-900 dark:text-white truncate">
                   {item.description}
                 </span>
                 <div className="flex items-center gap-2 shrink-0">
                   <Badge tone={item.severity === 'high' ? 'warning' : 'neutral'}>
                     {item.times_typical}× typical
                   </Badge>
-                  <span className="font-mono font-semibold text-ink-900 dark:text-ink-100 tnum">
+                  <span className="font-mono font-semibold text-slate-900 dark:text-white tnum">
                     {moneyExact(item.amount)}
                   </span>
                 </div>
@@ -81,7 +81,7 @@ export default function AnomalyAlerts({ anomalies = [], note, compact = false })
         ))}
       </ul>
       {note && (
-        <p className="flex items-start gap-1.5 border-t border-ink-200/80 px-5 py-3 text-[11px] leading-relaxed muted dark:border-[#242421]">
+        <p className="flex items-start gap-1.5 border-t border-slate-200/80 px-5 py-3 text-[11px] leading-relaxed muted dark:border-slate-800/80">
           <ShieldQuestion size={12} className="mt-0.5 shrink-0" />
           {note}
         </p>
