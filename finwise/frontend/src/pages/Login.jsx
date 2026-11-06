@@ -6,124 +6,123 @@ import { useAuth } from '../auth'
 import { Button, Field, Input } from '../components/ui'
 
 /**
- * Split-Screen Authentication Shell.
- * Directly crafted from the user's reference architecture (CONSENTLOG layout specification):
- * - Left Panel: High-craft showcase with glowing vault emblem, all-caps brand title,
- *   feature pills with colored indicator dots, two-tone verification badges, and authoritative lead copy.
- * - Right Panel: Clean, centered, responsive authentication card.
+ * Disciplined, Monochromatic Split-Screen Authentication Shell.
+ * Eliminates all AI-slop color chaos (neon purples, cyans, and rainbow badge pills).
+ * Follows an institutional, high-contrast fintech palette:
+ * Deep obsidian (#080B14), restrained slate borders, and crisp silver/white typography.
  */
 export function AuthShell({ title, subtitle, children, footer }) {
   return (
-    <div className="min-h-dvh grid lg:grid-cols-12 bg-[#F8FAFC] dark:bg-[#07090E] text-slate-900 dark:text-slate-100 selection:bg-blue-500/20">
-      {/* Left Reference-Engineered Showcase Panel */}
-      <div className="hidden lg:flex lg:col-span-7 xl:col-span-7 flex-col justify-between bg-[#080B14] p-10 xl:p-14 border-r border-slate-800/80 relative overflow-hidden text-white">
-        {/* Subtle grid texture */}
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]" />
+    <div className="min-h-dvh grid lg:grid-cols-12 bg-white dark:bg-[#07090E] text-slate-900 dark:text-slate-100 selection:bg-slate-700/30">
+      {/* Left Monochromatic Architectural Showcase */}
+      <div className="hidden lg:flex lg:col-span-7 xl:col-span-7 flex-col justify-between bg-[#070A11] p-12 xl:p-16 border-r border-slate-800/80 relative overflow-hidden text-white">
+        {/* Subtle engineering line grid */}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]" />
 
-        {/* Top Minimal Brand Identity */}
+        {/* Brand Header */}
         <div className="relative z-10 flex items-center gap-3">
-          <div className="grid size-8 place-items-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 font-sans font-bold text-sm text-white shadow-md shadow-blue-500/20">
+          <div className="grid size-8 place-items-center rounded-lg bg-white text-slate-950 font-sans font-bold text-sm shadow-sm">
             F
           </div>
           <span className="font-display text-sm font-semibold tracking-tight text-white">FinWise</span>
         </div>
 
-        {/* Center Reference Architecture Box */}
-        <div className="relative z-10 my-auto py-8 max-w-2xl mx-auto w-full">
-          <div className="rounded-2xl border border-slate-800/90 bg-[#0B0F1C]/90 p-8 xl:p-10 text-center shadow-2xl space-y-6">
-            {/* Centered Glowing Vault Shield Emblem (From Reference) */}
+        {/* Center Architectural Blueprint Box */}
+        <div className="relative z-10 my-auto py-8 max-w-xl mx-auto w-full">
+          <div className="rounded-2xl border border-slate-800/90 bg-[#0B0F19]/90 p-8 xl:p-10 text-center shadow-2xl space-y-6">
+            {/* Disciplined Vault Emblem (Clean Monochromatic Outline, No Neon Slop) */}
             <div className="flex justify-center">
-              <div className="grid size-14 place-items-center rounded-2xl border border-emerald-500/40 bg-[#081817] text-emerald-400 shadow-[0_0_28px_rgba(16,185,129,0.22)]">
-                <ShieldCheck size={28} className="text-emerald-400" />
+              <div className="grid size-12 place-items-center rounded-2xl border border-slate-700 bg-slate-900/90 text-slate-200 shadow-inner">
+                <ShieldCheck size={24} className="text-slate-200" />
               </div>
             </div>
 
-            {/* Bold All-Caps Title & Subtitles */}
+            {/* Typography: Razor Sharp Hierarchy */}
             <div className="space-y-2">
-              <h1 className="font-display font-extrabold text-2xl xl:text-3xl tracking-wider text-white">
+              <h1 className="font-display font-extrabold text-2xl xl:text-3xl tracking-widest text-white">
                 FINWISE
               </h1>
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-widest text-slate-300">
-                INTELLIGENT PERSONAL WEALTH &amp; FINANCIAL INTELLIGENCE PLATFORM
+              <p className="font-mono text-[11px] font-medium uppercase tracking-widest text-slate-400">
+                PERSONAL WEALTH &amp; SPENDING INTELLIGENCE
               </p>
-              <p className="text-xs text-slate-400 leading-relaxed font-sans">
-                Deterministic Double-Entry Math · Real-Time Cash Runway · Offline ML Categorization
+              <p className="text-xs text-slate-400 leading-relaxed font-sans max-w-md mx-auto">
+                Deterministic Double-Entry Math · Local ML Classification · Section 115BAC Engine
               </p>
             </div>
 
-            {/* Row of 4 Feature Pills with Multi-Color Indicator Dots (From Reference) */}
-            <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0F1424] px-3.5 py-1.5 font-mono text-xs text-slate-300">
-                <span className="size-2 rounded-full bg-emerald-400" />
-                <span>Double-Entry Ledger</span>
+            {/* Cohesive, Monochromatic Status Tags */}
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0E1322] px-3.5 py-1 font-mono text-xs text-slate-300">
+                <span className="size-1.5 rounded-full bg-slate-400" />
+                <span>Double-Entry Math</span>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0F1424] px-3.5 py-1.5 font-mono text-xs text-slate-300">
-                <span className="size-2 rounded-full bg-blue-400" />
-                <span>Offline ML Engine</span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0E1322] px-3.5 py-1 font-mono text-xs text-slate-300">
+                <span className="size-1.5 rounded-full bg-slate-400" />
+                <span>Offline ML Categorizer</span>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0F1424] px-3.5 py-1.5 font-mono text-xs text-slate-300">
-                <span className="size-2 rounded-full bg-purple-400" />
-                <span>Section 115BAC Tax</span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0E1322] px-3.5 py-1 font-mono text-xs text-slate-300">
+                <span className="size-1.5 rounded-full bg-slate-400" />
+                <span>Tax Optimization</span>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0F1424] px-3.5 py-1.5 font-mono text-xs text-slate-300">
-                <span className="size-2 rounded-full bg-amber-400" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0E1322] px-3.5 py-1 font-mono text-xs text-slate-300">
+                <span className="size-1.5 rounded-full bg-slate-400" />
                 <span>Zero Telemetry</span>
               </div>
             </div>
 
-            {/* Two-Tone Split Badges (From Reference) */}
-            <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
-              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700/80 text-[11px] font-mono">
-                <span className="inline-flex items-center gap-1.5 bg-[#202738] px-2.5 py-1 font-semibold text-slate-200">
-                  <CheckCircle2 size={12} className="text-emerald-400" />
-                  VERIFICATION SUITE
+            {/* Disciplined Dual-Tone Badges (High Contrast Slate & Crisp Silver) */}
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700 text-[11px] font-mono">
+                <span className="inline-flex items-center gap-1.5 bg-[#171D2D] px-2.5 py-1 font-semibold text-slate-300">
+                  <CheckCircle2 size={12} className="text-slate-300" />
+                  VERIFICATION
                 </span>
-                <span className="bg-emerald-500 px-2.5 py-1 font-bold text-slate-950">
-                  100% DETERMINISTIC
+                <span className="bg-slate-200 px-2.5 py-1 font-bold text-slate-950">
+                  DETERMINISTIC
                 </span>
               </div>
 
-              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700/80 text-[11px] font-mono">
-                <span className="bg-[#202738] px-2.5 py-1 font-semibold text-slate-200">
+              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700 text-[11px] font-mono">
+                <span className="bg-[#171D2D] px-2.5 py-1 font-semibold text-slate-300">
                   TAX REGIME
                 </span>
-                <span className="bg-cyan-500 px-2.5 py-1 font-bold text-slate-950">
+                <span className="bg-slate-800 px-2.5 py-1 font-bold text-slate-200">
                   FY 2024-25 &amp; 2025-26
                 </span>
               </div>
 
-              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700/80 text-[11px] font-mono">
-                <span className="bg-[#202738] px-2.5 py-1 font-semibold text-slate-200">
-                  DATA PRIVACY
+              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700 text-[11px] font-mono">
+                <span className="bg-[#171D2D] px-2.5 py-1 font-semibold text-slate-300">
+                  PRIVACY
                 </span>
-                <span className="bg-purple-600 px-2.5 py-1 font-bold text-white">
-                  ZERO-LEAK LOCAL
+                <span className="bg-slate-200 px-2.5 py-1 font-bold text-slate-950">
+                  LOCAL SOVEREIGN
                 </span>
               </div>
 
-              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700/80 text-[11px] font-mono">
-                <span className="bg-[#202738] px-2.5 py-1 font-semibold text-slate-200">
-                  SYSTEM CORE
+              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700 text-[11px] font-mono">
+                <span className="bg-[#171D2D] px-2.5 py-1 font-semibold text-slate-300">
+                  SECURITY
                 </span>
-                <span className="bg-slate-700 px-2.5 py-1 font-bold text-slate-100">
-                  DUAL-ENTRY VERIFIED
+                <span className="bg-slate-800 px-2.5 py-1 font-bold text-slate-200">
+                  ENCRYPTED COOKIE
                 </span>
               </div>
             </div>
 
-            {/* Reference Descriptive Lead Statement */}
-            <p className="text-xs leading-relaxed text-slate-400 max-w-xl mx-auto pt-2">
-              A privacy-first personal finance platform engineered for institutional precision.
+            {/* Descriptive Lead Statement */}
+            <p className="text-xs leading-relaxed text-slate-400 max-w-lg mx-auto pt-2">
+              A private personal finance system engineered for mathematical precision.
               Records every transaction into an immutable ledger while orchestrating real-time debt acceleration,
               automated runway forecasting, and offline machine-learning categorization.
             </p>
           </div>
         </div>
 
-        {/* Safety Guarantee Footer */}
-        <div className="relative z-10 flex items-center justify-between text-xs text-slate-500 font-mono">
+        {/* Footer Guarantee */}
+        <div className="relative z-10 flex items-center justify-between text-xs text-slate-400 font-mono">
           <span className="flex items-center gap-1.5">
-            <Lock size={12} className="text-emerald-400" />
+            <Lock size={12} className="text-slate-400" />
             100% Local Accounting Ledger
           </span>
           <span>Zero External Telemetry</span>
@@ -134,7 +133,7 @@ export function AuthShell({ title, subtitle, children, footer }) {
       <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-between px-6 py-10 sm:px-12 xl:px-16">
         {/* Mobile Header (Hidden on Desktop) */}
         <div className="flex items-center gap-2.5 lg:invisible">
-          <div className="grid size-8 place-items-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 font-sans font-bold text-sm text-white">
+          <div className="grid size-8 place-items-center rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-sans font-bold text-sm">
             F
           </div>
           <span className="font-display text-base font-bold tracking-tight text-slate-900 dark:text-white">FinWise</span>
@@ -142,7 +141,7 @@ export function AuthShell({ title, subtitle, children, footer }) {
 
         {/* Centered Auth Card */}
         <div className="mx-auto w-full max-w-md my-auto py-6">
-          <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800/80 bg-white dark:bg-[#0D111A] p-7 sm:p-8 shadow-sm">
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0D111A] p-7 sm:p-8 shadow-sm">
             <div className="space-y-1 mb-6">
               <h2 className="font-display font-bold text-2xl tracking-tight text-slate-900 dark:text-white">
                 {title}
@@ -154,7 +153,7 @@ export function AuthShell({ title, subtitle, children, footer }) {
 
             <div>{children}</div>
 
-            <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800/80 text-center text-xs text-slate-500 dark:text-slate-400">
+            <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
               {footer}
             </div>
           </div>
@@ -211,7 +210,7 @@ export default function Login() {
           New to FinWise?{' '}
           <Link
             to="/register"
-            className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-4"
+            className="font-medium text-slate-900 hover:text-slate-700 dark:text-white dark:hover:text-slate-300 underline underline-offset-4"
           >
             Create an account
           </Link>
@@ -272,16 +271,13 @@ export default function Login() {
         type="button"
         onClick={loginDemo}
         disabled={busy}
-        className="group w-full flex items-center justify-between rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/40 p-3 text-left transition hover:border-blue-500/40 hover:bg-white dark:hover:border-slate-700 dark:hover:bg-slate-900"
+        className="group w-full flex items-center justify-between rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/50 p-3 text-left transition hover:border-slate-300 hover:bg-white dark:hover:border-slate-700 dark:hover:bg-slate-900"
       >
         <div className="leading-tight">
-          <div className="flex items-center gap-2">
-            <span className="size-2 rounded-full bg-emerald-500" />
-            <span className="text-xs font-semibold text-slate-900 dark:text-white">
-              Launch Preloaded Demo Ledger
-            </span>
-          </div>
-          <p className="mt-1 font-mono text-[11px] text-slate-500 dark:text-slate-400">
+          <p className="text-xs font-semibold text-slate-900 dark:text-white">
+            Launch Preloaded Demo Ledger
+          </p>
+          <p className="mt-0.5 font-mono text-[11px] text-slate-500 dark:text-slate-400">
             demo@finwise.ai · 8-month history
           </p>
         </div>
