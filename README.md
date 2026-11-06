@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/hero-banner.svg" alt="FinWise Technical Engine Banner" width="100%">
+</p>
+
 # FinWise
 
 An offline-first personal finance and spending intelligence platform engineered with Flask, React 18, local Scikit-Learn machine learning, and deterministic ledger accounting.
@@ -7,7 +11,7 @@ An offline-first personal finance and spending intelligence platform engineered 
 [![React](https://img.shields.io/badge/react-18-61DAFB.svg?logo=react&logoColor=black)](https://react.dev)
 [![Vite](https://img.shields.io/badge/vite-8-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev)
 [![PostgreSQL](https://img.shields.io/badge/postgres-neon-00E699.svg?logo=postgresql&logoColor=white)](https://neon.tech)
-[![Live Demo](https://img.shields.io/badge/live%20demo-vercel-black.svg?logo=vercel)](https://finwise-omega-nine.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/live%20demo-vercel-black.svg)](https://finwise-omega-nine.vercel.app/)
 
 [**Live Demo**](https://finwise-omega-nine.vercel.app/) · [**Architecture Diagram**](https://finwise-omega-nine.vercel.app/architecture.html) · [**API Reference**](#api-reference) · [**Quick Start**](#getting-started)
 
