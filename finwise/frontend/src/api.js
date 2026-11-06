@@ -49,14 +49,21 @@ async function request(method, path, body, { signal } = {}) {
     )
   }
 
-  if (response.status === 401) {
-    unauthorizedHandlers.forEach((handler) => handler())
-    throw new ApiError('Your session has expired. Please sign in again.', { status: 401 })
-  }
-
   // 204 and other empty bodies would make response.json() throw.
   const text = await response.text()
   const data = text ? safeParse(text) : null
+
+  if (response.status === 401) {
+    // Only notify unauthorized handlers if this is an expired session on protected routes,
+    // not when a user simply submits invalid credentials on /login
+    if (!path.includes('/login')) {
+      unauthorizedHandlers.forEach((handler) => handler())
+    }
+    throw new ApiError(
+      data?.error || (path.includes('/login') ? 'Incorrect email or password.' : 'Your session has expired. Please sign in again.'),
+      { status: 401, field: data?.field, payload: data },
+    )
+  }
 
   if (!response.ok) {
     throw new ApiError(data?.error || `Request failed (${response.status})`, {

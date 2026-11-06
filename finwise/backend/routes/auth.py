@@ -74,7 +74,6 @@ def login():
 
 
 @bp.post("/logout")
-@login_required
 def logout():
     # Order matters, and getting it wrong fails open.
     #

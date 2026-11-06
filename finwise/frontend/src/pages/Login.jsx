@@ -194,7 +194,9 @@ export default function Login() {
     setError(null)
     try {
       await login(email, password)
-      navigate(location.state?.from || '/', { replace: true })
+      const from = location.state?.from
+      const target = typeof from === 'string' && from !== '/login' && from !== '/register' ? from : '/'
+      navigate(target, { replace: true })
     } catch (err) {
       setError(err)
     } finally {
@@ -208,6 +210,7 @@ export default function Login() {
   }
 
   function loginDemo() {
+    setForm({ email: 'demo@finwise.ai', password: 'demo1234' })
     performLogin('demo@finwise.ai', 'demo1234')
   }
 

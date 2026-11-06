@@ -99,14 +99,18 @@ function NavItems({ onNavigate }) {
   )
 }
 
-function SidebarFooter() {
+function SidebarFooter({ onLogoutComplete }) {
   const { user, logout } = useAuth()
   const { isDark, toggle } = useTheme()
   const navigate = useNavigate()
 
   async function onLogout() {
-    await logout()
-    navigate('/login', { replace: true })
+    try {
+      if (onLogoutComplete) onLogoutComplete()
+      await logout()
+    } finally {
+      navigate('/login', { replace: true })
+    }
   }
 
   const initials = (user?.name || '?')
@@ -187,7 +191,7 @@ export default function Layout() {
               </button>
             </div>
             <NavItems onNavigate={() => setMobileOpen(false)} />
-            <SidebarFooter />
+            <SidebarFooter onLogoutComplete={() => setMobileOpen(false)} />
           </aside>
         </div>
       )}
