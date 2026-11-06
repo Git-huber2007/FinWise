@@ -51,7 +51,6 @@ function Logo() {
         <div className="leading-tight">
           <div className="flex items-center gap-1.5">
             <p className="font-display text-[14px] font-bold tracking-tight text-slate-900 dark:text-white">FinWise</p>
-            <span className="rounded-full bg-blue-50 px-1.5 py-0.5 font-mono text-[9px] font-bold text-blue-600 dark:bg-blue-950/60 dark:text-blue-400">PRO</span>
           </div>
           <p className="font-mono text-[10px] text-slate-400 dark:text-slate-500">
             Financial Intelligence
