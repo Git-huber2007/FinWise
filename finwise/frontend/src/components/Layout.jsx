@@ -118,15 +118,6 @@ function SidebarFooter() {
 
   return (
     <div className="border-t border-slate-200/80 p-3.5 dark:border-slate-800/80">
-      {/* Calm, Dignified Status Indicator */}
-      <div className="mb-3 flex items-center justify-between rounded-lg bg-slate-100/60 px-2.5 py-1.5 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60">
-        <div className="flex items-center gap-2">
-          <span className="size-1.5 rounded-full bg-emerald-500" />
-          <span className="font-mono text-[10.5px] text-slate-600 dark:text-slate-400">Offline Engine</span>
-        </div>
-        <span className="font-mono text-[9px] font-medium text-emerald-600 dark:text-emerald-400">READY</span>
-      </div>
-
       <div className="flex items-center justify-between gap-2 px-1 py-0.5">
         <div className="flex min-w-0 items-center gap-2.5">
           <div className="grid size-7 shrink-0 place-items-center rounded-full bg-slate-100 font-mono text-[11px] font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
