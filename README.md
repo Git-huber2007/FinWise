@@ -11,7 +11,6 @@ A privacy-focused, double-entry style financial intelligence platform engineered
 [![React 18](https://img.shields.io/badge/React-18-61DAFB.svg?logo=react&logoColor=black)](https://react.dev)
 [![Vite 8](https://img.shields.io/badge/Vite-8-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon%20Serverless-00E699.svg?logo=postgresql&logoColor=white)](https://neon.tech)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Live Demo](https://img.shields.io/badge/Live%20App-Vercel%20Deployed-black.svg?logo=vercel)](https://finwise-omega-nine.vercel.app/)
 
 **[Explore Live Demo](https://finwise-omega-nine.vercel.app/)** · **[Interactive Architecture](https://finwise-omega-nine.vercel.app/architecture.html)** · **[API Reference](#api-reference)**
@@ -223,9 +222,3 @@ tests/test_tax.py ...                                                    [100%]
 | `SESSION_COOKIE_SECURE` | `0` | Enforce HTTPS-only session cookies in production |
 | `GEMINI_API_KEY` | None (Rule-engine fallback) | Google AI Studio API key for Gemini 3.5 Flash |
 | `GEMINI_MODEL` | `gemini-3.5-flash-lite` | Gemini model variant |
-
----
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
