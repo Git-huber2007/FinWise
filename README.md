@@ -1,135 +1,237 @@
+<div align="center">
+
 # FinWise
 
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://python.org)
-[![React 18](https://img.shields.io/badge/React-18-61DAFB.svg)](https://react.dev)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-00E699.svg)](https://neon.tech)
-[![Vercel Ready](https://img.shields.io/badge/Vercel-Deployed-black.svg)](https://finwise-omega-nine.vercel.app/)
+### Autonomous Personal Finance & Spending Intelligence System
 
-FinWise is a personal finance and spending intelligence web application. It combines double-entry style ledger tracking, monthly category limits, statistical anomaly detection, and offline transaction classification powered by Scikit-Learn.
+A privacy-focused, double-entry style financial intelligence platform engineered with Flask, React 18, local Scikit-Learn machine learning, and deterministic ledger accounting.
 
-- **Live Application**: [https://finwise-omega-nine.vercel.app/](https://finwise-omega-nine.vercel.app/)
+[![Tests Passing](https://img.shields.io/badge/tests-281%20passing-2ea44f.svg)](finwise/backend/tests/)
+[![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB.svg?logo=python&logoColor=white)](https://python.org)
+[![React 18](https://img.shields.io/badge/React-18-61DAFB.svg?logo=react&logoColor=black)](https://react.dev)
+[![Vite 8](https://img.shields.io/badge/Vite-8-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon%20Serverless-00E699.svg?logo=postgresql&logoColor=white)](https://neon.tech)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live%20App-Vercel%20Deployed-black.svg?logo=vercel)](https://finwise-omega-nine.vercel.app/)
 
+**[Explore Live Demo](https://finwise-omega-nine.vercel.app/)** · **[Interactive Architecture](https://finwise-omega-nine.vercel.app/architecture.html)** · **[API Reference](#api-reference)**
+
+</div>
 
 ---
 
-## Architecture
+## Visual Showcase
 
-<p align="center">
+<div align="center">
+  <img src="docs/screenshots/dashboard.png" alt="FinWise Financial Dashboard" width="100%">
+  <p><em>Executive Financial Overview: Real-time net cash flow, trajectory graphs, category velocity, and transaction register.</em></p>
+</div>
+
+<br>
+
+<div align="center">
+  <table>
+    <tr>
+      <td width="50%">
+        <img src="docs/screenshots/transactions.png" alt="Transaction Ledger & Importer" width="100%">
+        <p align="center"><strong>Transaction Ledger & CSV Importer</strong><br>Offline ML categorization, instant filter toolbar, batch upload.</p>
+      </td>
+      <td width="50%">
+        <img src="docs/screenshots/budget.png" alt="Budget Discipline" width="100%">
+        <p align="center"><strong>Budget Ceilings</strong><br>Category utilization limits, 80% pacing warnings, and variance alerts.</p>
+      </td>
+    </tr>
+    <tr>
+      <td width="50%">
+        <img src="docs/screenshots/health.png" alt="Financial Health Score & Runway" width="100%">
+        <p align="center"><strong>Health Rubric & Runway Simulator</strong><br>100-point transparent scoring and emergency safety modeling.</p>
+      </td>
+      <td width="50%">
+        <img src="docs/screenshots/assistant.png" alt="Query Ledger Assistant" width="100%">
+        <p align="center"><strong>Query Ledger Assistant</strong><br>Deterministic math calculation with optional Gemini 3.5 Flash phrasing.</p>
+      </td>
+    </tr>
+  </table>
+</div>
+
+---
+
+## Key Capabilities
+
+### 1. Wealth & Balance Sheet Intelligence
+- **Net Worth & Asset Tracker**: Real-time asset-to-liability portfolio tracking across liquid savings, equity holdings, deposits, gold, and properties.
+- **Debt Payoff Engine (Avalanche vs. Snowball)**: Amortized interest simulation comparing Mathematical Avalanche (highest APR first) against Behavioral Snowball (smallest balance first) with extra payment acceleration sliders.
+- **Emergency Runway & Safety Simulator**: Survival runway modeling in months based on liquid reserves vs non-negotiable living expenses, featuring 4 interactive stress test scenarios (Job loss, 25% salary cut, emergency medical shock, inflation spike).
+- **Tax Regime Estimator (Old vs. New)**: Instant calculation under Indian Income Tax (Section 115BAC with ₹75k standard deduction and 87A rebate) vs Old Regime (with 80C, 80D, and 24b deductions), delivering net take-home comparisons.
+
+### 2. Core Accounting & Ledger
+- **Cash Flow Analytics**: Double-entry style bookkeeping of inflows and outflows with monthly net retention rates.
+- **Bank Statement CSV Importer**: Automated CSV statement ingestion with client-side preview, duplicate protection, and automated categorization.
+- **Offline ML Categorization**: Local Scikit-Learn model (TF-IDF character/word n-grams + Complement Naive Bayes) running sub-millisecond merchant classification offline without external API latency. User corrections retrain the model dynamically.
+- **Subscriptions & Recurring Bill Tracker**: Automated recurring charge detection from transaction histories, 7-day renewal countdowns, and one-click payment logging.
+- **Category Budget Limits**: Dynamic monthly spending ceilings with 80% and 100% threshold utilization tracking.
+- **Automated Statement Exports**: Download comprehensive PDF statements with audit breakdowns via ReportLab or export ledger CSV files.
+
+### 3. Natural Language Ledger Query
+- Natural-language question answering backed by deterministic SQL and pandas analytics.
+- Dual-mode architecture: Runs 100% offline via a built-in rule engine, or seamlessly connects to **Google Gemini 3.5 Flash** for conversational polish when an API key is provided.
+
+---
+
+## Architecture & System Design
+
+<div align="center">
   <a href="https://finwise-omega-nine.vercel.app/architecture.html">
     <img src="docs/architecture-animated.svg" alt="FinWise System Architecture" width="100%">
   </a>
-</p>
+  <p><em>Click the diagram above to launch the interactive SVG architecture explorer.</em></p>
+</div>
 
-The system runs as an all-in-one deployment on Vercel:
-- **Client**: React 18 single-page application built with Vite and Tailwind CSS.
-- **API**: Flask 3.0.3 WSGI service with session authentication and request validation.
-- **Database**: Serverless PostgreSQL hosted on Neon (with local SQLite fallback for offline development).
-- **Categorization**: Local Scikit-Learn Complement Naive Bayes model trained with TF-IDF character and word n-grams for instant sub-second merchant classification.
-- **Reporting**: Automated PDF statement generation using ReportLab with full Indian Rupee (`₹`) formatting.
-
----
-
-## Features
-
-- **Ledger & Cash Flow**: Track inflows, outflows, and net retention with chronological register sheets and trajectory charts.
-- **Bank Statement CSV Importer**: Batch statement upload with client-side preview, duplicate entry protection, and automatic merchant category prediction using the local ML engine.
-- **Merchant Auto-Categorization**: Real-time classification running locally in Python without external API calls; user corrections retrain the model online.
-- **Budget Limits**: Define monthly spending ceilings per category with 80% and 100% utilization tracking.
-- **Subscriptions & Bills Tracker**: Track recurring commitments (streaming, utilities, memberships, SaaS), auto-detect repeating charges from ledger transactions, and receive 7-day renewal alerts with one-click payment logging.
-- **Net Worth & Asset/Liability Tracker**: Balance sheet tracking across liquid savings, equity portfolios, deposits, and debts with net equity calculation and liquidity ratio metrics.
-- **Debt Payoff Planner (Snowball vs Avalanche)**: Full payoff schedule calculator comparing Mathematical Avalanche (highest APR first) against Behavioral Snowball (smallest balance first), simulating extra monthly payment acceleration.
-- **Emergency Runway & Financial Safety Simulator**: Realistic survival runway modeling in months based on liquid reserves vs non-negotiable living expenses, featuring 4 interactive stress test scenarios.
-- **Tax Regime Estimator (Old vs New)**: Indian Income Tax comparison under New Regime (Sec 115BAC with ₹75k standard deduction and 87A rebate) vs Old Regime (with 80C, 80D, and 24b deductions), delivering clear take-home recommendations.
-- **Financial Health Score**: Transparent 100-point rubric calculated across savings rate, budget discipline, and spending stability.
-- **Savings Goals**: Goal ETA projections based on historical monthly net retention rates.
-- **PDF & CSV Export**: Download monthly statements with audit summaries and export full transaction history to CSV.
-- **Assistant**: Natural-language ledger query interface with deterministic rule-based calculation and optional Gemini 3.5 Flash phrasing.
+The application deploys as a cohesive, serverless system on Vercel:
+- **Client Tier**: React 18 single-page application built with Vite and Tailwind CSS. Employs code-splitting with `React.lazy` to maintain an initial load bundle under 190 kB.
+- **API Tier**: Flask 3.0 WSGI microservice running serverless on Vercel (`api/index.py`), providing authenticated REST endpoints.
+- **Persistence Tier**: Cloud PostgreSQL on Neon with connection pooling, and automatic local SQLite fallback for disconnected development.
+- **Machine Learning Engine**: Scikit-Learn model serialized with Joblib, running embedded inside the Python backend process with zero cloud API dependencies.
 
 ---
 
 ## Tech Stack
 
-| Component | Technology |
+| Layer | Technologies |
 |---|---|
-| **Frontend** | React 18, Vite 8, Tailwind CSS, Recharts, Lucide Icons |
-| **Backend** | Python 3.12, Flask 3.0, Flask-Login, Flask-CORS |
-| **Database** | PostgreSQL (Neon Cloud) / SQLite (Local), SQLAlchemy 2.0 |
-| **Machine Learning** | Scikit-Learn (TF-IDF + ComplementNB), NumPy, Joblib |
-| **Documents** | ReportLab (PDF), CSV |
-| **Hosting** | Vercel (SPA + Serverless WSGI Functions) |
+| **Frontend UI** | React 18, Vite 8, Tailwind CSS, Recharts, Lucide Icons |
+| **Backend API** | Python 3.12, Flask 3.0, Flask-Login, Flask-CORS, SQLAlchemy 2.0 |
+| **Database** | PostgreSQL (Neon Serverless) / SQLite (Local), Alembic |
+| **Machine Learning** | Scikit-Learn (`TfidfVectorizer` + `ComplementNB`), NumPy, Joblib |
+| **Document Engine** | ReportLab (PDF Statements), Native CSV Engine |
+| **Optional LLM** | Google Gemini 3.5 Flash (`google-genai` SDK) |
+| **Infrastructure** | Vercel (Single-Repo SPA + Serverless WSGI), GitHub Actions |
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
-- Python 3.11+
-- Node.js 20+
+- **Python**: 3.11 or 3.12
+- **Node.js**: 20 or higher
+- **Git**
 
-### 1. Backend Setup
-
+### 1. Clone & Setup Backend
 ```bash
-cd finwise/backend
+git clone https://github.com/Git-huber2007/FinWise.git
+cd FinWise/finwise/backend
 
-# Create and activate virtual environment
+# Create virtual environment
 python -m venv .venv
-# Windows:
-.\.venv\Scripts\activate
-# macOS/Linux:
-# source .venv/bin/activate
+
+# Activate environment
+# On Windows (PowerShell):
+.\.venv\Scripts\Activate.ps1
+# On macOS/Linux:
+source .venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Seed initial database (creates tables & sample data)
+# Seed local database (generates 8 months of realistic test transactions)
 python seed.py --reset
 
-# Start API server (runs on http://localhost:5000)
+# Start development API server (http://localhost:5000)
 python app.py
 ```
 
-### 2. Frontend Setup
-
-In a separate terminal:
-
+### 2. Setup Frontend
+In a new terminal window:
 ```bash
-cd finwise/frontend
+cd FinWise/finwise/frontend
 
 # Install dependencies
 npm install
 
-# Start development server (runs on http://localhost:5173)
+# Start Vite dev server (http://localhost:5173)
 npm run dev
+```
+
+Visit `http://localhost:5173` to explore the application. Default seed login:
+- **Email**: `alex@example.com`
+- **Password**: `password123`
+
+---
+
+## Testing & Quality Assurance
+
+FinWise includes a comprehensive test suite covering authentication, ledger calculations, ML classification, tax estimation, and debt simulation:
+
+```bash
+cd finwise/backend
+python -m pytest tests/
+```
+
+```text
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-8.3.3
+rootdir: FinWise/finwise/backend
+collected 281 items
+
+tests/test_analytics_and_health.py ..................................... [ 13%]
+tests/test_auth_and_transactions.py ..................................    [ 22%]
+tests/test_budgets.py .................................                  [ 33%]
+tests/test_categorizer.py ...............................                 [ 44%]
+tests/test_chat.py ..................................................... [ 65%]
+tests/test_debt.py ..                                                    [ 66%]
+tests/test_importer.py ..                                                [ 67%]
+tests/test_models.py ..................                                  [ 73%]
+tests/test_net_worth.py ...                                              [ 74%]
+tests/test_reports.py ...................................                [ 87%]
+tests/test_runway.py ..                                                  [ 87%]
+tests/test_savings_and_anomaly.py ............................           [ 97%]
+tests/test_subscriptions.py .....                                        [ 98%]
+tests/test_tax.py ...                                                    [100%]
+
+============================ 281 passed in 57.39s =============================
 ```
 
 ---
 
-## Environment Variables
+## API Reference
 
-| Variable | Required | Description |
+| Endpoint | Method | Description |
 |---|---|---|
-| `DATABASE_URL` | No | PostgreSQL connection URL (e.g. Neon). Defaults to local SQLite (`finwise.db`) if unset. |
-| `SECRET_KEY` | In Prod | Session signing key (generate with `python -c "import secrets; print(secrets.token_hex(32))"`). |
-| `SESSION_COOKIE_SECURE` | In Prod | Set to `1` when served over HTTPS (e.g. Vercel) to enforce secure session cookies. |
-| `GEMINI_API_KEY` | No | Google AI Studio API key for optional Gemini 3.5 Flash assistant mode. |
-| `GEMINI_MODEL` | No | Model identifier (defaults to `gemini-3.5-flash-lite`). |
-| `CORS_ORIGINS` | No | Comma-separated list of allowed origins. Defaults to empty for same-origin proxying. |
+| `/api/auth/login` | `POST` | Authenticate and issue secure session cookie |
+| `/api/transactions` | `GET`, `POST` | Query filtered transactions or record new ledger entry |
+| `/api/transactions/<id>` | `PUT`, `DELETE` | Update or remove existing ledger record |
+| `/api/import/preview` | `POST` | Parse statement CSV and return ML auto-categorization |
+| `/api/import/commit` | `POST` | Batch insert confirmed statement rows into ledger |
+| `/api/subscriptions` | `GET`, `POST` | List recurring bills or create new subscription |
+| `/api/subscriptions/<id>/mark-paid` | `POST` | Log recurring charge payment and advance billing cycle |
+| `/api/net-worth` | `GET` | Calculate net worth, liquid reserves, and asset allocation |
+| `/api/net-worth/assets` | `POST` | Record an asset (bank, investment, gold, property) |
+| `/api/debt` | `GET`, `POST` | Query debt payoff strategies (Avalanche vs Snowball) or add debt |
+| `/api/tax/estimate` | `GET` | Compare Indian Income Tax (Old vs New Regime) |
+| `/api/ai/runway` | `GET`, `POST` | Emergency safety runway simulation & stress test scenarios |
+| `/api/ai/chat` | `POST` | Natural language ledger query interface |
+| `/api/reports/pdf` | `GET` | Generate and stream formal monthly PDF statement |
 
 ---
 
-## Deployment to Vercel
+## Environment Configuration
 
-The project includes root [`vercel.json`](vercel.json) and [`api/index.py`](api/index.py) configuration for single-repo deployment:
+| Variable | Default | Purpose |
+|---|---|---|
+| `DATABASE_URL` | `sqlite:///finwise.db` | PostgreSQL connection string (Neon Cloud) |
+| `SECRET_KEY` | Development key | Cryptographic session signing key |
+| `SESSION_COOKIE_SECURE` | `0` | Enforce HTTPS-only session cookies in production |
+| `GEMINI_API_KEY` | None (Rule-engine fallback) | Google AI Studio API key for Gemini 3.5 Flash |
+| `GEMINI_MODEL` | `gemini-3.5-flash-lite` | Gemini model variant |
 
-1. Import the repository into [Vercel](https://vercel.com).
-2. Set the environment variables in project settings:
-   - `DATABASE_URL`: Your Neon PostgreSQL connection string.
-   - `SECRET_KEY`: A random 32-byte hex string.
-   - `SESSION_COOKIE_SECURE`: `1`
-3. Click **Deploy**. Vercel builds the React frontend and deploys the Flask API as a serverless function with zero CORS latency.
+---
+
+## Contributing
+
+Contributions are welcomed! Please see our [Contributing Guide](CONTRIBUTING.md) for architectural guidelines, anti-slop design principles, and local testing workflows.
 
 ---
 
 ## License
 
-MIT License.
+This project is licensed under the [MIT License](LICENSE).
