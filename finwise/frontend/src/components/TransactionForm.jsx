@@ -1,4 +1,4 @@
-import { Check, Sparkles } from 'lucide-react'
+import { Check, Loader2, Tag } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import { api } from '../api'
@@ -245,8 +245,8 @@ function AiSuggestion({ suggestion, predicting, chosen, onAccept }) {
   if (predicting) {
     return (
       <p className="flex items-center gap-1.5 text-xs muted">
-        <Sparkles size={13} className="animate-pulse" />
-        Reading the description…
+        <Loader2 size={13} className="animate-spin text-ink-500" />
+        Categorizing description…
       </p>
     )
   }
@@ -258,9 +258,9 @@ function AiSuggestion({ suggestion, predicting, chosen, onAccept }) {
   if (!suggestion.confident) {
     return (
       <p className="flex items-start gap-1.5 text-xs muted">
-        <Sparkles size={13} className="mt-0.5 shrink-0" />
+        <Tag size={13} className="mt-0.5 shrink-0 text-ink-400" />
         <span>
-          Not sure about this one ({pct}% at best) — pick a category yourself.
+          Unrecognized merchant ({pct}% confidence) — select category manually.
         </span>
       </p>
     )
@@ -271,7 +271,7 @@ function AiSuggestion({ suggestion, predicting, chosen, onAccept }) {
       <p className="flex items-center gap-1.5 text-xs text-pos">
         <Check size={13} />
         Auto-categorized as <span className="font-medium">{suggestion.category}</span>
-        <Badge tone="positive">{pct}% confident</Badge>
+        <Badge tone="positive">{pct}% match</Badge>
       </p>
     )
   }
@@ -287,7 +287,7 @@ function AiSuggestion({ suggestion, predicting, chosen, onAccept }) {
   return (
     <div className="space-y-1.5">
       <p className="flex items-center gap-1.5 text-xs muted">
-        <Sparkles size={13} />
+        <Tag size={13} className="text-ink-400" />
         Suggested categories:
       </p>
       <div className="flex flex-wrap gap-1.5">
@@ -297,7 +297,7 @@ function AiSuggestion({ suggestion, predicting, chosen, onAccept }) {
             type="button"
             onClick={() => onAccept(alt.category)}
             className="rounded-full border border-ink-200 px-2.5 py-1 text-[11px] transition
-              hover:border-brand-500 hover:text-brand-400 dark:border-ink-800"
+              hover:border-ink-900 hover:text-ink-900 dark:border-[#2E2E2A] dark:hover:border-ink-100 dark:hover:text-ink-100"
           >
             {alt.category}
             <span className="ml-1 muted">{Math.round(alt.confidence * 100)}%</span>

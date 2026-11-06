@@ -107,3 +107,4 @@ def test_validation_rejects_invalid_subscription(signed_in):
         "next_billing_date": "2026-11-20",
     })
     assert res3.status_code == 400
+
