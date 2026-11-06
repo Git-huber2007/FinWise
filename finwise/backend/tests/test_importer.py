@@ -53,3 +53,4 @@ def test_preview_and_commit_csv(signed_in):
     descriptions = [t["description"] for t in txns]
     assert "Swiggy online food order" in descriptions
     assert "Monthly Salary Credit from ACME Inc" in descriptions
+

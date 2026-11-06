@@ -242,3 +242,4 @@ def delete_debt(debt_id: int):
     db.session.delete(debt)
     db.session.commit()
     return jsonify({"success": True})
+

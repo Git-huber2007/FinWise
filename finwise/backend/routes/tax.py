@@ -229,3 +229,4 @@ def get_tax_estimate():
         "new_regime": new_res,
         "old_regime": old_res,
     })
+

@@ -145,3 +145,4 @@ def delete_asset(asset_id: int):
     db.session.delete(asset)
     db.session.commit()
     return jsonify({"success": True})
+
