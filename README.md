@@ -226,12 +226,6 @@ tests/test_tax.py ...                                                    [100%]
 
 ---
 
-## Contributing
-
-Contributions are welcomed! Please see our [Contributing Guide](CONTRIBUTING.md) for architectural guidelines, anti-slop design principles, and local testing workflows.
-
----
-
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
