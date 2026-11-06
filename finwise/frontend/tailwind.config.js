@@ -5,55 +5,56 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Warm architectural stone & carbon ink (zero blue-slate AI tint)
+        // High-contrast, radiant modern slate & obsidian
         ink: {
           0: '#FFFFFF',
-          50: '#F8F7F4',
-          100: '#F1EFEA',
-          200: '#E5E3DC',
-          300: '#D4D1C7',
-          400: '#9E9B91',
-          500: '#6E6B63',
-          600: '#4A4842',
-          700: '#2C2B28',
-          800: '#1E1E1C',
-          850: '#161615',
-          900: '#111110',
-          950: '#0A0A09',
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',
+          600: '#475569',
+          700: '#334155',
+          800: '#1E293B',
+          850: '#141B2D',
+          900: '#0F172A',
+          950: '#07090E',
         },
         brand: {
           50: '#EFF6FF',
           100: '#DBEAFE',
           200: '#BFDBFE',
           300: '#93C5FD',
-          400: '#3B82F6',
-          500: '#1D4ED8',
-          600: '#1E40AF',
-          700: '#1E3A8A',
-          800: '#172554',
-          900: '#0F172A',
+          400: '#60A5FA',
+          500: '#3B82F6',
+          600: '#2563EB',
+          700: '#1D4ED8',
+          800: '#1E40AF',
+          900: '#1E3A8A',
         },
-        pos: '#15803D', // Deep banknote green
-        neg: '#BE123C', // Ledger crimson
-        warn: '#B45309', // Ochre amber
+        pos: '#10B981', // Banknote emerald
+        neg: '#F43F5E', // Rose crimson
+        warn: '#F59E0B', // Amber gold
       },
       fontFamily: {
         sans: ['"Geist"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         display: ['"Geist"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+        serif: ['"Geist"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       boxShadow: {
-        subtle: '0 1px 2px 0 rgba(17, 17, 16, 0.03)',
-        card: '0 1px 2px 0 rgba(17, 17, 16, 0.04)',
-        pop: '0 12px 32px -4px rgba(17, 17, 16, 0.12), 0 4px 12px -2px rgba(17, 17, 16, 0.06)',
+        subtle: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        card: '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)',
+        pop: '0 20px 40px -8px rgba(0, 0, 0, 0.24), 0 1px 3px rgba(0, 0, 0, 0.1)',
+        glow: '0 0 20px -5px rgba(59, 130, 246, 0.3)',
       },
       borderRadius: {
-        sm: '4px',
-        md: '6px',
-        lg: '6px',
-        xl: '8px',
-        card: '8px',
+        sm: '6px',
+        md: '8px',
+        lg: '10px',
+        xl: '12px',
+        card: '12px',
       },
     },
   },

@@ -137,7 +137,7 @@ export default function DebtPlanner() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <Card className="p-4 border-l-2 border-l-neg">
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Total Debt</p>
-          <p className="mt-1 font-serif text-2xl font-medium text-neg">
+          <p className="mt-1 font-display text-2xl font-bold tracking-tight text-neg tnum">
             {money(summary.total_debt || 0)}
           </p>
           <p className="mt-1 text-[11px] muted">Across {summary.debt_count ?? 0} active loans</p>
@@ -145,7 +145,7 @@ export default function DebtPlanner() {
 
         <Card className="p-4">
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Monthly EMI</p>
-          <p className="mt-1 font-serif text-2xl font-medium text-ink-900 dark:text-ink-100">
+          <p className="mt-1 font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
             {money(summary.total_monthly_emi || 0)}
           </p>
           <p className="mt-1 text-[11px] muted">Required minimum commitment</p>
@@ -153,15 +153,15 @@ export default function DebtPlanner() {
 
         <Card className="p-4">
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Average APR</p>
-          <p className="mt-1 font-serif text-2xl font-medium text-ink-900 dark:text-ink-100">
+          <p className="mt-1 font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
             {summary.average_interest_rate ?? 0}%
           </p>
           <p className="mt-1 text-[11px] muted">Weighted by balance size</p>
         </Card>
 
-        <Card className="p-4 bg-pos/5 border-pos/40">
+        <Card className="p-4 bg-emerald-50/50 border-emerald-200 dark:bg-emerald-950/20 dark:border-emerald-800/40">
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Interest Saved</p>
-          <p className="mt-1 font-serif text-2xl font-medium text-pos">
+          <p className="mt-1 font-display text-2xl font-bold tracking-tight text-pos tnum">
             {money(interest_saved)}
           </p>
           <p className="mt-1 text-[11px] muted">With +{money(extraMonthly)}/mo prepayment</p>
@@ -213,7 +213,7 @@ export default function DebtPlanner() {
                 <Badge tone="positive">Maximum Savings</Badge>
               </div>
               <div className="mt-3 flex items-baseline gap-2">
-                <span className="font-serif text-2xl font-semibold text-ink-900 dark:text-ink-100">
+                <span className="font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
                   {avalanche.months} months
                 </span>
                 <span className="text-xs muted">({avalanche.years} years)</span>
@@ -229,15 +229,15 @@ export default function DebtPlanner() {
             </div>
 
             {/* Snowball Card */}
-            <div className="rounded-lg border border-ink-200/90 bg-white p-4 dark:border-[#2E2E2A] dark:bg-[#161614]">
+            <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/60 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="font-medium text-ink-900 dark:text-ink-100 text-xs">
+                <span className="font-medium text-ink-900 dark:text-white text-xs">
                   Debt Snowball (Smallest Balance First)
                 </span>
                 <Badge tone="neutral">Behavioral Momentum</Badge>
               </div>
               <div className="mt-3 flex items-baseline gap-2">
-                <span className="font-serif text-2xl font-semibold text-ink-900 dark:text-ink-100">
+                <span className="font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
                   {snowball.months} months
                 </span>
                 <span className="text-xs muted">({snowball.years} years)</span>

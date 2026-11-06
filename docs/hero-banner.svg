@@ -1,220 +1,149 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 330" width="100%" height="100%">
   <defs>
-    <!-- Dark Architectural Background Gradient -->
-    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#07090E" />
-      <stop offset="100%" stop-color="#0B0F19" />
+    <!-- Background Gradient -->
+    <linearGradient id="bg-canvas" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#05070B" />
+      <stop offset="50%" stop-color="#080C16" />
+      <stop offset="100%" stop-color="#05070B" />
     </linearGradient>
 
     <!-- Card Background Gradient -->
-    <linearGradient id="card-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#0F1422" />
-      <stop offset="100%" stop-color="#0A0E17" />
+    <linearGradient id="card-surface" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0E1322" />
+      <stop offset="100%" stop-color="#090D17" />
     </linearGradient>
 
-    <!-- Emerald Laser Gradient -->
-    <linearGradient id="emerald-laser" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#10B981" />
-      <stop offset="100%" stop-color="#06B6D4" />
-    </linearGradient>
+    <!-- Ambient Center Spotlight -->
+    <radialGradient id="card-spotlight" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#6366F1" stop-opacity="0.12" />
+      <stop offset="50%" stop-color="#38BDF8" stop-opacity="0.03" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
 
-    <!-- Precision Sparkline Gradient -->
-    <linearGradient id="spark-fill" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#10B981" stop-opacity="0.35" />
-      <stop offset="100%" stop-color="#10B981" stop-opacity="0.0" />
-    </linearGradient>
+    <!-- Emblem Glow Filter -->
+    <filter id="emblem-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
 
-    <!-- Engineering Grid Pattern -->
-    <pattern id="tech-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#162032" stroke-width="0.75" opacity="0.6" />
-      <circle cx="32" cy="32" r="1" fill="#22314E" opacity="0.8" />
+    <!-- Subtle Dot Grid Pattern -->
+    <pattern id="micro-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="0.75" fill="#1E293B" opacity="0.6" />
     </pattern>
 
-    <!-- Subtle Vignette Glow -->
-    <radialGradient id="ambient-center" cx="50%" cy="30%" r="55%">
-      <stop offset="0%" stop-color="#00E599" stop-opacity="0.08" />
-      <stop offset="60%" stop-color="#00B4D8" stop-opacity="0.02" />
-      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    <!-- Icon Halo Radial -->
+    <radialGradient id="halo-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6366F1" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
     </radialGradient>
   </defs>
 
   <style>
-    .mono-code {
-      font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      fill: #64748B;
-      text-transform: uppercase;
-    }
     .brand-title {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      font-size: 38px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Geist", Roboto, "Helvetica Neue", sans-serif;
+      font-size: 34px;
       font-weight: 800;
-      letter-spacing: 0.24em;
-      fill: #F8FAFC;
+      letter-spacing: 0.22em;
+      fill: #FFFFFF;
     }
     .brand-subtitle {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.28em;
-      fill: #38BDF8;
-      text-transform: uppercase;
-    }
-    .card-label {
-      font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-      font-size: 9.5px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      fill: #64748B;
-      text-transform: uppercase;
-    }
-    .card-val {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 13.5px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      font-size: 10.5px;
       font-weight: 700;
-      letter-spacing: 0.02em;
-      fill: #E2E8F0;
+      letter-spacing: 0.26em;
+      fill: #94A3B8;
+      text-transform: uppercase;
     }
-    .card-metric {
+    .brand-desc {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 11.5px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      fill: #64748B;
+    }
+    .pill-text {
       font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
       font-size: 10px;
       font-weight: 500;
-      fill: #10B981;
+      letter-spacing: 0.06em;
+      fill: #CBD5E1;
     }
   </style>
 
   <!-- Outer Canvas Frame -->
-  <rect x="0" y="0" width="1000" height="360" rx="14" fill="url(#bg-grad)" stroke="#162032" stroke-width="1.5" />
+  <rect x="0" y="0" width="960" height="330" rx="16" fill="url(#bg-canvas)" />
 
-  <!-- Grid Texture Layer -->
-  <rect x="0" y="0" width="1000" height="360" rx="14" fill="url(#tech-grid)" />
-  <rect x="0" y="0" width="1000" height="360" rx="14" fill="url(#ambient-center)" />
+  <!-- Inner Architectural Card Frame -->
+  <g transform="translate(32, 24)">
+    <!-- Card Base Fill & Border -->
+    <rect x="0" y="0" width="896" height="282" rx="16" fill="url(#card-surface)" stroke="#1E293B" stroke-width="1.2" />
 
-  <!-- Technical Corner Brackets -->
-  <path d="M 24 38 L 24 24 L 38 24" fill="none" stroke="#334155" stroke-width="1.5" />
-  <path d="M 976 38 L 976 24 L 962 24" fill="none" stroke="#334155" stroke-width="1.5" />
-  <path d="M 24 322 L 24 336 L 38 336" fill="none" stroke="#334155" stroke-width="1.5" />
-  <path d="M 976 322 L 976 336 L 962 336" fill="none" stroke="#334155" stroke-width="1.5" />
+    <!-- Card Background Grid & Ambient Spotlight -->
+    <rect x="0" y="0" width="896" height="282" rx="16" fill="url(#micro-grid)" />
+    <rect x="0" y="0" width="896" height="282" rx="16" fill="url(#card-spotlight)" />
 
-  <!-- Engineering Header Bar -->
-  <g transform="translate(36, 32)">
-    <!-- Terminal Status Lights -->
-    <circle cx="0" cy="4" r="3.5" fill="#EF4444" opacity="0.8" />
-    <circle cx="12" cy="4" r="3.5" fill="#F59E0B" opacity="0.8" />
-    <circle cx="24" cy="4" r="3.5" fill="#10B981" opacity="0.9" />
+    <!-- Top Card Inset Highlight Line -->
+    <line x1="24" y1="1" x2="872" y2="1" stroke="#334155" stroke-opacity="0.4" stroke-width="1" />
 
-    <text x="42" y="7" class="mono-code">FINWISE_ENGINE // SPEC: DOUBLE_ENTRY_V1.0 // MODE: OFFLINE_ML</text>
-    <text x="830" y="7" class="mono-code" text-anchor="end">SYS_INTEGRITY: 281/281 PASS</text>
-    <circle cx="848" cy="4" r="3" fill="#10B981" />
-  </g>
+    <!-- Top Emblem / Shield Icon with Halo -->
+    <g transform="translate(448, 56)">
+      <!-- Outer Glow Ring -->
+      <circle cx="0" cy="0" r="32" fill="url(#halo-glow)" />
 
-  <!-- Divider Line -->
-  <line x1="36" y1="48" x2="964" y2="48" stroke="#1E293B" stroke-width="1" />
+      <!-- Inner Badge Hexagon/Shield Base -->
+      <circle cx="0" cy="0" r="23" fill="#0E1628" stroke="#3B82F6" stroke-width="1.5" />
+      <circle cx="0" cy="0" r="23" fill="none" stroke="#6366F1" stroke-width="1" opacity="0.6" filter="url(#emblem-glow)" />
 
-  <!-- Main Technical Identity Block -->
-  <g transform="translate(500, 114)" text-anchor="middle">
-    <!-- Brand Wordmark with Hairline Laser Tag -->
-    <text x="0" y="0" class="brand-title">FINWISE</text>
-    <text x="0" y="24" class="brand-subtitle">AUTONOMOUS PERSONAL FINANCE &amp; SPENDING INTELLIGENCE</text>
-    <text x="0" y="48" font-family="ui-monospace, monospace" font-size="11px" fill="#64748B" letter-spacing="0.08em">
-      [ IMMUTABLE LEDGER ] · [ SCIKIT-LEARN OFFLINE ] · [ AVALANCHE/SNOWBALL ] · [ TAX REGIME 115BAC ]
-    </text>
-  </g>
-
-  <!-- Lower Architecture Telemetry Strip (3 Engineering Cards) -->
-  <g transform="translate(36, 194)">
-
-    <!-- Card 1: Local ML Categorizer Engine -->
-    <g transform="translate(0, 0)">
-      <rect x="0" y="0" width="296" height="128" rx="8" fill="url(#card-grad)" stroke="#1E293B" stroke-width="1" />
-      <line x1="0" y1="28" x2="296" y2="28" stroke="#1E293B" stroke-width="0.75" />
-
-      <!-- Header -->
-      <circle cx="16" cy="14" r="3" fill="#10B981" />
-      <text x="26" y="17" class="card-label">01 // LOCAL ML ENGINE</text>
-      <text x="282" y="17" class="mono-code" text-anchor="end">TF-IDF</text>
-
-      <!-- Content -->
-      <text x="16" y="52" class="card-val">Complement Naive Bayes</text>
-      <text x="16" y="70" font-family="-apple-system, sans-serif" font-size="11px" fill="#94A3B8">
-        Character + Word n-gram feature extraction
-      </text>
-
-      <!-- Vector Visualizer: Vector pipeline nodes -->
-      <g transform="translate(16, 92)">
-        <rect x="0" y="0" width="48" height="18" rx="3" fill="#131C2E" stroke="#23324E" stroke-width="0.75" />
-        <text x="24" y="12" font-family="ui-monospace, monospace" font-size="8.5px" fill="#38BDF8" text-anchor="middle">INPUT</text>
-
-        <path d="M 52 9 L 66 9" stroke="#38BDF8" stroke-width="1" stroke-dasharray="2 2" />
-
-        <rect x="70" y="0" width="62" height="18" rx="3" fill="#131C2E" stroke="#23324E" stroke-width="0.75" />
-        <text x="101" y="12" font-family="ui-monospace, monospace" font-size="8.5px" fill="#10B981" text-anchor="middle">VECTOR</text>
-
-        <path d="M 136 9 L 150 9" stroke="#10B981" stroke-width="1" />
-
-        <rect x="154" y="0" width="108" height="18" rx="3" fill="#0C201A" stroke="#059669" stroke-width="0.75" />
-        <text x="208" y="12" font-family="ui-monospace, monospace" font-size="8.5px" fill="#34D399" text-anchor="middle">&lt; 0.4ms INFERENCE</text>
-      </g>
+      <!-- Precision Financial Vault Icon (Shield + Delta Trend Spark) -->
+      <path d="M -9 -7 L 0 -13 L 9 -7 L 9 3 C 9 8 5 13 0 15 C -5 13 -9 8 -9 3 Z" 
+            fill="none" stroke="#38BDF8" stroke-width="1.75" stroke-linejoin="round" />
+      <!-- Inner Delta Trendline -->
+      <path d="M -5 3 L -2 0 L 1 2 L 5 -3" 
+            fill="none" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
     </g>
 
-    <!-- Card 2: Debt Payoff & Acceleration Engine -->
-    <g transform="translate(316, 0)">
-      <rect x="0" y="0" width="296" height="128" rx="8" fill="url(#card-grad)" stroke="#1E293B" stroke-width="1" />
-      <line x1="0" y1="28" x2="296" y2="28" stroke="#1E293B" stroke-width="0.75" />
-
-      <!-- Header -->
-      <circle cx="16" cy="14" r="3" fill="#38BDF8" />
-      <text x="26" y="17" class="card-label">02 // DEBT FREEDOM ENGINE</text>
-      <text x="282" y="17" class="mono-code" text-anchor="end">AMORTIZED</text>
-
-      <!-- Content -->
-      <text x="16" y="52" class="card-val">Avalanche vs. Snowball</text>
-      <text x="16" y="70" font-family="-apple-system, sans-serif" font-size="11px" fill="#94A3B8">
-        Optimal APR ordering · Month-by-month simulation
+    <!-- Brand Identity Header -->
+    <g transform="translate(448, 118)" text-anchor="middle">
+      <text x="0" y="0" class="brand-title">FINWISE</text>
+      <text x="0" y="24" class="brand-subtitle">INTELLIGENT AUTONOMOUS PERSONAL FINANCE &amp; SPENDING PLATFORM</text>
+      <text x="0" y="47" class="brand-desc">
+        Offline Scikit-Learn Intelligence · Deterministic Double-Entry Math · Dual-Model Debt Optimization (Avalanche/Snowball)
       </text>
-
-      <!-- Sparkline curve: debt amortization payoff -->
-      <g transform="translate(16, 84)">
-        <!-- Coordinate baseline -->
-        <line x1="0" y1="24" x2="264" y2="24" stroke="#22304A" stroke-width="1" />
-        <!-- Amortization decay curve -->
-        <path d="M 0 2 Q 40 10, 80 14 T 160 18 T 230 23 L 264 24" fill="none" stroke="#38BDF8" stroke-width="1.75" />
-        <!-- Baseline curve (without extra payment) -->
-        <path d="M 0 2 Q 60 6, 120 10 T 200 15 T 264 20" fill="none" stroke="#64748B" stroke-width="1" stroke-dasharray="3 3" />
-        <!-- Callout tag -->
-        <text x="264" y="12" font-family="ui-monospace, monospace" font-size="8.5px" fill="#38BDF8" text-anchor="end">EXTRA EMI BOOST</text>
-      </g>
     </g>
 
-    <!-- Card 3: Indian Tax & Runway Simulator -->
-    <g transform="translate(632, 0)">
-      <rect x="0" y="0" width="296" height="128" rx="8" fill="url(#card-grad)" stroke="#1E293B" stroke-width="1" />
-      <line x1="0" y1="28" x2="296" y2="28" stroke="#1E293B" stroke-width="0.75" />
+    <!-- Bottom Interactive Pill Tags (Matching Reference Layout) -->
+    <g transform="translate(56, 218)">
+      <!-- Pill 1: Scikit-Learn ML Engine (Indigo/Cobalt) -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="176" height="30" rx="15" fill="#0C1322" stroke="#1E293B" stroke-width="1" />
+        <circle cx="16" cy="15" r="3.5" fill="#6366F1" />
+        <circle cx="16" cy="15" r="6" fill="#6366F1" opacity="0.25" />
+        <text x="28" y="18.5" class="pill-text">Local ML Categorizer</text>
+      </g>
 
-      <!-- Header -->
-      <circle cx="16" cy="14" r="3" fill="#F59E0B" />
-      <text x="26" y="17" class="card-label">03 // FISCAL INTELLIGENCE</text>
-      <text x="282" y="17" class="mono-code" text-anchor="end">FY 25-26</text>
+      <!-- Pill 2: Mathematical Ledger (Emerald) -->
+      <g transform="translate(192, 0)">
+        <rect x="0" y="0" width="194" height="30" rx="15" fill="#0C1322" stroke="#1E293B" stroke-width="1" />
+        <circle cx="16" cy="15" r="3.5" fill="#10B981" />
+        <circle cx="16" cy="15" r="6" fill="#10B981" opacity="0.25" />
+        <text x="28" y="18.5" class="pill-text">Deterministic Ledger</text>
+      </g>
 
-      <!-- Content -->
-      <text x="16" y="52" class="card-val">Sec 115BAC vs. Old Regime</text>
-      <text x="16" y="70" font-family="-apple-system, sans-serif" font-size="11px" fill="#94A3B8">
-        ₹75k Standard Ded · Sec 87A · 80C/80D/24b
-      </text>
+      <!-- Pill 3: Tax Engine 115BAC (Purple) -->
+      <g transform="translate(402, 0)">
+        <rect x="0" y="0" width="196" height="30" rx="15" fill="#0C1322" stroke="#1E293B" stroke-width="1" />
+        <circle cx="16" cy="15" r="3.5" fill="#A855F7" />
+        <circle cx="16" cy="15" r="6" fill="#A855F7" opacity="0.25" />
+        <text x="28" y="18.5" class="pill-text">Section 115BAC Engine</text>
+      </g>
 
-      <!-- Visual Metric Bar: Regime comparison -->
-      <g transform="translate(16, 92)">
-        <!-- Bar: New Regime -->
-        <rect x="0" y="0" width="118" height="18" rx="3" fill="#13271E" stroke="#10B981" stroke-width="0.75" />
-        <text x="8" y="12" font-family="ui-monospace, monospace" font-size="8.5px" fill="#34D399">NEW: LOW TAX</text>
-        <text x="110" y="12" font-family="ui-monospace, monospace" font-size="8.5px" fill="#34D399" text-anchor="end">✓ OPTIMAL</text>
-
-        <!-- Bar: Old Regime -->
-        <rect x="126" y="0" width="138" height="18" rx="3" fill="#161E2E" stroke="#334155" stroke-width="0.75" />
-        <text x="134" y="12" font-family="ui-monospace, monospace" font-size="8.5px" fill="#94A3B8">OLD: HIGH DEDUCT</text>
+      <!-- Pill 4: Zero Cloud Dependency (Amber) -->
+      <g transform="translate(614, 0)">
+        <rect x="0" y="0" width="170" height="30" rx="15" fill="#0C1322" stroke="#1E293B" stroke-width="1" />
+        <circle cx="16" cy="15" r="3.5" fill="#F59E0B" />
+        <circle cx="16" cy="15" r="6" fill="#F59E0B" opacity="0.25" />
+        <text x="28" y="18.5" class="pill-text">Zero-Trust Local Data</text>
       </g>
     </g>
-
   </g>
 </svg>

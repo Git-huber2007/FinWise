@@ -196,7 +196,7 @@ export default function Subscriptions() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <Card className="p-4">
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Monthly Commitment</p>
-          <p className="mt-1 font-serif text-2xl font-medium text-ink-900 dark:text-ink-100">
+          <p className="mt-1 font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
             {money(summary.total_monthly || 0)}
           </p>
           <p className="mt-1 text-[11px] muted">Normalized monthly run-rate</p>
@@ -204,7 +204,7 @@ export default function Subscriptions() {
 
         <Card className="p-4">
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Annual Projected</p>
-          <p className="mt-1 font-serif text-2xl font-medium text-ink-900 dark:text-ink-100">
+          <p className="mt-1 font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
             {money(summary.total_yearly || 0)}
           </p>
           <p className="mt-1 text-[11px] muted">Total 12-month projected spend</p>
@@ -212,15 +212,15 @@ export default function Subscriptions() {
 
         <Card className="p-4">
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Active Services</p>
-          <p className="mt-1 font-serif text-2xl font-medium text-ink-900 dark:text-ink-100">
+          <p className="mt-1 font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
             {summary.active_count ?? 0}
           </p>
           <p className="mt-1 text-[11px] muted">Across {summary.total_count ?? 0} total tracked</p>
         </Card>
 
-        <Card className={`p-4 ${summary.due_soon_count > 0 ? 'border-warn/40 bg-warn/5' : ''}`}>
+        <Card className={`p-4 ${summary.due_soon_count > 0 ? 'border-amber-400/50 bg-amber-50/50 dark:bg-amber-950/20' : ''}`}>
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Due in 7 Days</p>
-          <p className={`mt-1 font-serif text-2xl font-medium ${summary.due_soon_count > 0 ? 'text-warn' : 'text-ink-900 dark:text-ink-100'}`}>
+          <p className={`mt-1 font-display text-2xl font-bold tracking-tight tnum ${summary.due_soon_count > 0 ? 'text-warn' : 'text-ink-900 dark:text-white'}`}>
             {summary.due_soon_count ?? 0}
           </p>
           <p className="mt-1 text-[11px] muted">Renewals requiring settlement</p>

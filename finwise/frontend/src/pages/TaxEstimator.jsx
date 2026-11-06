@@ -105,7 +105,7 @@ export default function TaxEstimator() {
 
           <div className="mt-4 flex items-baseline justify-between">
             <span className="text-xs muted">Total Tax Liability:</span>
-            <span className="font-serif text-2xl font-bold text-ink-900 dark:text-ink-100">
+            <span className="font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
               {money(new_regime.total_tax)}
             </span>
           </div>
@@ -139,10 +139,10 @@ export default function TaxEstimator() {
         </Card>
 
         {/* Old Regime Card */}
-        <Card className={`p-5 ${!isNewBetter && recommendation.preferred === 'old' ? 'border-2 border-pos/40' : ''}`}>
-          <div className="flex items-center justify-between border-b border-ink-200/90 pb-3 dark:border-[#242421]">
+        <Card className={`p-5 ${!isNewBetter && recommendation.preferred === 'old' ? 'border-2 border-emerald-500/40 shadow-sm' : ''}`}>
+          <div className="flex items-center justify-between border-b border-slate-200/80 pb-3 dark:border-slate-800/80">
             <div>
-              <span className="font-semibold text-ink-900 dark:text-ink-100 text-sm">
+              <span className="font-semibold text-ink-900 dark:text-white text-sm">
                 Old Tax Regime
               </span>
               <p className="font-mono text-[11px] muted">With itemized exemptions</p>
@@ -152,7 +152,7 @@ export default function TaxEstimator() {
 
           <div className="mt-4 flex items-baseline justify-between">
             <span className="text-xs muted">Total Tax Liability:</span>
-            <span className="font-serif text-2xl font-bold text-ink-900 dark:text-ink-100">
+            <span className="font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
               {money(old_regime.total_tax)}
             </span>
           </div>

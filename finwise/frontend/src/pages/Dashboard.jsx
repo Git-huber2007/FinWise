@@ -313,16 +313,16 @@ function LedgerPositionSheet({
   const elapsed = isCurrentMonth ? new Date().getDate() : daysInMonth
 
   return (
-    <section className="card overflow-hidden grid lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-ink-200/90 dark:divide-[#242421]">
+    <section className="card overflow-hidden grid lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200/80 dark:divide-slate-800/80">
       {/* Primary Net Position Cell */}
-      <div className="lg:col-span-5 p-5 sm:p-6 flex flex-col justify-between bg-[#FCFBF9] dark:bg-[#141413]">
+      <div className="lg:col-span-5 p-5 sm:p-6 flex flex-col justify-between bg-slate-50/50 dark:bg-slate-900/30">
         <div>
           <div className="flex items-center justify-between gap-2">
-            <h2 className="text-xs font-medium text-ink-600 dark:text-ink-400">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               {positive ? 'Net Retained Savings' : 'Net Period Deficit'} ({monthLabel})
             </h2>
             {change !== null && Math.abs(change) >= 0.1 && (
-              <span className="inline-flex items-center gap-1 rounded border border-ink-200 bg-white px-2 py-0.5 font-mono text-[11px] font-medium text-ink-800 dark:border-[#2C2C28] dark:bg-[#1C1C1A] dark:text-ink-200 tnum">
+              <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-0.5 font-mono text-[11px] font-medium text-slate-800 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 tnum shadow-sm">
                 {change > 0 ? (
                   <TrendingUp size={11} className="text-pos" />
                 ) : (
@@ -334,7 +334,7 @@ function LedgerPositionSheet({
             )}
           </div>
 
-          <p className="mt-2 font-serif text-4xl sm:text-[42px] leading-none text-ink-900 dark:text-ink-100 tnum">
+          <p className="mt-2.5 font-display font-bold text-4xl sm:text-[44px] leading-none tracking-tight text-slate-900 dark:text-white tnum">
             {positive ? '' : '−'}
             {money(Math.abs(totals.savings))}
           </p>

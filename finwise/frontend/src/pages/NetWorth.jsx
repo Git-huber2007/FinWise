@@ -139,9 +139,9 @@ export default function NetWorth() {
 
       {/* Top Level Metric Strip */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <Card className="p-4 border-l-2 border-l-ink-900 dark:border-l-ink-100">
+        <Card className="p-4 border-l-2 border-l-slate-900 dark:border-l-white">
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Total Net Worth</p>
-          <p className={`mt-1 font-serif text-2xl font-medium ${isPositive ? 'text-ink-900 dark:text-ink-100' : 'text-neg'}`}>
+          <p className={`mt-1 font-display text-2xl font-bold tracking-tight tnum ${isPositive ? 'text-ink-900 dark:text-white' : 'text-neg'}`}>
             {money(summary.net_worth || 0)}
           </p>
           <p className="mt-1 text-[11px] muted">Assets minus liabilities</p>
@@ -149,7 +149,7 @@ export default function NetWorth() {
 
         <Card className="p-4">
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Total Assets</p>
-          <p className="mt-1 font-serif text-2xl font-medium text-pos">
+          <p className="mt-1 font-display text-2xl font-bold tracking-tight text-pos tnum">
             {money(summary.total_assets || 0)}
           </p>
           <p className="mt-1 text-[11px] muted">Across {summary.asset_count ?? 0} holdings</p>
@@ -157,7 +157,7 @@ export default function NetWorth() {
 
         <Card className="p-4">
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Total Liabilities</p>
-          <p className="mt-1 font-serif text-2xl font-medium text-neg">
+          <p className="mt-1 font-display text-2xl font-bold tracking-tight text-neg tnum">
             {money(summary.total_liabilities || 0)}
           </p>
           <p className="mt-1 text-[11px] muted">Across {summary.debt_count ?? 0} obligations</p>
@@ -165,7 +165,7 @@ export default function NetWorth() {
 
         <Card className="p-4">
           <p className="font-mono text-[11px] uppercase tracking-wider muted">Liquid Reserves</p>
-          <p className="mt-1 font-serif text-2xl font-medium text-ink-900 dark:text-ink-100">
+          <p className="mt-1 font-display text-2xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
             {money(summary.liquid_assets || 0)}
           </p>
           <p className="mt-1 text-[11px] muted">Cash & accessible bank funds</p>

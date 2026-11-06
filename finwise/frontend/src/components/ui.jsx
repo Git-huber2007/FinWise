@@ -16,12 +16,12 @@ export function Card({ children, className = '', ...rest }) {
 
 export function CardHeader({ title, subtitle, action }) {
   return (
-    <div className="flex items-center justify-between gap-4 border-b border-ink-200/90 px-5 py-3.5 dark:border-[#242421]">
+    <div className="flex items-center justify-between gap-4 border-b border-slate-200/80 px-5 py-3.5 dark:border-slate-800/80">
       <div className="min-w-0">
-        <h3 className="truncate text-[13px] font-semibold text-ink-900 dark:text-ink-100">
+        <h3 className="truncate text-[13px] font-semibold text-ink-900 dark:text-white tracking-tight">
           {title}
         </h3>
-        {subtitle && <p className="mt-0.5 text-xs muted">{subtitle}</p>}
+        {subtitle && <p className="mt-0.5 text-xs text-ink-500 dark:text-ink-400">{subtitle}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </div>
@@ -30,13 +30,13 @@ export function CardHeader({ title, subtitle, action }) {
 
 const BUTTON_VARIANTS = {
   primary:
-    'bg-ink-900 text-[#F8F7F4] hover:bg-ink-800 dark:bg-ink-100 dark:text-ink-900 dark:hover:bg-white font-medium shadow-subtle active:scale-[0.98] disabled:opacity-50',
+    'rounded-lg bg-slate-900 text-white hover:bg-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.15)] dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 font-medium active:scale-[0.98] disabled:opacity-50 transition-all',
   secondary:
-    'border border-ink-300 bg-white text-ink-800 hover:bg-ink-50 dark:border-[#2E2E2A] dark:bg-[#161615] dark:text-ink-100 dark:hover:bg-[#1E1E1C] active:scale-[0.98]',
+    'rounded-lg border border-slate-200 bg-white text-slate-800 hover:bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-200 dark:hover:bg-slate-800 active:scale-[0.98] transition-all',
   ghost:
-    'text-ink-600 hover:bg-ink-100 hover:text-ink-900 dark:text-ink-400 dark:hover:bg-[#1A1A18] dark:hover:text-ink-100 active:scale-[0.98]',
+    'rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white active:scale-[0.98] transition-all',
   danger:
-    'bg-neg text-white hover:opacity-90 active:scale-[0.98]',
+    'rounded-lg bg-rose-600 text-white hover:bg-rose-500 shadow-sm active:scale-[0.98] transition-all',
 }
 
 export function Button({
@@ -67,21 +67,21 @@ export function Button({
 
 const BADGE_TONES = {
   neutral:
-    'bg-ink-100 text-ink-700 dark:bg-[#1C1C1A] dark:text-ink-300 border border-ink-200 dark:border-[#2C2C28]',
+    'bg-slate-100 text-slate-700 dark:bg-slate-800/80 dark:text-slate-300 border border-slate-200/90 dark:border-slate-700/60',
   positive:
-    'bg-emerald-50/80 text-pos dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-900/50',
+    'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800/50',
   negative:
-    'bg-rose-50/80 text-neg dark:bg-rose-950/30 dark:text-rose-400 border border-rose-200/80 dark:border-rose-900/50',
+    'bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400 border border-rose-200/80 dark:border-rose-800/50',
   warning:
-    'bg-amber-50/80 text-warn dark:bg-amber-950/30 dark:text-amber-400 border border-amber-200/80 dark:border-amber-900/50',
+    'bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200/80 dark:border-amber-800/50',
   brand:
-    'bg-ink-100 text-ink-900 dark:bg-[#1E1E1C] dark:text-ink-200 border border-ink-300 dark:border-[#33332F]',
+    'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200/80 dark:border-blue-800/50',
 }
 
 export function Badge({ children, tone = 'neutral', className = '' }) {
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[11px] font-medium ${BADGE_TONES[tone]} ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-mono text-[11px] font-medium tracking-tight ${BADGE_TONES[tone]} ${className}`}
     >
       {children}
     </span>
@@ -138,7 +138,7 @@ export function Modal({ open, onClose, title, children, footer, wide = false }) 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4">
       <div
-        className="absolute inset-0 bg-ink-950/50 transition-opacity"
+        className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -146,23 +146,23 @@ export function Modal({ open, onClose, title, children, footer, wide = false }) 
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className={`relative z-10 max-h-[92dvh] w-full overflow-y-auto rounded-t-xl border border-ink-200
-          bg-white shadow-pop dark:border-[#282825] dark:bg-[#141413] sm:rounded-card
+        className={`relative z-10 max-h-[92dvh] w-full overflow-y-auto rounded-t-2xl border border-slate-200/90
+          bg-white shadow-pop dark:border-slate-800 dark:bg-[#0D121F] sm:rounded-2xl
           ${wide ? 'sm:max-w-2xl' : 'sm:max-w-md'}`}
       >
-        <div className="flex items-center justify-between border-b border-ink-200 px-5 py-3.5 dark:border-[#242421]">
-          <h2 className="text-sm font-semibold text-ink-900 dark:text-white">{title}</h2>
+        <div className="flex items-center justify-between border-b border-slate-200/80 px-6 py-4 dark:border-slate-800/80">
+          <h2 className="text-sm font-semibold tracking-tight text-ink-900 dark:text-white">{title}</h2>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="rounded p-1 text-ink-400 hover:bg-ink-100 hover:text-ink-800 dark:hover:bg-[#222220] dark:hover:text-white"
+            className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-800 dark:hover:bg-slate-800/60 dark:hover:text-white transition-colors"
           >
             <X size={15} />
           </button>
         </div>
-        <div className="px-5 py-4">{children}</div>
+        <div className="px-6 py-5">{children}</div>
         {footer && (
-          <div className="flex justify-end gap-2 border-t border-ink-200 px-5 py-3 dark:border-[#242421]">
+          <div className="flex justify-end gap-2.5 border-t border-slate-200/80 px-6 py-3.5 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/30">
             {footer}
           </div>
         )}
@@ -188,10 +188,10 @@ export function Field({ label, error, hint, children, required }) {
   )
 }
 
-export const inputClass = `w-full rounded-md border border-ink-300 bg-white px-3 py-1.5 text-sm
-  placeholder:text-ink-400 transition-colors
-  focus:border-ink-900 focus:outline-none focus:ring-1 focus:ring-ink-900
-  dark:border-[#2E2E2A] dark:bg-[#0E0E0D] dark:text-ink-100 dark:focus:border-ink-200 dark:focus:ring-ink-200
+export const inputClass = `w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm
+  placeholder:text-slate-400 transition-all
+  focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20
+  dark:border-slate-800 dark:bg-slate-950/80 dark:text-white dark:focus:border-blue-400 dark:focus:ring-blue-400/20
   disabled:opacity-60`
 
 export function Input({ className = '', ...props }) {
@@ -255,10 +255,10 @@ export function EstimateNote({ children }) {
 
 export function PageHeader({ title, subtitle, action }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-ink-200/90 pb-4 dark:border-[#242421]">
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-slate-200/80 pb-4 dark:border-slate-800/80">
       <div>
-        <h1 className="display-serif text-2xl sm:text-3xl text-ink-900 dark:text-ink-100">{title}</h1>
-        {subtitle && <p className="mt-0.5 text-xs sm:text-sm muted">{subtitle}</p>}
+        <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink-900 dark:text-white">{title}</h1>
+        {subtitle && <p className="mt-1 text-xs sm:text-sm text-ink-500 dark:text-ink-400">{subtitle}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </div>

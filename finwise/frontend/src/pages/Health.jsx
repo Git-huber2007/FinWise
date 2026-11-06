@@ -345,25 +345,25 @@ function RunwaySimulatorCard({ runway }) {
       />
 
       <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
-        <div className="rounded-lg border border-ink-200/80 bg-ink-50/60 p-3.5 dark:border-[#282825] dark:bg-[#141413]">
+        <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-3.5 dark:border-slate-800 dark:bg-slate-900/40">
           <p className="font-mono text-[10px] uppercase muted">Liquid Reserves</p>
-          <p className="mt-1 font-serif text-xl font-medium text-ink-900 dark:text-ink-100">
+          <p className="mt-1 font-display text-xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
             {money(liquid_reserves)}
           </p>
           <p className="mt-0.5 text-[10px] muted">Available cash & bank accounts</p>
         </div>
 
-        <div className="rounded-lg border border-ink-200/80 bg-ink-50/60 p-3.5 dark:border-[#282825] dark:bg-[#141413]">
+        <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-3.5 dark:border-slate-800 dark:bg-slate-900/40">
           <p className="font-mono text-[10px] uppercase muted">Survival Monthly Burn</p>
-          <p className="mt-1 font-serif text-xl font-medium text-ink-900 dark:text-ink-100">
+          <p className="mt-1 font-display text-xl font-bold tracking-tight text-ink-900 dark:text-white tnum">
             {money(total_survival_burn)}/mo
           </p>
           <p className="mt-0.5 text-[10px] muted">Essentials + required loan EMIs</p>
         </div>
 
-        <div className="col-span-2 sm:col-span-1 rounded-lg border-2 border-pos/50 bg-pos/5 p-3.5">
+        <div className="col-span-2 sm:col-span-1 rounded-xl border-2 border-emerald-500/40 bg-emerald-50/40 dark:bg-emerald-950/20 p-3.5">
           <p className="font-mono text-[10px] uppercase font-semibold text-pos">Current Survival Runway</p>
-          <p className="mt-1 font-serif text-2xl font-bold text-pos">
+          <p className="mt-1 font-display text-2xl font-bold tracking-tight text-pos tnum">
             {barebones_survival?.runway_months ?? 0} months
           </p>
           <p className="mt-0.5 text-[10px] muted">Months before reserve depletion</p>

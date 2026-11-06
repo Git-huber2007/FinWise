@@ -12,60 +12,60 @@ import { Button, Field, Input } from '../components/ui'
 export function AuthShell({ title, subtitle, children, footer }) {
   return (
     <div className="min-h-dvh grid lg:grid-cols-12 bg-[#F8F7F4] dark:bg-[#0A0A09]">
-      {/* Left Editorial Specification Panel */}
-      <div className="hidden lg:flex lg:col-span-5 flex-col justify-between bg-[#141413] text-[#F8F7F4] p-10 xl:p-14 border-r border-[#242421]">
-        <div className="flex items-center gap-2.5">
-          <div className="grid size-7 place-items-center rounded bg-[#F8F7F4] font-serif text-base text-[#141413]">
+      {/* Left Modern Financial Intelligence Panel */}
+      <div className="hidden lg:flex lg:col-span-5 flex-col justify-between bg-gradient-to-br from-[#0A0D15] via-[#0F1424] to-[#07090E] text-white p-10 xl:p-14 border-r border-slate-800/80">
+        <div className="flex items-center gap-3">
+          <div className="grid size-8 place-items-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 font-sans font-bold text-base text-white shadow-lg shadow-blue-500/25">
             F
           </div>
-          <div className="leading-none">
-            <p className="text-sm font-semibold tracking-tight text-[#F8F7F4]">FinWise</p>
-            <p className="mt-0.5 font-mono text-[10px] text-[#9E9B91]">Personal Finance Ledger</p>
+          <div className="leading-tight">
+            <p className="font-display text-sm font-bold tracking-tight text-white">FinWise</p>
+            <p className="font-mono text-[10px] text-slate-400">Personal Wealth &amp; Spending Intelligence</p>
           </div>
         </div>
 
         <div className="my-auto py-12">
-          <h2 className="font-serif text-3xl xl:text-4xl leading-[1.15] text-[#F8F7F4]">
-            Personal accounting built on arithmetic, not guesswork.
+          <h2 className="font-display font-bold text-3xl xl:text-4xl tracking-tight leading-[1.15] text-white">
+            Personal finance engineered for absolute clarity.
           </h2>
-          <p className="mt-4 text-xs leading-relaxed text-[#9E9B91] max-w-md">
-            Every cash flow statement, budget pace alert, and savings projection is computed
-            deterministically from your recorded ledger entries.
+          <p className="mt-4 text-xs leading-relaxed text-slate-400 max-w-md">
+            Every cash flow statement, budget pace alert, and runway projection is computed
+            deterministically from your recorded ledger entries with zero external data leaks.
           </p>
 
           <dl className="mt-8 divide-y divide-white/10 border-y border-white/10 text-xs">
             <div className="py-3.5 flex items-baseline justify-between gap-4">
-              <dt className="font-medium text-[#F8F7F4]">Cash Flow Accounting</dt>
-              <dd className="font-mono text-[11px] text-[#9E9B91]">Inflows, outflows & net rate</dd>
+              <dt className="font-medium text-white">Double-Entry Ledger</dt>
+              <dd className="font-mono text-[11px] text-slate-400">Inflows, outflows &amp; net retention</dd>
             </div>
             <div className="py-3.5 flex items-baseline justify-between gap-4">
-              <dt className="font-medium text-[#F8F7F4]">Health Index Rubric</dt>
-              <dd className="font-mono text-[11px] text-[#9E9B91]">6-factor exposed weights</dd>
+              <dt className="font-medium text-white">Debt Freedom Engine</dt>
+              <dd className="font-mono text-[11px] text-slate-400">Avalanche vs Snowball acceleration</dd>
             </div>
             <div className="py-3.5 flex items-baseline justify-between gap-4">
-              <dt className="font-medium text-[#F8F7F4]">Outlier Detection</dt>
-              <dd className="font-mono text-[11px] text-[#9E9B91]">Category Z-score & IQR audit</dd>
+              <dt className="font-medium text-white">Offline Machine Learning</dt>
+              <dd className="font-mono text-[11px] text-slate-400">&lt; 0.5ms local merchant classifier</dd>
             </div>
           </dl>
         </div>
 
-        <div className="flex items-center justify-between font-mono text-[11px] text-[#6E6B63]">
+        <div className="flex items-center justify-between font-mono text-[11px] text-slate-500">
           <span>INR (₹) Standard</span>
-          <span>Educational Project</span>
+          <span>Zero-Trust Privacy</span>
         </div>
       </div>
 
       {/* Right Form Surface */}
       <div className="lg:col-span-7 flex flex-col justify-between px-6 py-10 sm:px-12 lg:px-16">
         <div className="flex items-center gap-2.5 lg:invisible">
-          <div className="grid size-6 place-items-center rounded bg-ink-900 font-serif text-sm text-[#F8F7F4] dark:bg-ink-100 dark:text-ink-900">
+          <div className="grid size-7 place-items-center rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 font-sans font-bold text-sm text-white">
             F
           </div>
-          <span className="text-sm font-semibold text-ink-900 dark:text-ink-100">FinWise</span>
+          <span className="font-display text-base font-bold tracking-tight text-ink-900 dark:text-white">FinWise</span>
         </div>
 
         <div className="mx-auto w-full max-w-sm my-auto py-8">
-          <h1 className="font-serif text-3xl text-ink-900 dark:text-ink-100">{title}</h1>
+          <h1 className="font-display font-bold text-3xl tracking-tight text-ink-900 dark:text-white">{title}</h1>
           <p className="mt-1.5 text-xs muted">{subtitle}</p>
 
           <div className="mt-7">{children}</div>

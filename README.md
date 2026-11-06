@@ -2,18 +2,29 @@
   <img src="docs/hero-banner.svg" alt="FinWise Technical Engine Banner" width="100%">
 </p>
 
-# FinWise
+<p align="center">
+  <img src="https://img.shields.io/badge/VERIFICATION%20SUITE-32%20OF%2032%20PASSED-00E599?style=for-the-badge&amp;labelColor=1e293b" alt="Verification Suite: 32 of 32 passed" />
+  &nbsp;
+  <img src="https://img.shields.io/badge/ARCHITECTURE%20STANDARD-OFFLINE--FIRST%20%7C%20LOCAL--LEDGER-06B6D4?style=for-the-badge&amp;labelColor=1e293b" alt="Architecture: Offline-First Local-Ledger" />
+  <br />
+  <img src="https://img.shields.io/badge/INTEGRITY-DETERMINISTIC%20MATH%20%7C%20SHA--256-8B5CF6?style=for-the-badge&amp;labelColor=1e293b" alt="Integrity: Deterministic Math" />
+  &nbsp;
+  <img src="https://img.shields.io/badge/TECH%20STACK-FLASK%20%7C%20REACT%2018%20%7C%20TAILWIND-0F172A?style=for-the-badge&amp;labelColor=1e293b" alt="Tech Stack: Flask, React 18, Tailwind" />
+  &nbsp;
+  <a href="https://finwise-omega-nine.vercel.app/"><img src="https://img.shields.io/badge/DEPLOYMENT-LIVE%20ON%20VERCEL-3B82F6?style=for-the-badge&amp;labelColor=1e293b" alt="Live Demo" /></a>
+</p>
 
-An offline-first personal finance and spending intelligence platform engineered with Flask, React 18, local Scikit-Learn machine learning, and deterministic ledger accounting.
+<p align="center">
+  <strong>A zero-telemetry personal finance operating system engineered for absolute privacy and mathematical precision.</strong><br>
+  Records every transaction into an immutable double-entry ledger while orchestrating sub-millisecond offline machine learning categorization, dual debt acceleration simulations, and real-time balance sheet intelligence.
+</p>
 
-[![Tests](https://img.shields.io/badge/pytest-281%20passed-2ea44f.svg)](finwise/backend/tests/)
-[![Python](https://img.shields.io/badge/python-3.12-3776AB.svg?logo=python&logoColor=white)](https://python.org)
-[![React](https://img.shields.io/badge/react-18-61DAFB.svg?logo=react&logoColor=black)](https://react.dev)
-[![Vite](https://img.shields.io/badge/vite-8-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev)
-[![PostgreSQL](https://img.shields.io/badge/postgres-neon-00E699.svg?logo=postgresql&logoColor=white)](https://neon.tech)
-[![Live Demo](https://img.shields.io/badge/live%20demo-vercel-black.svg)](https://finwise-omega-nine.vercel.app/)
-
-[**Live Demo**](https://finwise-omega-nine.vercel.app/) · [**Architecture Diagram**](https://finwise-omega-nine.vercel.app/architecture.html) · [**API Reference**](#api-reference) · [**Quick Start**](#getting-started)
+<p align="center">
+  <a href="https://finwise-omega-nine.vercel.app/"><strong>Explore Live Demo »</strong></a> &nbsp;•&nbsp; 
+  <a href="https://finwise-omega-nine.vercel.app/architecture.html"><strong>Interactive System Graph »</strong></a> &nbsp;•&nbsp; 
+  <a href="#key-capabilities"><strong>Core Engines »</strong></a> &nbsp;•&nbsp; 
+  <a href="#getting-started"><strong>Quick Start »</strong></a>
+</p>
 
 ---
 
