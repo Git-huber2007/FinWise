@@ -7,7 +7,6 @@ import {
   Pencil,
   Plus,
   RefreshCw,
-  Sparkles,
   Trash2,
 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
@@ -230,24 +229,24 @@ export default function Subscriptions() {
 
       {/* Smart Recurring Detection Banner */}
       {suggestions.length > 0 && (
-        <Card className="border-accent/40 bg-accent/5 p-4">
+        <Card className="p-4 bg-ink-50/60 dark:bg-[#141413]">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-start gap-3">
-              <div className="mt-0.5 rounded bg-accent/10 p-1.5 text-accent dark:bg-accent/20">
-                <Sparkles size={16} />
+              <div className="mt-0.5 rounded border border-ink-200/80 bg-white p-1.5 text-ink-700 dark:border-[#2E2E2A] dark:bg-[#1A1A18] dark:text-ink-300">
+                <RefreshCw size={14} />
               </div>
               <div>
                 <h4 className="text-[13px] font-semibold text-ink-900 dark:text-ink-100">
-                  Detected Recurring Charges in Your Ledger
+                  Detected Recurring Charges
                 </h4>
                 <p className="mt-0.5 text-xs muted">
-                  We spotted {suggestions.length} repeating payments that might be recurring subscriptions or bills:
+                  {suggestions.length} repeating payments found in your transactions. Add to your subscription schedule with one click:
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {suggestions.map((sug) => (
                     <div
                       key={sug.name}
-                      className="flex items-center gap-2 rounded-md border border-ink-200/80 bg-white/80 px-2.5 py-1.5 text-xs dark:border-[#2E2E2A] dark:bg-[#161615]"
+                      className="flex items-center gap-2 rounded-md border border-ink-200/80 bg-white px-2.5 py-1.5 text-xs dark:border-[#2E2E2A] dark:bg-[#181816]"
                     >
                       <span className="font-medium text-ink-900 dark:text-ink-100">{sug.name}</span>
                       <span className="font-mono text-ink-600 dark:text-ink-400">
@@ -259,7 +258,7 @@ export default function Subscriptions() {
                         onClick={() => handleAddSuggestion(sug)}
                         className="ml-1 text-[10px]"
                       >
-                        + Track
+                        Track
                       </Button>
                     </div>
                   ))}
@@ -613,3 +612,4 @@ export default function Subscriptions() {
     </div>
   )
 }
+

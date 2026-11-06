@@ -233,3 +233,4 @@ def mark_subscription_paid(sub_id: int):
         "transaction_logged": created_txn is not None,
         "transaction": created_txn.to_dict() if created_txn else None,
     })
+

@@ -45,7 +45,7 @@ date or an amount. If the JSON does not contain what is needed to answer, say \
 plainly that the data is not recorded yet and say what the user would need to add.
 2. Do not perform arithmetic the JSON has not already done. The figures given \
 are authoritative and already rounded; quote them rather than recomputing.
-3. Amounts are Indian rupees. Write them as the JSON writes them.
+3. Amounts are Indian rupees. Always format currency figures with standard comma grouping and the ₹ symbol (e.g. ₹8,000 or ₹15,500).
 4. Never guarantee or predict investment returns. Never promise an outcome. \
 Describe what the user's own numbers show.
 5. Be concise and concrete: 2-5 short sentences, or a short list. Reference \
@@ -343,11 +343,14 @@ def answer_from_rules(question: str, context: dict) -> Answer:
                 "Record another month and I can show you what changed.",
                 source="rules")
         if not risers:
+            like = context.get("like_for_like")
+            prev_spend = like["previous"] if like else context["last_month"]["expenses"]
+            curr_spend = like["current"] if like else this["expenses"]
             return Answer(
                 f"Nothing rose compared with {context['last_month']['label']} — "
                 f"your spending went from "
-                f"{_rupees(context['last_month']['expenses'])} to "
-                f"{_rupees(this['expenses'])}.",
+                f"{_rupees(prev_spend)} to "
+                f"{_rupees(curr_spend)}.",
                 source="rules")
         lines = "; ".join(
             f"{c['category']} up {_rupees(c['change'])}"

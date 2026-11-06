@@ -1,20 +1,22 @@
+import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import { ProtectedRoute, PublicOnlyRoute } from './auth'
 import Layout from './components/Layout'
-import { Card, PageHeader } from './components/ui'
-import Assistant from './pages/Assistant'
-import Budget from './pages/Budget'
-import Dashboard from './pages/Dashboard'
-import Goals from './pages/Goals'
-import Health from './pages/Health'
-import Insights from './pages/Insights'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import Reports from './pages/Reports'
-import Settings from './pages/Settings'
-import Subscriptions from './pages/Subscriptions'
-import Transactions from './pages/Transactions'
+import { Card, PageHeader, Spinner } from './components/ui'
+
+const Assistant = lazy(() => import('./pages/Assistant'))
+const Budget = lazy(() => import('./pages/Budget'))
+const Dashboard = lazy(() => import('./pages/Dashboard'))
+const Goals = lazy(() => import('./pages/Goals'))
+const Health = lazy(() => import('./pages/Health'))
+const Insights = lazy(() => import('./pages/Insights'))
+const Login = lazy(() => import('./pages/Login'))
+const Register = lazy(() => import('./pages/Register'))
+const Reports = lazy(() => import('./pages/Reports'))
+const Settings = lazy(() => import('./pages/Settings'))
+const Subscriptions = lazy(() => import('./pages/Subscriptions'))
+const Transactions = lazy(() => import('./pages/Transactions'))
 
 function NotFound() {
   return (
@@ -33,43 +35,45 @@ function NotFound() {
  */
 export default function App() {
   return (
-    <Routes>
-      <Route
-        path="/login"
-        element={
-          <PublicOnlyRoute>
-            <Login />
-          </PublicOnlyRoute>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <PublicOnlyRoute>
-            <Register />
-          </PublicOnlyRoute>
-        }
-      />
+    <Suspense fallback={<Spinner label="Loading page" />}>
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            <PublicOnlyRoute>
+              <Login />
+            </PublicOnlyRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicOnlyRoute>
+              <Register />
+            </PublicOnlyRoute>
+          }
+        />
 
-      <Route
-        element={
-          <ProtectedRoute>
-            <Layout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<Dashboard />} />
-        <Route path="transactions" element={<Transactions />} />
-        <Route path="subscriptions" element={<Subscriptions />} />
-        <Route path="budget" element={<Budget />} />
-        <Route path="insights" element={<Insights />} />
-        <Route path="health" element={<Health />} />
-        <Route path="goals" element={<Goals />} />
-        <Route path="assistant" element={<Assistant />} />
-        <Route path="reports" element={<Reports />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+        <Route
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="transactions" element={<Transactions />} />
+          <Route path="subscriptions" element={<Subscriptions />} />
+          <Route path="budget" element={<Budget />} />
+          <Route path="insights" element={<Insights />} />
+          <Route path="health" element={<Health />} />
+          <Route path="goals" element={<Goals />} />
+          <Route path="assistant" element={<Assistant />} />
+          <Route path="reports" element={<Reports />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </Suspense>
   )
 }
