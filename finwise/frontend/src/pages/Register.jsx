@@ -45,7 +45,7 @@ export default function Register() {
           Already maintain a ledger?{' '}
           <Link
             to="/login"
-            className="font-medium text-ink-900 underline decoration-ink-300 underline-offset-4 hover:decoration-ink-900 dark:text-ink-100 dark:decoration-ink-700"
+            className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-4"
           >
             Sign in
           </Link>

@@ -1,170 +1,155 @@
-import { ArrowRight, CheckCircle2, Lock, ShieldCheck, Terminal } from 'lucide-react'
+import { ArrowRight, Lock, Sparkles, TrendingUp } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../auth'
-import { Badge, Button, Field, Input } from '../components/ui'
+import { Button, Field, Input } from '../components/ui'
 
 /**
- * Enterprise Architectural Authentication Shell.
- * Grounded in the technical governance reference layout:
- * Left: Glowing brand emblem, feature pills with status dots, verification badges, lead copy.
- * Right: Crisp centered auth card with one-click demo ledger access.
+ * Editorial Fintech Authentication Shell.
+ * Calm, confident design language:
+ * - Left: Editorial wealth narrative and an authentic balance sheet preview.
+ * - Right: Clean, distraction-free authentication card with instant demo ledger access.
+ * - Free of artificial badges, mock terminal logs, or dev-stack buzzwords.
  */
 export function AuthShell({ title, subtitle, children, footer }) {
   return (
-    <div className="min-h-dvh grid lg:grid-cols-12 bg-[#F8FAFC] dark:bg-[#090C15] text-slate-900 dark:text-slate-100">
-      {/* Left Reference-Inspired Architectural Showcase Panel */}
-      <div className="hidden lg:flex lg:col-span-6 xl:col-span-7 flex-col justify-between bg-[#080B14] p-10 xl:p-14 border-r border-slate-800/80 relative overflow-hidden">
-        {/* Subtle grid pattern background */}
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:28px_28px]" />
+    <div className="min-h-dvh grid lg:grid-cols-12 bg-slate-50 dark:bg-[#07090E] text-slate-900 dark:text-slate-100 selection:bg-blue-500/20">
+      {/* Left Editorial Product Showcase Panel */}
+      <div className="hidden lg:flex lg:col-span-6 xl:col-span-7 flex-col justify-between bg-gradient-to-b from-[#090D16] via-[#080B12] to-[#05070B] p-12 xl:p-16 border-r border-slate-800/60 relative overflow-hidden text-white">
+        {/* Subtle radial atmosphere */}
+        <div className="pointer-events-none absolute -top-40 -left-40 size-96 rounded-full bg-blue-600/10 blur-[100px]" />
+        <div className="pointer-events-none absolute -bottom-40 right-0 size-96 rounded-full bg-indigo-600/10 blur-[100px]" />
 
-        {/* Top Header Identity */}
+        {/* Brand Header */}
         <div className="relative z-10 flex items-center gap-3">
-          <div className="relative grid size-9 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 font-sans font-bold text-base text-white shadow-md shadow-blue-500/20">
+          <div className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white font-sans font-bold text-base shadow-sm shadow-blue-500/30">
             F
-            <span className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full bg-emerald-400 ring-2 ring-[#080B14]" />
           </div>
-          <div className="leading-tight">
-            <span className="font-display text-sm font-bold tracking-tight text-white">FinWise</span>
-            <p className="font-mono text-[10px] text-slate-400">Autonomous Financial Intelligence</p>
+          <div>
+            <span className="font-display text-base font-semibold tracking-tight text-white">FinWise</span>
+            <span className="ml-2 font-mono text-[10px] uppercase tracking-wider text-slate-400">Ledger Intelligence</span>
           </div>
         </div>
 
-        {/* Center Identity & Reference Box */}
-        <div className="relative z-10 my-auto py-8 space-y-6 max-w-xl">
-          {/* Reference Glowing Shield Vault Emblem */}
-          <div className="flex items-center gap-3">
-            <div className="grid size-11 place-items-center rounded-2xl border border-blue-500/30 bg-[#0E1528] text-blue-400 shadow-sm shadow-blue-500/10">
-              <ShieldCheck size={22} className="text-blue-400" />
+        {/* Narrative & Authentic Product Preview */}
+        <div className="relative z-10 my-auto py-10 max-w-xl space-y-8">
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-700/60 bg-slate-800/40 px-3 py-1 text-xs text-slate-300">
+              <span className="size-1.5 rounded-full bg-emerald-400" />
+              <span>Deterministic Personal Wealth Operating System</span>
+            </div>
+            
+            <h1 className="font-display text-3xl xl:text-4xl font-bold tracking-tight text-white leading-[1.15]">
+              Personal finance,<br />engineered with precision.
+            </h1>
+            
+            <p className="text-sm text-slate-400 leading-relaxed max-w-lg">
+              Track your net worth, forecast cash runway, accelerate debt payoff, and optimize taxes with complete mathematical certainty — entirely offline and private.
+            </p>
+          </div>
+
+          {/* Authentic Mini-Product Balance Sheet Card */}
+          <div className="rounded-2xl border border-slate-800/80 bg-slate-900/50 backdrop-blur-md p-5 shadow-2xl shadow-black/40">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-800/70">
+              <div className="flex items-center gap-2">
+                <div className="size-2 rounded-full bg-emerald-400" />
+                <span className="font-mono text-xs text-slate-300 font-medium">Verified Household Ledger</span>
+              </div>
+              <span className="font-mono text-[11px] text-slate-500">Live Engine</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 py-4">
+              <div>
+                <p className="text-[11px] uppercase tracking-wider font-mono text-slate-400">Total Net Worth</p>
+                <p className="text-2xl font-bold font-display text-white tracking-tight mt-0.5">₹18,45,200</p>
+                <div className="flex items-center gap-1.5 mt-1 text-emerald-400 text-xs font-mono">
+                  <TrendingUp size={13} />
+                  <span>+12.4% year-over-year</span>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-[11px] uppercase tracking-wider font-mono text-slate-400">Liquid Runway</p>
+                <p className="text-2xl font-bold font-display text-white tracking-tight mt-0.5">9.4 Months</p>
+                <p className="text-xs text-slate-400 font-mono mt-1">₹48,200 monthly burn</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-800/70 text-xs font-mono">
+              <div className="rounded-lg bg-slate-800/40 px-3 py-2">
+                <p className="text-[10px] text-slate-500 uppercase">Savings Rate</p>
+                <p className="font-semibold text-slate-200 mt-0.5">41.8%</p>
+              </div>
+              <div className="rounded-lg bg-slate-800/40 px-3 py-2">
+                <p className="text-[10px] text-slate-500 uppercase">Debt Strategy</p>
+                <p className="font-semibold text-slate-200 mt-0.5">Avalanche</p>
+              </div>
+              <div className="rounded-lg bg-slate-800/40 px-3 py-2">
+                <p className="text-[10px] text-slate-500 uppercase">Tax Regime</p>
+                <p className="font-semibold text-slate-200 mt-0.5">Sec 115BAC</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Understated Value Pillars */}
+          <div className="grid grid-cols-3 gap-6 pt-2">
+            <div>
+              <p className="text-xs font-semibold text-white">Double-Entry Math</p>
+              <p className="text-[11px] text-slate-400 mt-1 leading-snug">Every rupee accounted for across all balance sheets.</p>
             </div>
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-widest text-slate-400">Architecture Specification</p>
-              <h2 className="font-display font-bold text-2xl xl:text-3xl tracking-tight text-white">
-                FINWISE PLATFORM
-              </h2>
+              <p className="text-xs font-semibold text-white">Zero Telemetry</p>
+              <p className="text-[11px] text-slate-400 mt-1 leading-snug">No external tracking, cloud profiling, or ads.</p>
             </div>
-          </div>
-
-          <p className="font-mono text-[11px] uppercase tracking-wider text-slate-400">
-            Deterministic Double-Entry Math · Local Scikit-Learn ML · Section 115BAC Engine
-          </p>
-
-          {/* Reference Feature Pill Tags with Glowing Multi-Color Dots */}
-          <div className="flex flex-wrap gap-2 pt-1">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-[#0D1220] px-3 py-1 font-mono text-[11px] text-slate-300">
-              <span className="size-1.5 rounded-full bg-indigo-500" />
-              Scikit-Learn ML Engine
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-[#0D1220] px-3 py-1 font-mono text-[11px] text-slate-300">
-              <span className="size-1.5 rounded-full bg-emerald-500" />
-              Deterministic Ledger Math
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-[#0D1220] px-3 py-1 font-mono text-[11px] text-slate-300">
-              <span className="size-1.5 rounded-full bg-purple-500" />
-              Section 115BAC Optimizer
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-[#0D1220] px-3 py-1 font-mono text-[11px] text-slate-300">
-              <span className="size-1.5 rounded-full bg-amber-500" />
-              Zero-Trust Local Privacy
-            </span>
-          </div>
-
-          {/* Reference Two-Row Technical Badge Matrix */}
-          <div className="space-y-2 pt-2">
-            <div className="flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-2 rounded-md border border-slate-800 bg-[#0B0F1C] px-2.5 py-1 font-mono text-[11px] text-slate-400">
-                <span className="font-semibold text-slate-300">VERIFICATION SUITE</span>
-                <span className="rounded bg-emerald-950/60 px-1.5 py-0.5 text-emerald-400 font-bold border border-emerald-800/40">
-                  281 OF 281 PASSED
-                </span>
-              </span>
-              <span className="inline-flex items-center gap-2 rounded-md border border-slate-800 bg-[#0B0F1C] px-2.5 py-1 font-mono text-[11px] text-slate-400">
-                <span className="font-semibold text-slate-300">TAX REGIME</span>
-                <span className="rounded bg-cyan-950/60 px-1.5 py-0.5 text-cyan-400 font-bold border border-cyan-800/40">
-                  FY 2024-25 &amp; 2025-26
-                </span>
-              </span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-2 rounded-md border border-slate-800 bg-[#0B0F1C] px-2.5 py-1 font-mono text-[11px] text-slate-400">
-                <span className="font-semibold text-slate-300">ML INFERENCE</span>
-                <span className="rounded bg-purple-950/60 px-1.5 py-0.5 text-purple-400 font-bold border border-purple-800/40">
-                  &lt; 0.5MS LOCAL
-                </span>
-              </span>
-              <span className="inline-flex items-center gap-2 rounded-md border border-slate-800 bg-[#0B0F1C] px-2.5 py-1 font-mono text-[11px] text-slate-400">
-                <span className="font-semibold text-slate-300">STACK</span>
-                <span className="text-slate-300 font-bold">FLASK · REACT 18 · TAILWIND</span>
-              </span>
-            </div>
-          </div>
-
-          {/* Reference Authoritative Lead Summary */}
-          <p className="text-xs leading-relaxed text-slate-400 pt-2 border-t border-slate-800/80">
-            A zero-telemetry personal finance operating system engineered for absolute privacy and mathematical precision.
-            Records every transaction into an immutable ledger while orchestrating real-time debt acceleration and balance sheet intelligence.
-          </p>
-
-          {/* Telemetry Snapshot Preview */}
-          <div className="rounded-xl border border-slate-800/80 bg-[#0C1120] p-4 text-xs font-mono">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800/80 text-[10px] text-slate-500 uppercase">
-              <span>Telemetry Snapshot</span>
-              <span className="text-emerald-400">● LIVE RUNTIME</span>
-            </div>
-            <div className="grid grid-cols-3 gap-3 pt-3">
-              <div>
-                <p className="text-[10px] text-slate-500">NET SAVINGS</p>
-                <p className="text-sm font-bold text-white tnum mt-0.5">₹1,24,500</p>
-              </div>
-              <div>
-                <p className="text-[10px] text-slate-500">HEALTH INDEX</p>
-                <p className="text-sm font-bold text-emerald-400 tnum mt-0.5">84 / 100</p>
-              </div>
-              <div>
-                <p className="text-[10px] text-slate-500">RUNWAY</p>
-                <p className="text-sm font-bold text-blue-400 tnum mt-0.5">9.4 mos</p>
-              </div>
+            <div>
+              <p className="text-xs font-semibold text-white">Tax Intelligence</p>
+              <p className="text-[11px] text-slate-400 mt-1 leading-snug">Automated FY 2024-25 &amp; 2025-26 regime comparisons.</p>
             </div>
           </div>
         </div>
 
-        {/* Bottom Safety Guarantee */}
-        <div className="relative z-10 flex items-center justify-between font-mono text-[11px] text-slate-500">
+        {/* Footer Guarantee */}
+        <div className="relative z-10 flex items-center justify-between text-xs text-slate-500 font-mono">
           <span className="flex items-center gap-1.5">
-            <Lock size={12} className="text-emerald-400" />
-            100% Local Accounting Ledger
+            <Lock size={13} className="text-slate-400" />
+            End-to-end local data sovereignty
           </span>
-          <span>Zero Telemetry Leaks</span>
+          <span>v1.0.0</span>
         </div>
       </div>
 
-      {/* Right Modern Form Panel */}
-      <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-between px-6 py-10 sm:px-12 lg:px-14">
+      {/* Right Authentication Panel */}
+      <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-between px-6 py-10 sm:px-12 xl:px-16">
         {/* Mobile Header */}
         <div className="flex items-center gap-2.5 lg:invisible">
-          <div className="grid size-7 place-items-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 font-sans font-bold text-sm text-white">
+          <div className="grid size-8 place-items-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 font-sans font-bold text-sm text-white">
             F
           </div>
           <span className="font-display text-base font-bold tracking-tight text-slate-900 dark:text-white">FinWise</span>
         </div>
 
-        {/* Centered Auth Card */}
-        <div className="mx-auto w-full max-w-md my-auto py-6">
-          <div className="rounded-2xl border border-slate-200/90 bg-white p-7 sm:p-8 shadow-card dark:border-slate-800/80 dark:bg-[#0F1422]">
-            <h1 className="font-display font-bold text-2xl tracking-tight text-slate-900 dark:text-white">
+        {/* Centered Auth Box */}
+        <div className="mx-auto w-full max-w-md my-auto py-8">
+          <div className="space-y-2">
+            <h2 className="font-display font-bold text-2xl sm:text-3xl tracking-tight text-slate-900 dark:text-white">
               {title}
-            </h1>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{subtitle}</p>
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              {subtitle}
+            </p>
+          </div>
 
-            <div className="mt-6">{children}</div>
-            <div className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">{footer}</div>
+          <div className="mt-8">{children}</div>
+
+          <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-600 dark:text-slate-400">
+            {footer}
           </div>
         </div>
 
-        {/* Compliance Footer */}
-        <p className="text-[11px] text-slate-400 text-center">
-          FinWise is an educational accounting system and does not provide certified financial advice.
+        {/* Subtle Disclaimer */}
+        <p className="text-[11px] text-slate-400 dark:text-slate-500 text-center">
+          FinWise is an analytical ledger system. It does not provide certified financial advice.
         </p>
       </div>
     </div>
@@ -182,12 +167,11 @@ export default function Login() {
 
   const set = (key) => (event) => setForm({ ...form, [key]: event.target.value })
 
-  async function onSubmit(event) {
-    event.preventDefault()
+  async function performLogin(email, password) {
     setBusy(true)
     setError(null)
     try {
-      await login(form.email, form.password)
+      await login(email, password)
       navigate(location.state?.from || '/', { replace: true })
     } catch (err) {
       setError(err)
@@ -196,28 +180,26 @@ export default function Login() {
     }
   }
 
-  async function loginDemo() {
-    setForm({ email: 'demo@finwise.ai', password: 'demo1234' })
-    setBusy(true)
-    setError(null)
-    try {
-      await login('demo@finwise.ai', 'demo1234')
-      navigate(location.state?.from || '/', { replace: true })
-    } catch (err) {
-      setError(err)
-    } finally {
-      setBusy(false)
-    }
+  function onSubmit(event) {
+    event.preventDefault()
+    performLogin(form.email, form.password)
+  }
+
+  function loginDemo() {
+    performLogin('demo@finwise.ai', 'demo1234')
   }
 
   return (
     <AuthShell
       title="Sign in to your ledger"
-      subtitle="Enter your credentials to access your financial dashboard."
+      subtitle="Access your financial balance sheet, cash runway, and spending analytics."
       footer={
         <>
-          New to FinWise?{' '}
-          <Link to="/register" className="font-medium text-slate-900 underline underline-offset-4 hover:text-blue-600 dark:text-white dark:hover:text-blue-400">
+          Don&apos;t have a ledger yet?{' '}
+          <Link
+            to="/register"
+            className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-4"
+          >
             Create an account
           </Link>
         </>
@@ -250,43 +232,49 @@ export default function Login() {
         </Field>
 
         {error && !error.field && (
-          <p
+          <div
             role="alert"
-            className="rounded-lg border border-rose-300 bg-rose-50/80 px-3 py-2 text-xs text-neg dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-400"
+            className="rounded-xl border border-rose-200 bg-rose-50/90 p-3 text-xs text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-400"
           >
             {error.message}
-          </p>
+          </div>
         )}
 
-        <Button type="submit" loading={busy} className="w-full" size="lg">
-          Sign in
+        <Button type="submit" loading={busy} size="lg" className="w-full">
+          Sign In
         </Button>
       </form>
 
-      <div className="my-5 flex items-center gap-3">
-        <div className="h-px flex-1 bg-slate-200 dark:bg-slate-800" />
-        <span className="font-mono text-[10px] uppercase text-slate-400">Instant Demo</span>
-        <div className="h-px flex-1 bg-slate-200 dark:bg-slate-800" />
+      {/* Elegant Demo Access */}
+      <div className="relative my-6">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-slate-200 dark:border-slate-800" />
+        </div>
+        <div className="relative flex justify-center text-[11px] uppercase tracking-wider font-mono">
+          <span className="bg-slate-50 dark:bg-[#07090E] px-3 text-slate-400">Or preview with sample data</span>
+        </div>
       </div>
 
       <button
         type="button"
         onClick={loginDemo}
         disabled={busy}
-        className="group w-full rounded-xl border border-slate-200/90 bg-slate-50/70 p-3.5 text-left transition-all hover:border-blue-500/40 hover:bg-white dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-slate-700 dark:hover:bg-slate-900"
+        className="group w-full flex items-center justify-between rounded-xl border border-slate-200/90 bg-white p-3.5 text-left transition hover:border-slate-300 hover:bg-slate-50/80 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-slate-700 dark:hover:bg-slate-900"
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="size-2 rounded-full bg-emerald-500" />
-            <span className="text-xs font-semibold text-slate-900 dark:text-white">
-              Launch Preloaded Demo Ledger
-            </span>
+        <div className="flex items-center gap-3">
+          <div className="grid size-8 place-items-center rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400">
+            <Sparkles size={16} />
           </div>
-          <ArrowRight size={13} className="text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+          <div>
+            <p className="text-xs font-semibold text-slate-900 dark:text-white">
+              Launch Sample Ledger
+            </p>
+            <p className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
+              demo@finwise.ai · 8-month historical dataset
+            </p>
+          </div>
         </div>
-        <p className="mt-1 font-mono text-[11px] text-slate-500 dark:text-slate-400">
-          demo@finwise.ai · 8-month history, active budgets &amp; debt portfolio
-        </p>
+        <ArrowRight size={14} className="text-slate-400 group-hover:translate-x-0.5 transition-transform" />
       </button>
     </AuthShell>
   )
