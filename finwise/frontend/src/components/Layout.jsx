@@ -9,9 +9,12 @@ import {
   LogOut,
   Menu,
   Moon,
+  Receipt,
+  Scale,
   SlidersHorizontal,
   Sun,
   Terminal,
+  TrendingDown,
   TrendingUp,
   X,
 } from 'lucide-react'
@@ -27,8 +30,11 @@ export const NAV_ITEMS = [
   { to: '/subscriptions', label: 'Subscriptions', icon: CalendarClock, group: 'Ledger' },
   { to: '/budget', label: 'Budget Limits', icon: BarChart3, group: 'Ledger' },
   { to: '/goals', label: 'Savings Goals', icon: Landmark, group: 'Ledger' },
+  { to: '/net-worth', label: 'Net Worth', icon: Scale, group: 'Wealth' },
+  { to: '/debt', label: 'Debt Planner', icon: TrendingDown, group: 'Wealth' },
+  { to: '/tax', label: 'Tax Estimator', icon: Receipt, group: 'Wealth' },
   { to: '/insights', label: 'Spending Analysis', icon: TrendingUp, group: 'Analysis' },
-  { to: '/health', label: 'Health Rubric', icon: Activity, group: 'Analysis' },
+  { to: '/health', label: 'Health & Runway', icon: Activity, group: 'Analysis' },
   { to: '/assistant', label: 'Query Ledger', icon: Terminal, group: 'Analysis' },
   { to: '/reports', label: 'Statements', icon: FileText, group: 'Analysis' },
   { to: '/settings', label: 'Preferences', icon: SlidersHorizontal, group: 'System' },
@@ -53,7 +59,7 @@ function Logo() {
 }
 
 function NavItems({ onNavigate }) {
-  const groups = ['Ledger', 'Analysis', 'System']
+  const groups = ['Ledger', 'Wealth', 'Analysis', 'System']
   return (
     <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
       {groups.map((group) => {

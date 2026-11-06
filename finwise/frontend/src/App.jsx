@@ -8,14 +8,17 @@ import { Card, PageHeader, Spinner } from './components/ui'
 const Assistant = lazy(() => import('./pages/Assistant'))
 const Budget = lazy(() => import('./pages/Budget'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
+const DebtPlanner = lazy(() => import('./pages/DebtPlanner'))
 const Goals = lazy(() => import('./pages/Goals'))
 const Health = lazy(() => import('./pages/Health'))
 const Insights = lazy(() => import('./pages/Insights'))
 const Login = lazy(() => import('./pages/Login'))
+const NetWorth = lazy(() => import('./pages/NetWorth'))
 const Register = lazy(() => import('./pages/Register'))
 const Reports = lazy(() => import('./pages/Reports'))
 const Settings = lazy(() => import('./pages/Settings'))
 const Subscriptions = lazy(() => import('./pages/Subscriptions'))
+const TaxEstimator = lazy(() => import('./pages/TaxEstimator'))
 const Transactions = lazy(() => import('./pages/Transactions'))
 
 function NotFound() {
@@ -65,9 +68,12 @@ export default function App() {
           <Route path="transactions" element={<Transactions />} />
           <Route path="subscriptions" element={<Subscriptions />} />
           <Route path="budget" element={<Budget />} />
+          <Route path="goals" element={<Goals />} />
+          <Route path="net-worth" element={<NetWorth />} />
+          <Route path="debt" element={<DebtPlanner />} />
+          <Route path="tax" element={<TaxEstimator />} />
           <Route path="insights" element={<Insights />} />
           <Route path="health" element={<Health />} />
-          <Route path="goals" element={<Goals />} />
           <Route path="assistant" element={<Assistant />} />
           <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />

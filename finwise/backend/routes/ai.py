@@ -13,7 +13,7 @@ from sqlalchemy import select
 import validation as v
 from ai import analytics, anomaly, categorizer, health, savings
 from ai import chat as chat_engine
-from models import SavingsGoal, Transaction, User, db
+from models import Asset, Debt, SavingsGoal, Transaction, User, db
 from routes.dashboard import resolve_month, user_budgets, user_rows
 
 bp = Blueprint("ai", __name__, url_prefix="/api/ai")
@@ -175,6 +175,112 @@ def financial_health():
     result["month"] = month
     result["month_label"] = analytics.month_label(month)
     return jsonify(result)
+
+
+@bp.route("/runway", methods=["GET", "POST"])
+@login_required
+def emergency_runway():
+    """Emergency Fund Runway & Financial Safety Simulator."""
+    from decimal import Decimal
+    user = _me()
+    rows = user_rows()
+    debts = db.session.scalars(select(Debt).where(Debt.user_id == user.id)).all()
+    assets = db.session.scalars(select(Asset).where(Asset.user_id == user.id)).all()
+
+    # Liquid funds (cash + bank balances)
+    liquid = sum((a.balance for a in assets if a.asset_type in ("cash", "bank")), Decimal("0"))
+    if liquid == 0 and user.emergency_fund:
+        liquid = user.emergency_fund
+
+    # Minimum monthly debt commitments
+    monthly_emi = sum((d.minimum_payment for d in debts), Decimal("0"))
+
+    # Essential category spending (monthly average across history)
+    series = analytics.monthly_series(rows)
+    essential_cats = {"Housing", "Utilities", "Food", "Healthcare", "Transportation"}
+
+    recent_months = [m["month"] for m in series[-3:]] if series else []
+    essential_monthly = Decimal("0")
+    if recent_months:
+        essential_txns = [
+            r for r in rows
+            if r.get("txn_type") == "expense"
+            and r.get("date", "")[:7] in recent_months
+            and r.get("category") in essential_cats
+        ]
+        total_essential = sum(Decimal(str(r["amount"])) for r in essential_txns)
+        essential_monthly = round(total_essential / len(recent_months), 2)
+    else:
+        essential_monthly = Decimal("20000.00")
+
+    total_survival_burn = essential_monthly + monthly_emi
+    if total_survival_burn <= 0:
+        total_survival_burn = Decimal("15000.00")
+
+    # Overall monthly expense average
+    avg_total_expense = Decimal(str(round(sum(m["expense"] for m in series) / max(1, len(series)), 2))) if series else total_survival_burn
+
+    # Parse simulation overrides if POST
+    custom_liquid = float(liquid)
+    custom_burn = float(total_survival_burn)
+    if request.method == "POST":
+        data = request.get_json(silent=True) or {}
+        liquid_override = data.get("liquid_savings")
+        if liquid_override is None:
+            liquid_override = data.get("liquid_reserves")
+        if liquid_override is None:
+            liquid_override = data.get("custom_liquid_reserves")
+        if liquid_override is not None:
+            custom_liquid = max(0.0, float(liquid_override))
+
+        burn_override = data.get("monthly_burn")
+        if burn_override is None:
+            burn_override = data.get("custom_monthly_burn")
+        if burn_override is not None:
+            custom_burn = max(1.0, float(burn_override))
+
+    runway_months = round(custom_liquid / max(1.0, custom_burn), 1)
+
+    scenarios = {
+        "barebones_survival": {
+            "title": "Essential Survival Mode",
+            "monthly_burn": float(total_survival_burn),
+            "runway_months": round(float(liquid) / max(1.0, float(total_survival_burn)), 1),
+            "description": "Covers strictly essentials (rent, food, utilities, EMIs) with zero discretionary spend.",
+        },
+        "lifestyle_maintenance": {
+            "title": "Full Current Lifestyle",
+            "monthly_burn": float(avg_total_expense),
+            "runway_months": round(float(liquid) / max(1.0, float(avg_total_expense)), 1),
+            "description": "Maintains 100% of your average lifestyle spending without reducing expenses.",
+        },
+        "inflation_shock_20pct": {
+            "title": "Cost of Living Spike (+20%)",
+            "monthly_burn": round(float(total_survival_burn) * 1.2, 2),
+            "runway_months": round(float(liquid) / max(1.0, float(total_survival_burn) * 1.2), 1),
+            "description": "Simulates sharp 20% price inflation on essential goods and bills.",
+        },
+        "emergency_medical_shock": {
+            "title": "Major Shock (-₹1,00,000)",
+            "monthly_burn": float(total_survival_burn),
+            "runway_months": round(max(0.0, float(liquid) - 100000.0) / max(1.0, float(total_survival_burn)), 1),
+            "description": "Assumes a sudden one-time medical or emergency outlay of ₹1 Lakh.",
+        },
+    }
+
+    return jsonify({
+        "liquid_reserves": float(liquid),
+        "essential_monthly_burn": float(essential_monthly),
+        "debt_emi_burn": float(monthly_emi),
+        "total_survival_burn": float(total_survival_burn),
+        "lifestyle_monthly_burn": float(avg_total_expense),
+        "simulated": {
+            "liquid": custom_liquid,
+            "burn": custom_burn,
+            "runway_months": runway_months,
+        },
+        "scenarios": scenarios,
+    })
 
 
 @bp.post("/chat")

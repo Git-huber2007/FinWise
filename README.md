@@ -32,9 +32,14 @@ The system runs as an all-in-one deployment on Vercel:
 ## Features
 
 - **Ledger & Cash Flow**: Track inflows, outflows, and net retention with chronological register sheets and trajectory charts.
+- **Bank Statement CSV Importer**: Batch statement upload with client-side preview, duplicate entry protection, and automatic merchant category prediction using the local ML engine.
 - **Merchant Auto-Categorization**: Real-time classification running locally in Python without external API calls; user corrections retrain the model online.
 - **Budget Limits**: Define monthly spending ceilings per category with 80% and 100% utilization tracking.
 - **Subscriptions & Bills Tracker**: Track recurring commitments (streaming, utilities, memberships, SaaS), auto-detect repeating charges from ledger transactions, and receive 7-day renewal alerts with one-click payment logging.
+- **Net Worth & Asset/Liability Tracker**: Balance sheet tracking across liquid savings, equity portfolios, deposits, and debts with net equity calculation and liquidity ratio metrics.
+- **Debt Payoff Planner (Snowball vs Avalanche)**: Full payoff schedule calculator comparing Mathematical Avalanche (highest APR first) against Behavioral Snowball (smallest balance first), simulating extra monthly payment acceleration.
+- **Emergency Runway & Financial Safety Simulator**: Realistic survival runway modeling in months based on liquid reserves vs non-negotiable living expenses, featuring 4 interactive stress test scenarios.
+- **Tax Regime Estimator (Old vs New)**: Indian Income Tax comparison under New Regime (Sec 115BAC with ₹75k standard deduction and 87A rebate) vs Old Regime (with 80C, 80D, and 24b deductions), delivering clear take-home recommendations.
 - **Financial Health Score**: Transparent 100-point rubric calculated across savings rate, budget discipline, and spending stability.
 - **Savings Goals**: Goal ETA projections based on historical monthly net retention rates.
 - **PDF & CSV Export**: Download monthly statements with audit summaries and export full transaction history to CSV.

@@ -25,6 +25,7 @@ import { money } from '../format'
 
 export default function Health() {
   const [result, setResult] = useState(null)
+  const [runway, setRunway] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -32,7 +33,12 @@ export default function Health() {
     setLoading(true)
     setError(null)
     try {
-      setResult(await api.post('/api/ai/financial-health'))
+      const [healthRes, runwayRes] = await Promise.all([
+        api.post('/api/ai/financial-health'),
+        api.get('/api/ai/runway').catch(() => null),
+      ])
+      setResult(healthRes)
+      if (runwayRes) setRunway(runwayRes)
     } catch (err) {
       setError(err)
     } finally {
@@ -172,6 +178,8 @@ export default function Health() {
               </div>
             </Card>
           )}
+
+          {runway && <RunwaySimulatorCard runway={runway} />}
 
           <Card className="p-5">
             <p className="flex items-start gap-2 text-[11px] leading-relaxed muted">
@@ -319,6 +327,77 @@ function SavingsTargetCard({ target }) {
             ? 'Target met this month.'
             : `${money(target.gap)} short of target.`}
         </p>
+      </div>
+    </Card>
+  )
+}
+
+function RunwaySimulatorCard({ runway }) {
+  if (!runway) return null
+  const { liquid_reserves, total_survival_burn, scenarios = {} } = runway
+  const { barebones_survival, lifestyle_maintenance, inflation_shock_20pct, emergency_medical_shock } = scenarios
+
+  return (
+    <Card className="p-5">
+      <CardHeader
+        title="Emergency Runway & Financial Safety Simulator"
+        subtitle="Months of survival coverage under real economic shocks and unexpected income loss"
+      />
+
+      <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="rounded-lg border border-ink-200/80 bg-ink-50/60 p-3.5 dark:border-[#282825] dark:bg-[#141413]">
+          <p className="font-mono text-[10px] uppercase muted">Liquid Reserves</p>
+          <p className="mt-1 font-serif text-xl font-medium text-ink-900 dark:text-ink-100">
+            {money(liquid_reserves)}
+          </p>
+          <p className="mt-0.5 text-[10px] muted">Available cash & bank accounts</p>
+        </div>
+
+        <div className="rounded-lg border border-ink-200/80 bg-ink-50/60 p-3.5 dark:border-[#282825] dark:bg-[#141413]">
+          <p className="font-mono text-[10px] uppercase muted">Survival Monthly Burn</p>
+          <p className="mt-1 font-serif text-xl font-medium text-ink-900 dark:text-ink-100">
+            {money(total_survival_burn)}/mo
+          </p>
+          <p className="mt-0.5 text-[10px] muted">Essentials + required loan EMIs</p>
+        </div>
+
+        <div className="col-span-2 sm:col-span-1 rounded-lg border-2 border-pos/50 bg-pos/5 p-3.5">
+          <p className="font-mono text-[10px] uppercase font-semibold text-pos">Current Survival Runway</p>
+          <p className="mt-1 font-serif text-2xl font-bold text-pos">
+            {barebones_survival?.runway_months ?? 0} months
+          </p>
+          <p className="mt-0.5 text-[10px] muted">Months before reserve depletion</p>
+        </div>
+      </div>
+
+      {/* Stress-Test Scenarios */}
+      <div className="mt-5">
+        <p className="font-mono text-[11px] uppercase tracking-wider muted mb-3">
+          Stress-Test Scenarios
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 text-xs">
+          {[barebones_survival, lifestyle_maintenance, inflation_shock_20pct, emergency_medical_shock]
+            .filter(Boolean)
+            .map((s, idx) => (
+              <div
+                key={idx}
+                className="rounded-md border border-ink-200/80 bg-white p-3 dark:border-[#282825] dark:bg-[#161614]"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-ink-900 dark:text-ink-100 truncate">
+                    {s.title}
+                  </span>
+                  <span className="font-mono font-medium text-ink-900 dark:text-ink-100">
+                    {s.runway_months}m
+                  </span>
+                </div>
+                <p className="mt-1 font-mono text-[10px] text-ink-600 dark:text-ink-400">
+                  {money(s.monthly_burn)}/mo
+                </p>
+                <p className="mt-1 text-[11px] muted leading-normal">{s.description}</p>
+              </div>
+            ))}
+        </div>
       </div>
     </Card>
   )

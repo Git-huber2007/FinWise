@@ -104,6 +104,12 @@ class User(Base, UserMixin):
     subscriptions: Mapped[list["Subscription"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
+    assets: Mapped[list["Asset"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
+    debts: Mapped[list["Debt"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
     preferences: Mapped["UserPreference | None"] = relationship(
         back_populates="user", cascade="all, delete-orphan", uselist=False
     )
@@ -370,6 +376,89 @@ class Subscription(Base):
             "notes": self.notes,
             "monthly_cost": self.monthly_cost,
             "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
+
+
+class Asset(Base):
+    __tablename__ = "assets"
+    __table_args__ = (
+        CheckConstraint("balance >= 0", name="ck_asset_balance_nonneg"),
+        Index("ix_asset_user_type", "user_id", "asset_type"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    # cash, bank, investment, retirement, gold, property, other
+    asset_type: Mapped[str] = mapped_column(String(40), nullable=False, default="bank")
+    balance: Mapped[Decimal] = mapped_column(Money, nullable=False, default=Decimal("0"))
+    institution: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, default=_now, onupdate=_now
+    )
+
+    user: Mapped["User"] = relationship(back_populates="assets")
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "asset_type": self.asset_type,
+            "balance": _f(self.balance),
+            "institution": self.institution,
+            "notes": self.notes,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+
+
+class Debt(Base):
+    __tablename__ = "debts"
+    __table_args__ = (
+        CheckConstraint("current_balance >= 0", name="ck_debt_balance_nonneg"),
+        CheckConstraint("interest_rate >= 0", name="ck_debt_rate_nonneg"),
+        Index("ix_debt_user_type", "user_id", "debt_type"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    # credit_card, home_loan, personal_loan, auto_loan, education_loan, other
+    debt_type: Mapped[str] = mapped_column(String(40), nullable=False, default="credit_card")
+    principal_amount: Mapped[Decimal] = mapped_column(Money, nullable=False)
+    current_balance: Mapped[Decimal] = mapped_column(Money, nullable=False)
+    interest_rate: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    minimum_payment: Mapped[Decimal] = mapped_column(Money, nullable=False)
+    due_day: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    institution: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, default=_now, onupdate=_now
+    )
+
+    user: Mapped["User"] = relationship(back_populates="debts")
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "debt_type": self.debt_type,
+            "principal_amount": _f(self.principal_amount),
+            "current_balance": _f(self.current_balance),
+            "interest_rate": float(self.interest_rate or 0),
+            "minimum_payment": _f(self.minimum_payment),
+            "due_day": self.due_day,
+            "institution": self.institution,
+            "notes": self.notes,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
 
 

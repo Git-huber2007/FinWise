@@ -1,8 +1,9 @@
-import { Pencil, Plus, Receipt, Search, Trash2, X } from 'lucide-react'
+import { Pencil, Plus, Receipt, Search, Trash2, Upload, X } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 import { api, qs } from '../api'
 import AnomalyAlerts from '../components/AnomalyAlerts'
+import CsvImporterModal from '../components/CsvImporterModal'
 import TransactionForm from '../components/TransactionForm'
 import {
   Badge,
@@ -34,6 +35,7 @@ export default function Transactions() {
   const [error, setError] = useState(null)
 
   const [adding, setAdding] = useState(false)
+  const [importing, setImporting] = useState(false)
   const [editing, setEditing] = useState(null)
   const [deleting, setDeleting] = useState(null)
 
@@ -93,10 +95,16 @@ export default function Transactions() {
         title="Transaction Ledger"
         subtitle="Chronological record of all inflows and outflows"
         action={
-          <Button size="lg" onClick={() => setAdding(true)}>
-            <Plus size={14} />
-            Record entry
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="secondary" size="lg" onClick={() => setImporting(true)}>
+              <Upload size={14} />
+              Import statement
+            </Button>
+            <Button size="lg" onClick={() => setAdding(true)}>
+              <Plus size={14} />
+              Record entry
+            </Button>
+          </div>
         }
       />
 
@@ -220,6 +228,12 @@ export default function Transactions() {
           Displaying {data.transactions.length} of {data.total} entries. Narrow filters to inspect earlier records.
         </p>
       )}
+
+      <CsvImporterModal
+        open={importing}
+        onClose={() => setImporting(false)}
+        onImported={() => afterWrite()}
+      />
 
       <Modal open={adding} onClose={() => setAdding(false)} title="Record ledger entry">
         <TransactionForm

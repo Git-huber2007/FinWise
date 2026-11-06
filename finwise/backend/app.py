@@ -118,7 +118,7 @@ def create_app(config_object=Config) -> Flask:
     return app
 
 
-ROUTE_MODULES = ["auth", "transactions", "dashboard", "budgets", "goals", "subscriptions", "ai", "reports"]
+ROUTE_MODULES = ["auth", "transactions", "dashboard", "budgets", "goals", "subscriptions", "net_worth", "debt", "tax", "importer", "ai", "reports"]
 
 
 def _register_blueprints(app: Flask) -> tuple[list[str], dict[str, str]]:

@@ -20,7 +20,7 @@ from decimal import Decimal
 from sqlalchemy import select
 
 from app import create_app
-from models import Budget, SavingsGoal, Subscription, Transaction, User, UserPreference, db
+from models import Asset, Budget, Debt, SavingsGoal, Subscription, Transaction, User, UserPreference, db
 
 DEMO_EMAIL = "demo@finwise.ai"
 DEMO_PASSWORD = "demo1234"
@@ -223,6 +223,28 @@ def seed(reset: bool = False) -> None:
                 status="active",
             )
             for name, amt, cat, cycle, offset, pm in sample_subs
+        ])
+
+        sample_assets = [
+            ("HDFC Salary Account", Decimal("62000.00"), "bank", "HDFC Bank"),
+            ("Zerodha Index Fund (Nifty 50)", Decimal("185000.00"), "investment", "Zerodha Coin"),
+            ("Employee Provident Fund (EPF)", Decimal("140000.00"), "retirement", "EPFO"),
+            ("Sovereign Gold Bonds", Decimal("48000.00"), "gold", "RBI / Zerodha"),
+            ("Cash in Wallet", Decimal("4500.00"), "cash", None),
+        ]
+        db.session.add_all([
+            Asset(user_id=user.id, name=name, balance=bal, asset_type=atype, institution=inst)
+            for name, bal, atype, inst in sample_assets
+        ])
+
+        sample_debts = [
+            ("HDFC Regalia Credit Card", Decimal("14200.00"), Decimal("14200.00"), 36.0, Decimal("1500.00"), 18, "credit_card", "HDFC Bank"),
+            ("SBI Education Loan", Decimal("250000.00"), Decimal("92000.00"), 8.5, Decimal("4500.00"), 5, "education_loan", "State Bank of India"),
+        ]
+        db.session.add_all([
+            Debt(user_id=user.id, name=name, principal_amount=princ, current_balance=curr,
+                 interest_rate=rate, minimum_payment=min_p, due_day=due, debt_type=dtype, institution=inst)
+            for name, princ, curr, rate, min_p, due, dtype, inst in sample_debts
         ])
 
         db.session.commit()
