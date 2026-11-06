@@ -16,11 +16,11 @@
   }
 
   body {
-    @apply bg-[#F8FAFC] text-ink-900 font-sans antialiased min-h-dvh selection:bg-ink-900 selection:text-white;
+    @apply bg-[#F8FAFC] text-slate-900 font-sans antialiased min-h-dvh selection:bg-blue-600 selection:text-white;
   }
 
   .dark body {
-    @apply bg-[#07090E] text-ink-100 selection:bg-white selection:text-ink-900;
+    @apply bg-[#07090E] text-slate-100 selection:bg-blue-500 selection:text-white;
   }
 
   /* Strict tabular numerals for all financial figures and dates */
@@ -30,31 +30,28 @@
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-ink-900 ring-offset-2 ring-offset-[#F8FAFC];
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-[#F8FAFC];
   }
   .dark :focus-visible {
-    @apply ring-white ring-offset-[#07090E];
+    @apply ring-blue-400 ring-offset-[#07090E];
   }
 }
 
 @layer components {
-  /* High-end fintech ledger card with subtle elevation and hairline borders */
+  /* High-end fintech ledger card with depth, backdrop-blur, and hairline borders */
   .card {
-    @apply rounded-card bg-white border border-slate-200/90 shadow-card transition-all duration-150;
+    @apply relative rounded-card bg-white/95 dark:bg-[#0D121F]/90 backdrop-blur-md border border-slate-200/90 dark:border-slate-800/80 shadow-[0_1px_3px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.6)] dark:border-t-white/[0.08] transition-all duration-200;
   }
-  .dark .card {
-    @apply bg-[#0D121F] border-slate-800/80 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.5)] border-t-white/[0.08];
+  .card:hover {
+    @apply border-slate-300 dark:border-slate-700/80 shadow-pop -translate-y-[1px];
   }
 
   .card-hero {
-    @apply rounded-card bg-white border border-slate-200/90 shadow-card;
-  }
-  .dark .card-hero {
-    @apply bg-[#0D121F] border-slate-800/80 border-t-white/[0.12];
+    @apply relative overflow-hidden rounded-card bg-gradient-to-b from-white via-white to-slate-50/70 dark:bg-gradient-to-b dark:from-[#10172A] dark:to-[#0A0E1A] border border-slate-200/90 dark:border-slate-800/80 dark:border-t-blue-500/30 shadow-card dark:shadow-[0_8px_32px_-8px_rgba(59,130,246,0.18)];
   }
 
   .muted {
-    @apply text-ink-500 dark:text-ink-400 font-normal;
+    @apply text-slate-500 dark:text-slate-400 font-normal;
   }
 
   .display {

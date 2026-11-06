@@ -30,7 +30,7 @@ export function CardHeader({ title, subtitle, action }) {
 
 const BUTTON_VARIANTS = {
   primary:
-    'rounded-lg bg-slate-900 text-white hover:bg-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.15)] dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 font-medium active:scale-[0.98] disabled:opacity-50 transition-all',
+    'rounded-lg bg-gradient-to-b from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md shadow-blue-500/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] border border-blue-500/30 font-medium active:scale-[0.98] disabled:opacity-50 transition-all duration-150',
   secondary:
     'rounded-lg border border-slate-200 bg-white text-slate-800 hover:bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-200 dark:hover:bg-slate-800 active:scale-[0.98] transition-all',
   ghost:
@@ -78,11 +78,20 @@ const BADGE_TONES = {
     'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200/80 dark:border-blue-800/50',
 }
 
-export function Badge({ children, tone = 'neutral', className = '' }) {
+const BADGE_DOTS = {
+  neutral: 'bg-slate-400 dark:bg-slate-400',
+  positive: 'bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.7)]',
+  negative: 'bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.7)]',
+  warning: 'bg-amber-500 shadow-[0_0_6px_rgba(245,158,11,0.7)]',
+  brand: 'bg-blue-500 shadow-[0_0_6px_rgba(59,130,246,0.7)]',
+}
+
+export function Badge({ children, tone = 'neutral', dot = true, className = '' }) {
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-mono text-[11px] font-medium tracking-tight ${BADGE_TONES[tone]} ${className}`}
     >
+      {dot && <span className={`size-1.5 rounded-full shrink-0 ${BADGE_DOTS[tone] || BADGE_DOTS.neutral}`} />}
       {children}
     </span>
   )
@@ -97,22 +106,22 @@ export function ProgressBar({
 }) {
   const clamped = Math.max(0, Math.min(100, Number(value) || 0))
   const fills = {
-    brand: 'bg-ink-900 dark:bg-ink-100',
-    positive: 'bg-pos',
-    warning: 'bg-warn',
-    negative: 'bg-neg',
+    brand: 'bg-gradient-to-r from-blue-600 to-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.4)]',
+    positive: 'bg-gradient-to-r from-emerald-500 to-teal-400 shadow-[0_0_8px_rgba(16,185,129,0.4)]',
+    warning: 'bg-gradient-to-r from-amber-500 to-orange-400 shadow-[0_0_8px_rgba(245,158,11,0.4)]',
+    negative: 'bg-gradient-to-r from-rose-500 to-red-500 shadow-[0_0_8px_rgba(244,63,94,0.4)]',
   }
   return (
     <div className={className}>
       <div
-        className="h-1 w-full overflow-hidden rounded-sm bg-ink-100 dark:bg-[#222220]"
+        className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800/80"
         role="progressbar"
         aria-valuenow={Math.round(clamped)}
         aria-valuemin={0}
         aria-valuemax={100}
       >
         <div
-          className={`h-full transition-[width] duration-300 ${color ? '' : fills[tone]}`}
+          className={`h-full rounded-full transition-[width] duration-300 ${color ? '' : fills[tone]}`}
           style={{ width: `${clamped}%`, ...(color ? { background: color } : null) }}
         />
       </div>

@@ -11,7 +11,7 @@ const STORAGE_KEY = 'finwise.theme.v2'
 function initialTheme() {
   const saved = localStorage.getItem(STORAGE_KEY)
   if (saved === 'light' || saved === 'dark') return saved
-  return 'light'
+  return 'dark'
 }
 
 export function ThemeProvider({ children }) {

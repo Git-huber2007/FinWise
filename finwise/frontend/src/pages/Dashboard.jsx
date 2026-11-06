@@ -313,9 +313,9 @@ function LedgerPositionSheet({
   const elapsed = isCurrentMonth ? new Date().getDate() : daysInMonth
 
   return (
-    <section className="card overflow-hidden grid lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200/80 dark:divide-slate-800/80">
+    <section className="card-hero overflow-hidden grid lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200/80 dark:divide-slate-800/80">
       {/* Primary Net Position Cell */}
-      <div className="lg:col-span-5 p-5 sm:p-6 flex flex-col justify-between bg-slate-50/50 dark:bg-slate-900/30">
+      <div className="lg:col-span-5 p-5 sm:p-6 flex flex-col justify-between bg-gradient-to-br from-blue-50/40 via-slate-50/20 to-transparent dark:from-blue-950/25 dark:via-slate-900/30 dark:to-transparent relative overflow-hidden">
         <div>
           <div className="flex items-center justify-between gap-2">
             <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -340,12 +340,12 @@ function LedgerPositionSheet({
           </p>
         </div>
 
-        <div className="mt-4 pt-3 border-t border-ink-200/70 dark:border-[#222220] text-xs muted flex flex-wrap items-center justify-between gap-2">
+        <div className="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800/80 text-xs muted flex flex-wrap items-center justify-between gap-2">
           <span>
             {totals.income > 0 ? (
               <>
                 Retained{' '}
-                <strong className="font-mono font-medium text-ink-900 dark:text-ink-100 tnum">
+                <strong className="font-mono font-medium text-slate-900 dark:text-white tnum">
                   {pct(totals.savings_rate)}
                 </strong>{' '}
                 of inflows
@@ -363,24 +363,24 @@ function LedgerPositionSheet({
       </div>
 
       {/* 4 Secondary Ledger Cells in a Unified Hairline Grid */}
-      <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 divide-x divide-ink-200/90 dark:divide-[#242421]">
+      <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 divide-x divide-slate-200/80 dark:divide-slate-800/80">
         <div className="p-4 sm:p-5 flex flex-col justify-between">
           <div>
-            <p className="text-xs text-ink-500 dark:text-ink-400">Inflows</p>
-            <p className="mt-2 font-mono text-lg font-semibold text-ink-900 dark:text-ink-100 tnum">
+            <p className="text-xs text-slate-500 dark:text-slate-400">Inflows</p>
+            <p className="mt-2 font-mono text-lg font-semibold text-slate-900 dark:text-white tnum">
               {money(totals.income)}
             </p>
           </div>
           <p className="mt-4 flex items-center gap-1.5 text-[11px] muted">
-            <span className="size-1.5 rounded-full bg-pos" />
+            <span className="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
             Credited
           </p>
         </div>
 
         <div className="p-4 sm:p-5 flex flex-col justify-between">
           <div>
-            <p className="text-xs text-ink-500 dark:text-ink-400">Outflows</p>
-            <p className="mt-2 font-mono text-lg font-semibold text-ink-900 dark:text-ink-100 tnum">
+            <p className="text-xs text-slate-500 dark:text-slate-400">Outflows</p>
+            <p className="mt-2 font-mono text-lg font-semibold text-slate-900 dark:text-white tnum">
               {money(totals.expense)}
             </p>
           </div>
@@ -391,8 +391,8 @@ function LedgerPositionSheet({
 
         <div className="p-4 sm:p-5 flex flex-col justify-between">
           <div>
-            <p className="text-xs text-ink-500 dark:text-ink-400">Budget Pace</p>
-            <p className="mt-2 font-mono text-lg font-semibold text-ink-900 dark:text-ink-100 tnum">
+            <p className="text-xs text-slate-500 dark:text-slate-400">Budget Pace</p>
+            <p className="mt-2 font-mono text-lg font-semibold text-slate-900 dark:text-white tnum">
               {budget.used_pct !== null && budget.used_pct !== undefined
                 ? pct(budget.used_pct)
                 : '—'}
@@ -423,17 +423,17 @@ function LedgerPositionSheet({
 
         <Link
           to="/health"
-          className="p-4 sm:p-5 flex flex-col justify-between hover:bg-ink-50/80 dark:hover:bg-[#181816] transition-colors group"
+          className="p-4 sm:p-5 flex flex-col justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group"
         >
           <div>
             <div className="flex items-center justify-between">
-              <p className="text-xs text-ink-500 dark:text-ink-400">Health Index</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Health Index</p>
               <ArrowUpRight
                 size={13}
-                className="text-ink-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                className="text-slate-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
               />
             </div>
-            <p className="mt-2 font-mono text-lg font-semibold text-ink-900 dark:text-ink-100 tnum">
+            <p className="mt-2 font-mono text-lg font-semibold text-slate-900 dark:text-white tnum">
               {healthScore}
               <span className="ml-0.5 text-xs font-normal muted">/100</span>
             </p>

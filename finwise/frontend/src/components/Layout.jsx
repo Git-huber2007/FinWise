@@ -82,7 +82,7 @@ function NavItems({ onNavigate }) {
                   className={({ isActive }) =>
                     `flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition-all ${
                       isActive
-                        ? 'bg-slate-900 text-white shadow-sm dark:bg-white dark:text-slate-900'
+                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]'
                         : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white'
                     }`
                   }
@@ -118,6 +118,18 @@ function SidebarFooter() {
 
   return (
     <div className="border-t border-slate-200/80 p-3.5 dark:border-slate-800/80">
+      {/* Live System Telemetry Status Indicator */}
+      <div className="mb-3 flex items-center justify-between rounded-lg bg-slate-100/70 px-2.5 py-1.5 dark:bg-slate-900/80 border border-slate-200/60 dark:border-slate-800/60">
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
+          </span>
+          <span className="font-mono text-[10.5px] font-medium text-slate-600 dark:text-slate-300">Offline Engine</span>
+        </div>
+        <span className="font-mono text-[9px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">READY</span>
+      </div>
+
       <div className="flex items-center justify-between gap-2 px-1 py-0.5">
         <div className="flex min-w-0 items-center gap-2.5">
           <div className="grid size-7 shrink-0 place-items-center rounded-full bg-slate-100 font-mono text-[11px] font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
@@ -160,9 +172,10 @@ export default function Layout() {
 
   return (
     <div className="relative min-h-dvh lg:flex">
-      {/* Ambient background glow for high-end dark mode depth */}
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden dark:block hidden">
-        <div className="absolute -top-[30%] left-1/2 -translate-x-1/2 w-[900px] h-[550px] rounded-full bg-gradient-to-b from-blue-600/10 via-indigo-600/5 to-transparent blur-3xl" />
+      {/* Ambient background atmosphere & lighting for depth */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute -top-[25%] left-1/2 -translate-x-1/2 w-[1100px] h-[550px] rounded-full bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent blur-3xl dark:from-blue-600/20 dark:via-indigo-600/10 dark:to-transparent" />
+        <div className="absolute -bottom-[20%] right-[10%] w-[600px] h-[500px] rounded-full bg-gradient-to-t from-emerald-500/5 via-teal-500/5 to-transparent blur-3xl dark:from-emerald-500/10 dark:to-transparent" />
       </div>
 
       {/* Modern Desktop Sidebar */}
