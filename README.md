@@ -3,11 +3,11 @@
 </p>
 
 <p align="center">
-  <a href="finwise/backend/tests/"><img src="https://img.shields.io/badge/VERIFICATION%20SUITE-281%20OF%20281%20PASSED-00E599?style=for-the-badge&logo=pytest&logoColor=white&labelColor=161B22" alt="Verification Suite"></a>
-  <img src="https://img.shields.io/badge/ACCOUNTING%20STANDARD-DOUBLE--ENTRY%20ACCRUAL-00B4D8?style=for-the-badge&labelColor=161B22" alt="Accounting Standard">
+  <a href="finwise/backend/tests/"><img src="https://img.shields.io/badge/VERIFICATION%20SUITE-281%20OF%20281%20PASSED-D97706?style=for-the-badge&logo=pytest&logoColor=white&labelColor=171923" alt="Verification Suite"></a>
+  <img src="https://img.shields.io/badge/FINANCIAL%20ENGINE-DOUBLE--ENTRY%20ACCRUAL-4F46E5?style=for-the-badge&labelColor=171923" alt="Accounting Standard">
   <br>
-  <img src="https://img.shields.io/badge/INTEGRITY-ZERO%20CLOUD%20LEAKS-7952DE?style=for-the-badge&labelColor=161B22" alt="Integrity">
-  <img src="https://img.shields.io/badge/STACK-PYTHON%20%7C%20REACT%20%7C%20POSTGRES-21262D?style=for-the-badge&logo=python&logoColor=white&labelColor=161B22" alt="Stack">
+  <img src="https://img.shields.io/badge/PRIVACY%20INTEGRITY-ZERO%20CLOUD%20LEAKS-E11D48?style=for-the-badge&labelColor=171923" alt="Integrity">
+  <img src="https://img.shields.io/badge/RUNTIME%20STACK-PYTHON%20%7C%20REACT%20%7C%20POSTGRES-334155?style=for-the-badge&logo=python&logoColor=white&labelColor=171923" alt="Stack">
 </p>
 
 <p align="center">
