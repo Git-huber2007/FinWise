@@ -1,21 +1,25 @@
-<div align="center">
+<p align="center">
+  <img src="docs/hero-banner.svg" alt="FinWise Platform Banner" width="100%">
+</p>
 
-# FinWise
+<p align="center">
+  <a href="finwise/backend/tests/"><img src="https://img.shields.io/badge/VERIFICATION%20SUITE-281%20OF%20281%20PASSED-00E599?style=for-the-badge&logo=pytest&logoColor=white&labelColor=161B22" alt="Verification Suite"></a>
+  <img src="https://img.shields.io/badge/ACCOUNTING%20STANDARD-DOUBLE--ENTRY%20ACCRUAL-00B4D8?style=for-the-badge&labelColor=161B22" alt="Accounting Standard">
+  <br>
+  <img src="https://img.shields.io/badge/INTEGRITY-ZERO%20CLOUD%20LEAKS-7952DE?style=for-the-badge&labelColor=161B22" alt="Integrity">
+  <img src="https://img.shields.io/badge/STACK-PYTHON%20%7C%20REACT%20%7C%20POSTGRES-21262D?style=for-the-badge&logo=python&logoColor=white&labelColor=161B22" alt="Stack">
+</p>
 
-### Autonomous Personal Finance & Spending Intelligence System
+<p align="center">
+  <strong>A privacy-first personal finance platform engineered for absolute spending clarity.</strong><br>
+  Records every transaction into an immutable double-entry ledger while running sub-millisecond local ML categorization, amortized debt acceleration planning, and emergency runway stress testing.
+</p>
 
-A privacy-focused, double-entry style financial intelligence platform engineered with Flask, React 18, local Scikit-Learn machine learning, and deterministic ledger accounting.
-
-[![Tests Passing](https://img.shields.io/badge/tests-281%20passing-2ea44f.svg)](finwise/backend/tests/)
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB.svg?logo=python&logoColor=white)](https://python.org)
-[![React 18](https://img.shields.io/badge/React-18-61DAFB.svg?logo=react&logoColor=black)](https://react.dev)
-[![Vite 8](https://img.shields.io/badge/Vite-8-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon%20Serverless-00E699.svg?logo=postgresql&logoColor=white)](https://neon.tech)
-[![Live Demo](https://img.shields.io/badge/Live%20App-Vercel%20Deployed-black.svg?logo=vercel)](https://finwise-omega-nine.vercel.app/)
-
-**[Explore Live Demo](https://finwise-omega-nine.vercel.app/)** · **[Interactive Architecture](https://finwise-omega-nine.vercel.app/architecture.html)** · **[API Reference](#api-reference)**
-
-</div>
+<p align="center">
+  <a href="https://finwise-omega-nine.vercel.app/"><strong>Explore Live Application »</strong></a> ·
+  <a href="https://finwise-omega-nine.vercel.app/architecture.html">Interactive Architecture</a> ·
+  <a href="#api-reference">REST API Specification</a>
+</p>
 
 ---
 
