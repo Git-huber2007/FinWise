@@ -38,8 +38,8 @@ export default function Register() {
 
   return (
     <AuthShell
-      title="Open a personal ledger"
-      subtitle="Record inflows, outflows, and allocations with audit-grade precision."
+      title="Create your ledger"
+      subtitle="Start tracking your net worth, cash flow, and tax estimates"
       footer={
         <>
           Already maintain a ledger?{' '}
@@ -111,9 +111,12 @@ export default function Register() {
         </Field>
 
         {error && !error.field && (
-          <p role="alert" className="rounded-md border border-neg/25 bg-neg/[0.06] px-3 py-2 text-xs text-neg">
+          <div
+            role="alert"
+            className="rounded-lg border border-rose-200 bg-rose-50/80 p-2.5 text-xs text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-400"
+          >
             {error.message}
-          </p>
+          </div>
         )}
 
         <Button type="submit" loading={busy} className="w-full" size="lg">
