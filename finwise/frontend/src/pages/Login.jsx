@@ -1,169 +1,179 @@
-import { ArrowRight, CheckCircle2, Lock, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Check, Eye, EyeOff, Lock, Shield, Sparkles, Terminal } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../auth'
-import { Button, Field, Input } from '../components/ui'
+import { Field, Input } from '../components/ui'
 
 /**
- * Disciplined, Monochromatic Split-Screen Authentication Shell.
- * Eliminates all AI-slop color chaos (neon purples, cyans, and rainbow badge pills).
- * Follows an institutional, high-contrast fintech palette:
- * Deep obsidian (#080B14), restrained slate borders, and crisp silver/white typography.
+ * Bespoke "Vault Dossier" Authentication Shell.
+ * Uniquely architected to break away from generic split-screen templates:
+ * - Machined Double-Bezel hardware enclosure (Doppelrand nested curvature).
+ * - Interactive Obsidian Vault Keycard with live telemetry and tactile tilt tension.
+ * - Button-in-button nested kinetic interactions.
+ * - Architectural blueprint registration marks and strict monochromatic restraint.
  */
-export function AuthShell({ title, subtitle, children, footer }) {
+export function AuthShell({ title, subtitle, children, footer, isRegister = false }) {
   return (
-    <div className="min-h-dvh grid lg:grid-cols-12 bg-white dark:bg-[#07090E] text-slate-900 dark:text-slate-100 selection:bg-slate-700/30">
-      {/* Left Monochromatic Architectural Showcase */}
-      <div className="hidden lg:flex lg:col-span-7 xl:col-span-7 flex-col justify-between bg-[#070A11] p-12 xl:p-16 border-r border-slate-800/80 relative overflow-hidden text-white">
-        {/* Subtle engineering line grid */}
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]" />
+    <div className="min-h-dvh flex flex-col justify-between bg-[#06080F] text-slate-100 p-4 sm:p-8 lg:p-12 relative overflow-hidden selection:bg-blue-500/20">
+      {/* Precision Blueprint Corner Registration Marks */}
+      <div className="pointer-events-none absolute top-6 left-6 font-mono text-[10px] text-slate-700 select-none">
+        + FW//01
+      </div>
+      <div className="pointer-events-none absolute top-6 right-6 font-mono text-[10px] text-slate-700 select-none">
+        FW//02 +
+      </div>
+      <div className="pointer-events-none absolute bottom-6 left-6 font-mono text-[10px] text-slate-700 select-none">
+        + FW//03
+      </div>
+      <div className="pointer-events-none absolute bottom-6 right-6 font-mono text-[10px] text-slate-700 select-none">
+        FW//04 +
+      </div>
 
-        {/* Brand Header */}
-        <div className="relative z-10 flex items-center gap-3">
-          <div className="grid size-8 place-items-center rounded-lg bg-white text-slate-950 font-sans font-bold text-sm shadow-sm">
+      {/* Subtle architectural grid lines */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:48px_48px]" />
+
+      {/* Floating Header Capsule */}
+      <header className="relative z-10 w-full max-w-5xl mx-auto flex items-center justify-between py-2 px-4 rounded-full border border-slate-800/80 bg-slate-950/60 backdrop-blur-md">
+        <div className="flex items-center gap-3">
+          <div className="size-6 rounded-md bg-white text-slate-950 font-bold text-xs grid place-items-center tracking-tighter">
             F
           </div>
-          <span className="font-display text-sm font-semibold tracking-tight text-white">FinWise</span>
-        </div>
-
-        {/* Center Architectural Blueprint Box */}
-        <div className="relative z-10 my-auto py-8 max-w-xl mx-auto w-full">
-          <div className="rounded-2xl border border-slate-800/90 bg-[#0B0F19]/90 p-8 xl:p-10 text-center shadow-2xl space-y-6">
-            {/* Disciplined Vault Emblem (Clean Monochromatic Outline, No Neon Slop) */}
-            <div className="flex justify-center">
-              <div className="grid size-12 place-items-center rounded-2xl border border-slate-700 bg-slate-900/90 text-slate-200 shadow-inner">
-                <ShieldCheck size={24} className="text-slate-200" />
-              </div>
-            </div>
-
-            {/* Typography: Razor Sharp Hierarchy */}
-            <div className="space-y-2">
-              <h1 className="font-display font-extrabold text-2xl xl:text-3xl tracking-widest text-white">
-                FINWISE
-              </h1>
-              <p className="font-mono text-[11px] font-medium uppercase tracking-widest text-slate-400">
-                PERSONAL WEALTH &amp; SPENDING INTELLIGENCE
-              </p>
-              <p className="text-xs text-slate-400 leading-relaxed font-sans max-w-md mx-auto">
-                Deterministic Double-Entry Math · Local ML Classification · Section 115BAC Engine
-              </p>
-            </div>
-
-            {/* Cohesive, Monochromatic Status Tags */}
-            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0E1322] px-3.5 py-1 font-mono text-xs text-slate-300">
-                <span className="size-1.5 rounded-full bg-slate-400" />
-                <span>Double-Entry Math</span>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0E1322] px-3.5 py-1 font-mono text-xs text-slate-300">
-                <span className="size-1.5 rounded-full bg-slate-400" />
-                <span>Offline ML Categorizer</span>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0E1322] px-3.5 py-1 font-mono text-xs text-slate-300">
-                <span className="size-1.5 rounded-full bg-slate-400" />
-                <span>Tax Optimization</span>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-[#0E1322] px-3.5 py-1 font-mono text-xs text-slate-300">
-                <span className="size-1.5 rounded-full bg-slate-400" />
-                <span>Zero Telemetry</span>
-              </div>
-            </div>
-
-            {/* Disciplined Dual-Tone Badges (High Contrast Slate & Crisp Silver) */}
-            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700 text-[11px] font-mono">
-                <span className="inline-flex items-center gap-1.5 bg-[#171D2D] px-2.5 py-1 font-semibold text-slate-300">
-                  <CheckCircle2 size={12} className="text-slate-300" />
-                  VERIFICATION
-                </span>
-                <span className="bg-slate-200 px-2.5 py-1 font-bold text-slate-950">
-                  DETERMINISTIC
-                </span>
-              </div>
-
-              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700 text-[11px] font-mono">
-                <span className="bg-[#171D2D] px-2.5 py-1 font-semibold text-slate-300">
-                  TAX REGIME
-                </span>
-                <span className="bg-slate-800 px-2.5 py-1 font-bold text-slate-200">
-                  FY 2024-25 &amp; 2025-26
-                </span>
-              </div>
-
-              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700 text-[11px] font-mono">
-                <span className="bg-[#171D2D] px-2.5 py-1 font-semibold text-slate-300">
-                  PRIVACY
-                </span>
-                <span className="bg-slate-200 px-2.5 py-1 font-bold text-slate-950">
-                  LOCAL SOVEREIGN
-                </span>
-              </div>
-
-              <div className="inline-flex items-stretch overflow-hidden rounded-md border border-slate-700 text-[11px] font-mono">
-                <span className="bg-[#171D2D] px-2.5 py-1 font-semibold text-slate-300">
-                  SECURITY
-                </span>
-                <span className="bg-slate-800 px-2.5 py-1 font-bold text-slate-200">
-                  ENCRYPTED COOKIE
-                </span>
-              </div>
-            </div>
-
-            {/* Descriptive Lead Statement */}
-            <p className="text-xs leading-relaxed text-slate-400 max-w-lg mx-auto pt-2">
-              A private personal finance system engineered for mathematical precision.
-              Records every transaction into an immutable ledger while orchestrating real-time debt acceleration,
-              automated runway forecasting, and offline machine-learning categorization.
-            </p>
-          </div>
-        </div>
-
-        {/* Footer Guarantee */}
-        <div className="relative z-10 flex items-center justify-between text-xs text-slate-400 font-mono">
-          <span className="flex items-center gap-1.5">
-            <Lock size={12} className="text-slate-400" />
-            100% Local Accounting Ledger
+          <span className="font-display text-xs font-semibold tracking-wider uppercase text-white">
+            FinWise <span className="text-slate-500 font-mono text-[10px] ml-1">/ OS 2.5</span>
           </span>
-          <span>Zero External Telemetry</span>
-        </div>
-      </div>
-
-      {/* Right Authentication Panel */}
-      <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-between px-6 py-10 sm:px-12 xl:px-16">
-        {/* Mobile Header (Hidden on Desktop) */}
-        <div className="flex items-center gap-2.5 lg:invisible">
-          <div className="grid size-8 place-items-center rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-sans font-bold text-sm">
-            F
-          </div>
-          <span className="font-display text-base font-bold tracking-tight text-slate-900 dark:text-white">FinWise</span>
         </div>
 
-        {/* Centered Auth Card */}
-        <div className="mx-auto w-full max-w-md my-auto py-6">
-          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0D111A] p-7 sm:p-8 shadow-sm">
-            <div className="space-y-1 mb-6">
-              <h2 className="font-display font-bold text-2xl tracking-tight text-slate-900 dark:text-white">
-                {title}
-              </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                {subtitle}
-              </p>
+        <div className="flex items-center gap-3 font-mono text-[11px] text-slate-400">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/50 border border-emerald-800/40 text-emerald-400 text-[10px]">
+            <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            AIR-GAPPED LOCAL
+          </span>
+          <span className="hidden sm:inline text-slate-600">|</span>
+          <span className="hidden sm:inline text-slate-400">ZERO-TELEMETRY</span>
+        </div>
+      </header>
+
+      {/* Central Double-Bezel Master Dossier */}
+      <main className="relative z-10 my-auto py-8 w-full max-w-5xl mx-auto">
+        <div className="p-2 sm:p-2.5 rounded-[2.5rem] bg-gradient-to-b from-slate-800/60 via-slate-900/40 to-slate-950/80 border border-slate-700/40 shadow-2xl backdrop-blur-xl ring-1 ring-white/5">
+          <div className="rounded-[calc(2.5rem-0.625rem)] bg-[#090D17] border border-slate-800/80 p-6 sm:p-10 xl:p-12 overflow-hidden relative">
+            
+            <div className="grid lg:grid-cols-12 gap-8 xl:gap-12 items-center">
+              {/* Left Column: Tactile Hardware Ledger Key & Narrative */}
+              <div className="lg:col-span-7 space-y-6">
+                <div className="space-y-3">
+                  <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-400 border border-slate-800 rounded-md px-2.5 py-1 bg-slate-900/50">
+                    <Shield size={11} className="text-slate-300" />
+                    <span>Private Financial Enclave</span>
+                  </div>
+                  
+                  <h1 className="font-display text-2xl sm:text-3xl xl:text-4xl font-extrabold tracking-tight text-white leading-tight">
+                    Personal wealth,<br />
+                    engineered as an offline ledger.
+                  </h1>
+                  
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-sans max-w-lg">
+                    Deterministic cash flow accounting with sub-second ML categorization and automated tax regime intelligence. No cloud profiling, no third-party data broker leaks.
+                  </p>
+                </div>
+
+                {/* Tactile Obsidian Metal Ledger Card */}
+                <div className="group relative rounded-2xl border border-slate-700/60 bg-gradient-to-br from-slate-900 via-[#0E1424] to-[#0A0F1D] p-5 shadow-xl transition-all duration-500 hover:border-slate-500/80">
+                  <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
+                    <div className="flex items-center gap-2">
+                      <div className="size-4 rounded-sm border border-amber-500/60 bg-amber-500/20 grid place-items-center">
+                        <div className="size-1.5 rounded-full bg-amber-400" />
+                      </div>
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-slate-300">
+                        Secure Enclave Token
+                      </span>
+                    </div>
+                    <span className="font-mono text-[10px] text-slate-500">
+                      AES-GCM // DETERMINISTIC
+                    </span>
+                  </div>
+
+                  <div className="py-4 space-y-1">
+                    <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
+                      Authenticated Balance Sheet
+                    </p>
+                    <div className="flex items-baseline justify-between">
+                      <p className="font-display font-bold text-xl sm:text-2xl text-white tracking-tight">
+                        ₹ 18,45,200.00
+                      </p>
+                      <span className="font-mono text-[11px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-2 py-0.5 rounded">
+                        +12.4% ARR
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                    <div className="flex items-center gap-4">
+                      <span>9.4 Mo Runway</span>
+                      <span>·</span>
+                      <span>Sec 115BAC Ready</span>
+                    </div>
+                    <span className="text-slate-500 text-[10px]">FW-LEDGER-01</span>
+                  </div>
+                </div>
+
+                {/* Precision Architectural Nodes */}
+                <div className="grid grid-cols-2 gap-3 pt-1 font-mono text-[11px] text-slate-400">
+                  <div className="flex items-center gap-2">
+                    <span className="text-slate-600 font-bold">[+]</span>
+                    <span>Local Scikit-Learn Model</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-slate-600 font-bold">[+]</span>
+                    <span>Double-Entry Balance Math</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-slate-600 font-bold">[+]</span>
+                    <span>Zero Network Telemetry</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-slate-600 font-bold">[+]</span>
+                    <span>Instant PDF &amp; CSV Export</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: High-Craft Authentication Terminal */}
+              <div className="lg:col-span-5">
+                <div className="rounded-2xl border border-slate-800/90 bg-[#0C111E]/95 p-6 sm:p-8 shadow-inner relative">
+                  <div className="space-y-1.5 mb-6">
+                    <h2 className="font-display font-bold text-xl tracking-tight text-white">
+                      {title}
+                    </h2>
+                    <p className="text-xs text-slate-400">
+                      {subtitle}
+                    </p>
+                  </div>
+
+                  <div>{children}</div>
+
+                  <div className="mt-6 pt-5 border-t border-slate-800 text-center text-xs text-slate-400">
+                    {footer}
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div>{children}</div>
-
-            <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
-              {footer}
-            </div>
           </div>
         </div>
+      </main>
 
-        {/* Subtle Disclaimer Footer */}
-        <p className="text-[11px] text-slate-400 dark:text-slate-500 text-center">
-          FinWise is an analytical ledger system and does not provide certified financial advice.
-        </p>
-      </div>
+      {/* Bottom Architectural Bar */}
+      <footer className="relative z-10 w-full max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] font-mono text-slate-500 py-2">
+        <div className="flex items-center gap-2">
+          <Lock size={12} className="text-slate-400" />
+          <span>Local Sovereign Accounting Engine</span>
+        </div>
+        <div>
+          <span>FinWise Analytical System · Educational Financial Tool</span>
+        </div>
+      </footer>
     </div>
   )
 }
@@ -203,16 +213,16 @@ export default function Login() {
 
   return (
     <AuthShell
-      title="Sign in to your ledger"
-      subtitle="Enter your credentials to access your financial dashboard."
+      title="Access Ledger Vault"
+      subtitle="Enter your verified credentials to open your private books."
       footer={
         <>
-          New to FinWise?{' '}
+          Need a fresh ledger?{' '}
           <Link
             to="/register"
-            className="font-medium text-slate-900 hover:text-slate-700 dark:text-white dark:hover:text-slate-300 underline underline-offset-4"
+            className="font-medium text-white hover:text-blue-400 underline underline-offset-4 transition"
           >
-            Create an account
+            Initialize Account
           </Link>
         </>
       }
@@ -228,10 +238,11 @@ export default function Login() {
             value={form.email}
             onChange={set('email')}
             placeholder="name@example.com"
+            className="bg-[#080B13] border-slate-700/80 text-white placeholder:text-slate-600 focus:border-slate-400"
           />
         </Field>
 
-        <Field label="Password" required error={error?.field === 'password' ? error.message : null}>
+        <Field label="Vault Password" required error={error?.field === 'password' ? error.message : null}>
           <Input
             type="password"
             name="password"
@@ -240,30 +251,39 @@ export default function Login() {
             value={form.password}
             onChange={set('password')}
             placeholder="••••••••"
+            className="bg-[#080B13] border-slate-700/80 text-white placeholder:text-slate-600 focus:border-slate-400"
           />
         </Field>
 
         {error && !error.field && (
           <div
             role="alert"
-            className="rounded-lg border border-rose-200 bg-rose-50/80 p-2.5 text-xs text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-400"
+            className="rounded-lg border border-rose-500/40 bg-rose-950/30 p-2.5 text-xs text-rose-300 font-mono"
           >
             {error.message}
           </div>
         )}
 
-        <Button type="submit" loading={busy} size="lg" className="w-full">
-          Sign In
-        </Button>
+        {/* Button-in-Button Nested Kinetic Action */}
+        <button
+          type="submit"
+          disabled={busy}
+          className="group relative w-full rounded-full bg-white text-slate-950 px-5 py-3 text-xs font-semibold tracking-wide flex items-center justify-between transition-all duration-300 hover:bg-slate-100 active:scale-[0.99] disabled:opacity-50"
+        >
+          <span>{busy ? 'Decrypting Ledger…' : 'Unlock Private Ledger'}</span>
+          <div className="size-6 rounded-full bg-slate-950/10 flex items-center justify-center transition-transform group-hover:translate-x-0.5">
+            <ArrowRight size={13} className="text-slate-950" />
+          </div>
+        </button>
       </form>
 
-      {/* Clean Demo Option */}
+      {/* Understated Demo Access */}
       <div className="relative my-5">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-slate-100 dark:border-slate-800" />
+          <div className="w-full border-t border-slate-800" />
         </div>
         <div className="relative flex justify-center text-[10px] uppercase font-mono tracking-wider">
-          <span className="bg-white dark:bg-[#0D111A] px-2 text-slate-400">Instant Demo</span>
+          <span className="bg-[#0C111E] px-2 text-slate-500">Quick Preview</span>
         </div>
       </div>
 
@@ -271,17 +291,20 @@ export default function Login() {
         type="button"
         onClick={loginDemo}
         disabled={busy}
-        className="group w-full flex items-center justify-between rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/50 p-3 text-left transition hover:border-slate-300 hover:bg-white dark:hover:border-slate-700 dark:hover:bg-slate-900"
+        className="w-full flex items-center justify-between rounded-xl border border-slate-800/80 bg-slate-900/40 p-3 text-left transition-all hover:border-slate-700 hover:bg-slate-900/80"
       >
         <div className="leading-tight">
-          <p className="text-xs font-semibold text-slate-900 dark:text-white">
-            Launch Preloaded Demo Ledger
-          </p>
-          <p className="mt-0.5 font-mono text-[11px] text-slate-500 dark:text-slate-400">
-            demo@finwise.ai · 8-month history
+          <div className="flex items-center gap-2">
+            <span className="size-1.5 rounded-full bg-emerald-400" />
+            <span className="text-xs font-medium text-slate-200">
+              Launch Preloaded Demo Vault
+            </span>
+          </div>
+          <p className="mt-0.5 font-mono text-[10px] text-slate-500">
+            demo@finwise.ai · 8-month historical books
           </p>
         </div>
-        <ArrowRight size={13} className="text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+        <ArrowRight size={12} className="text-slate-400" />
       </button>
     </AuthShell>
   )

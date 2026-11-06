@@ -1,8 +1,9 @@
+import { ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../auth'
-import { Button, Field, Input } from '../components/ui'
+import { Field, Input } from '../components/ui'
 import { AuthShell } from './Login'
 
 export default function Register() {
@@ -38,16 +39,17 @@ export default function Register() {
 
   return (
     <AuthShell
-      title="Create your ledger"
-      subtitle="Start tracking your net worth, cash flow, and tax estimates"
+      title="Initialize New Ledger"
+      subtitle="Establish a private, zero-telemetry personal balance sheet."
+      isRegister={true}
       footer={
         <>
-          Already maintain a ledger?{' '}
+          Already hold a private ledger?{' '}
           <Link
             to="/login"
-            className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-4"
+            className="font-medium text-white hover:text-blue-400 underline underline-offset-4 transition"
           >
-            Sign in
+            Access Vault
           </Link>
         </>
       }
@@ -62,10 +64,11 @@ export default function Register() {
             value={form.name}
             onChange={set('name')}
             placeholder="Asha Rao"
+            className="bg-[#080B13] border-slate-700/80 text-white placeholder:text-slate-600 focus:border-slate-400"
           />
         </Field>
 
-        <Field label="Email" required error={fieldError('email')}>
+        <Field label="Email address" required error={fieldError('email')}>
           <Input
             type="email"
             name="email"
@@ -74,11 +77,12 @@ export default function Register() {
             value={form.email}
             onChange={set('email')}
             placeholder="you@example.com"
+            className="bg-[#080B13] border-slate-700/80 text-white placeholder:text-slate-600 focus:border-slate-400"
           />
         </Field>
 
         <Field
-          label="Password"
+          label="Vault Password"
           required
           error={fieldError('password')}
           hint="At least 8 characters."
@@ -92,13 +96,14 @@ export default function Register() {
             value={form.password}
             onChange={set('password')}
             placeholder="••••••••"
+            className="bg-[#080B13] border-slate-700/80 text-white placeholder:text-slate-600 focus:border-slate-400"
           />
         </Field>
 
         <Field
           label="Monthly income (₹)"
           error={fieldError('monthly_income')}
-          hint="Optional. Used by the Financial Health score; you can add it later."
+          hint="Optional. Used for savings rate and runway baseline."
         >
           <Input
             type="number"
@@ -107,21 +112,29 @@ export default function Register() {
             value={form.monthly_income}
             onChange={set('monthly_income')}
             placeholder="45000"
+            className="bg-[#080B13] border-slate-700/80 text-white placeholder:text-slate-600 focus:border-slate-400"
           />
         </Field>
 
         {error && !error.field && (
           <div
             role="alert"
-            className="rounded-lg border border-rose-200 bg-rose-50/80 p-2.5 text-xs text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-400"
+            className="rounded-lg border border-rose-500/40 bg-rose-950/30 p-2.5 text-xs text-rose-300 font-mono"
           >
             {error.message}
           </div>
         )}
 
-        <Button type="submit" loading={busy} className="w-full" size="lg">
-          Create ledger
-        </Button>
+        <button
+          type="submit"
+          disabled={busy}
+          className="group relative w-full rounded-full bg-white text-slate-950 px-5 py-3 text-xs font-semibold tracking-wide flex items-center justify-between transition-all duration-300 hover:bg-slate-100 active:scale-[0.99] disabled:opacity-50"
+        >
+          <span>{busy ? 'Establishing Ledger…' : 'Initialize Personal Ledger'}</span>
+          <div className="size-6 rounded-full bg-slate-950/10 flex items-center justify-center transition-transform group-hover:translate-x-0.5">
+            <ArrowRight size={13} className="text-slate-950" />
+          </div>
+        </button>
       </form>
     </AuthShell>
   )
