@@ -1,24 +1,20 @@
-<p align="center">
-  <img src="docs/hero-banner.svg" alt="FinWise Platform Banner" width="100%">
-</p>
+# FinWise
+
+An offline-first personal finance and spending intelligence platform engineered with Flask, React 18, local Scikit-Learn machine learning, and deterministic ledger accounting.
+
+[![Tests](https://img.shields.io/badge/pytest-281%20passed-2ea44f.svg)](finwise/backend/tests/)
+[![Python](https://img.shields.io/badge/python-3.12-3776AB.svg?logo=python&logoColor=white)](https://python.org)
+[![React](https://img.shields.io/badge/react-18-61DAFB.svg?logo=react&logoColor=black)](https://react.dev)
+[![Vite](https://img.shields.io/badge/vite-8-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev)
+[![PostgreSQL](https://img.shields.io/badge/postgres-neon-00E699.svg?logo=postgresql&logoColor=white)](https://neon.tech)
+[![Live Demo](https://img.shields.io/badge/live%20demo-vercel-black.svg?logo=vercel)](https://finwise-omega-nine.vercel.app/)
+
+[**Live Demo**](https://finwise-omega-nine.vercel.app/) · [**Architecture Diagram**](https://finwise-omega-nine.vercel.app/architecture.html) · [**API Reference**](#api-reference) · [**Quick Start**](#getting-started)
+
+---
 
 <p align="center">
-  <a href="finwise/backend/tests/"><img src="https://img.shields.io/badge/VERIFICATION%20SUITE-281%20OF%20281%20PASSED-D97706?style=for-the-badge&logo=pytest&logoColor=white&labelColor=171923" alt="Verification Suite"></a>
-  <img src="https://img.shields.io/badge/FINANCIAL%20ENGINE-DOUBLE--ENTRY%20ACCRUAL-4F46E5?style=for-the-badge&labelColor=171923" alt="Accounting Standard">
-  <br>
-  <img src="https://img.shields.io/badge/PRIVACY%20INTEGRITY-ZERO%20CLOUD%20LEAKS-E11D48?style=for-the-badge&labelColor=171923" alt="Integrity">
-  <img src="https://img.shields.io/badge/RUNTIME%20STACK-PYTHON%20%7C%20REACT%20%7C%20POSTGRES-334155?style=for-the-badge&logo=python&logoColor=white&labelColor=171923" alt="Stack">
-</p>
-
-<p align="center">
-  <strong>A privacy-first personal finance platform engineered for absolute spending clarity.</strong><br>
-  Records every transaction into an immutable double-entry ledger while running sub-millisecond local ML categorization, amortized debt acceleration planning, and emergency runway stress testing.
-</p>
-
-<p align="center">
-  <a href="https://finwise-omega-nine.vercel.app/"><strong>Explore Live Application »</strong></a> ·
-  <a href="https://finwise-omega-nine.vercel.app/architecture.html">Interactive Architecture</a> ·
-  <a href="#api-reference">REST API Specification</a>
+  <img src="docs/screenshots/dashboard.png" alt="FinWise Financial Dashboard" width="100%">
 </p>
 
 ---
@@ -26,18 +22,11 @@
 ## Visual Showcase
 
 <div align="center">
-  <img src="docs/screenshots/dashboard.png" alt="FinWise Financial Dashboard" width="100%">
-  <p><em>Executive Financial Overview: Real-time net cash flow, trajectory graphs, category velocity, and transaction register.</em></p>
-</div>
-
-<br>
-
-<div align="center">
   <table>
     <tr>
       <td width="50%">
         <img src="docs/screenshots/transactions.png" alt="Transaction Ledger & Importer" width="100%">
-        <p align="center"><strong>Transaction Ledger & CSV Importer</strong><br>Offline ML categorization, instant filter toolbar, batch upload.</p>
+        <p align="center"><strong>Transaction Ledger & CSV Importer</strong><br>Offline ML categorization, instant filter toolbar, batch statement upload.</p>
       </td>
       <td width="50%">
         <img src="docs/screenshots/budget.png" alt="Budget Discipline" width="100%">
