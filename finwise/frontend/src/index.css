@@ -20,7 +20,7 @@
   }
 
   .dark body {
-    @apply bg-[#07090E] text-slate-100 selection:bg-blue-500 selection:text-white;
+    @apply bg-[#090C15] text-slate-100 selection:bg-blue-500 selection:text-white;
   }
 
   /* Strict tabular numerals for all financial figures and dates */
@@ -33,21 +33,21 @@
     @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-[#F8FAFC];
   }
   .dark :focus-visible {
-    @apply ring-blue-400 ring-offset-[#07090E];
+    @apply ring-blue-400 ring-offset-[#090C15];
   }
 }
 
 @layer components {
-  /* High-end fintech ledger card with depth, backdrop-blur, and hairline borders */
+  /* High-end fintech ledger card with authentic contrast and hairline borders */
   .card {
-    @apply relative rounded-card bg-white/95 dark:bg-[#0D121F]/90 backdrop-blur-md border border-slate-200/90 dark:border-slate-800/80 shadow-[0_1px_3px_rgba(0,0,0,0.05),0_10px_20px_-5px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.6)] dark:border-t-white/[0.08] transition-all duration-200;
+    @apply relative rounded-card bg-white border border-slate-200/90 shadow-card dark:bg-[#0F1422] dark:border-slate-800/80 dark:border-t-white/[0.06] transition-colors;
   }
   .card:hover {
-    @apply border-slate-300 dark:border-slate-700/80 shadow-pop -translate-y-[1px];
+    @apply border-slate-300 dark:border-slate-700/80;
   }
 
   .card-hero {
-    @apply relative overflow-hidden rounded-card bg-gradient-to-b from-white via-white to-slate-50/70 dark:bg-gradient-to-b dark:from-[#10172A] dark:to-[#0A0E1A] border border-slate-200/90 dark:border-slate-800/80 dark:border-t-blue-500/30 shadow-card dark:shadow-[0_8px_32px_-8px_rgba(59,130,246,0.18)];
+    @apply relative overflow-hidden rounded-card bg-white border border-slate-200/90 shadow-card dark:bg-[#0F1422] dark:border-slate-800/80 dark:border-t-white/[0.08];
   }
 
   .muted {

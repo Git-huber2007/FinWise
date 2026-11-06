@@ -315,7 +315,7 @@ function LedgerPositionSheet({
   return (
     <section className="card-hero overflow-hidden grid lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200/80 dark:divide-slate-800/80">
       {/* Primary Net Position Cell */}
-      <div className="lg:col-span-5 p-5 sm:p-6 flex flex-col justify-between bg-gradient-to-br from-blue-50/40 via-slate-50/20 to-transparent dark:from-blue-950/25 dark:via-slate-900/30 dark:to-transparent relative overflow-hidden">
+      <div className="lg:col-span-5 p-5 sm:p-6 flex flex-col justify-between bg-slate-50/50 dark:bg-[#121828]/50 relative">
         <div>
           <div className="flex items-center justify-between gap-2">
             <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -372,7 +372,7 @@ function LedgerPositionSheet({
             </p>
           </div>
           <p className="mt-4 flex items-center gap-1.5 text-[11px] muted">
-            <span className="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)]" />
+            <span className="size-1.5 rounded-full bg-emerald-500" />
             Credited
           </p>
         </div>
